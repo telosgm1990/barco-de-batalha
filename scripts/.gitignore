@@ -2,6 +2,9 @@
 .venv/
 __pycache__/
 *.pyc
+*.egg-info/
+build/
+.ruff_cache/
 node_modules/
 
 # Padrões pessoais do caçador de segredos. Por definição, não vão pro git.

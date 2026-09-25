@@ -55,8 +55,12 @@ Cada pasta tem seu `README.md` (pra gente) e seu `CLAUDE.md` (pra IA).
 ## Ambiente
 
 Windows + PowerShell, num PC que também é de trabalho — então **nada se instala
-no sistema**. Toolchain pesada roda em Docker; dependência Python vai pro
-`.venv` do projeto; dependência Node, pro `node_modules` local.
+no sistema**. Toolchain pesada roda em Docker; dependência Node vai pro
+`node_modules` local; dependência Python, pro `scripts/.venv`:
+
+```bash
+powershell -ExecutionPolicy Bypass -File scripts/install-python-venv.ps1
+```
 
 ## Git
 
@@ -65,7 +69,8 @@ no sistema**. Toolchain pesada roda em Docker; dependência Python vai pro
 | Branches | `main` + uma por assunto, em inglês (`creating-dev-environment`, `implementing-flippers`) |
 | Merge na `main` | Sempre 3-way: `git merge --no-ff` |
 | Mensagem de commit | Em português: título + corpo curto com as principais mudanças |
-| Antes de commitar | `python scripts/check_secrets.py` — ou ative o hook (ver [scripts/](scripts/README.md)) |
+| Antes de commitar | `scripts/.venv/Scripts/check-secrets` — ou ative o hook (ver [scripts/](scripts/README.md)) |
+| Co-autoria | Commit feito pela IA leva `Co-Authored-By` — é vibado, afinal |
 
 ## Segredos
 

@@ -61,9 +61,9 @@ propósito. Regras que decorrem disso:
 | Merge na `main` | **Sempre** `git merge --no-ff` |
 | Mensagem | Português. Título + corpo **curto**, com as principais mudanças em tópicos |
 | Como commitar | `git commit -F <arquivo>`, com a mensagem num arquivo temporário **fora do repo** — acento e here-string no Windows já estragaram mensagem |
-| Antes de cada commit | `python scripts/check_secrets.py`. Achou algo, não commite |
-| Antes de push | `python scripts/check_secrets.py --all` |
-| `Co-Authored-By` | Não usar, como nos outros projetos do Capitão — **a confirmar com ele** |
+| Antes de cada commit | `scripts/.venv/Scripts/check-secrets`. Achou algo, não commite |
+| Antes de push | `scripts/.venv/Scripts/check-secrets --all` |
+| `Co-Authored-By` | **Sim**, no fim do corpo: `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>` (com o modelo da sessão). Diferente dos outros projetos do Capitão — aqui combina com o vibado |
 
 **Nunca sozinho:** `push` (o primeiro vai ser junto), qualquer `--force`,
 `reset --hard`, `rebase`, `clean`, apagar branch não mergeada, reescrever commit
@@ -83,9 +83,10 @@ já publicado, mexer em config global do git. O e-mail do autor está configurad
 ## 7. Ambiente
 
 - **Windows 10 + PowerShell**, num PC que também é de trabalho: **nada se
-  instala no sistema.** Python → `.venv` do projeto; Node → `node_modules`
-  local; toolchain (ESP-IDF, OpenSCAD headless) → Docker, que já está
-  instalado. Precisa de algo no sistema? **Pergunte antes.**
+  instala no sistema.** Python → `scripts/.venv`, criado pelo
+  `scripts/install-python-venv.ps1`; Node → `node_modules` local; toolchain
+  (ESP-IDF, OpenSCAD headless) → Docker, que já está instalado. Precisa de algo
+  no sistema? **Pergunte antes.**
 - Finais de linha: o `.gitattributes` guarda LF e deixa o checkout usar o padrão
   da plataforma. Hook e `.sh` são sempre LF.
 

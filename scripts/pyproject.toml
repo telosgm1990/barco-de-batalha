@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "batalha-naval-scripts"
+version = "0.1.0"
+description = "Utilitários de desenvolvimento do batalha-naval"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["ruff"]
+
+# Um alias por script: vira executável em .venv/Scripts/ (Windows) ou
+# .venv/bin/ (Linux). Script novo entra aqui e na tabela do README.md.
+[project.scripts]
+check-secrets = "check_secrets.__main__:main"  # check-secrets: ignore
+
+# Cada script é um pacote (nome/__main__.py); common/ é o código compartilhado.
+[tool.setuptools.packages.find]
+include = ["check_secrets*", "common*"]
+
+[tool.ruff]
+line-length = 80
+target-version = "py310"
+
+[tool.ruff.lint]
+# O __all__ segue a ordem das definições (init → ... → execução), não a
+# alfabética: é o substituto do bloco de protótipos do header.
+ignore = ["RUF022"]
