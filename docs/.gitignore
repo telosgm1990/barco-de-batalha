@@ -1,0 +1,8 @@
+# Nota fiscal e comprovante vão pro juiz, nunca pro git: têm CPF, nome e
+# endereço. O que o repositório guarda é o orçamento (item, preço e origem).
+notas-fiscais/
+comprovantes/
+
+# Arquivo temporário de editor de documento (Word, LibreOffice)
+~$*
+.~lock.*
