@@ -1,4 +1,4 @@
-# batalha-naval
+# barco-de-batalha
 
 A **DonaTelos** — nosso barco, ou melhor, nossa tartaruga — pro **0º Campeonato
 Internacional de Batalha Naval de São Carlos**: um campeonato amistoso de barcos
