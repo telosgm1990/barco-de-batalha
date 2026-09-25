@@ -1,8 +1,9 @@
 # batalha-naval
 
-O barco — ou melhor, a tartaruga — pro **0º Campeonato Internacional de Batalha
-Naval de São Carlos**: um campeonato amistoso de barcos robóticos, com teto de
-R$ 100 por barco, quatro provas classificatórias e uma final de guerra.
+A **DonaTelos** — nosso barco, ou melhor, nossa tartaruga — pro **0º Campeonato
+Internacional de Batalha Naval de São Carlos**: um campeonato amistoso de barcos
+robóticos, com teto de R$ 100 por barco, quatro provas classificatórias e uma
+final de guerra.
 
 > 🚧 **Fase 0: estaleiro.** A estrutura está pronta e nada foi construído
 > ainda. A ideia está em [docs/esbocando-a-ideia.md](docs/esbocando-a-ideia.md),
@@ -10,7 +11,8 @@ R$ 100 por barco, quatro provas classificatórias e uma final de guerra.
 
 ## A ideia em um parágrafo
 
-Uma tartaruga. Carapaça em domo, que desvia pancada e desvira sozinha. Corpo
+Uma tartaruga ninja — a da tecnologia, claro. Carapaça em domo, que desvia
+pancada e desvira sozinha. Corpo
 largo, que não capota. Um bico de cunha pra entrar por baixo do adversário e
 virar ele. Rodas de pá com cara de nadadeira. Tudo que é oco cheio de isopor,
 pra não afundar nem furada. Simples, barata e teimosa — *devagar se vai ao

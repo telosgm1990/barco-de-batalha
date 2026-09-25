@@ -1,7 +1,7 @@
 # Esboçando a ideia
 
-O rascunho do nosso barco pro 0º Campeonato Internacional de Batalha Naval de
-São Carlos.
+O rascunho da **DonaTelos**, o nosso barco pro 0º Campeonato Internacional de
+Batalha Naval de São Carlos.
 
 > 🚧 **Este documento é esboço declarado.** Nada aqui está fechado. Ele existe
 > pra dar forma à ideia e montar a pauta da conversa: as decisões em aberto
@@ -295,17 +295,24 @@ vai pro juiz; a pasta `docs/notas-fiscais/` está no `.gitignore`.
 
 ## 10. Identidade
 
-Vale +1 na votação, e é a parte mais divertida. Propostas, tudo trocável:
+Vale +1 na votação, e é a parte mais divertida.
 
-- **Barco:** ***Casco Grosso*** — casco de barco, casco de tartaruga e
-  casca-grossa de gente durona.
+**Decidido em 25/09/2026: o barco e a mascote são a mesma tartaruga, a
+*DonaTelos*.** Referência à Donatello, a tartaruga ninja da tecnologia, e
+carrega o nome do Capitão. A diferença é que a nossa Donatello terceirizou a
+parte de tecnologia pra IA — é vibada, afinal.
+
+O resto ainda é proposta, tudo trocável:
+
 - **País:** ***Reino de Tartarugal*** — potência naval desde as Grandes
   Navegações. Ou melhor, as Grandes Lentidões.
 - **Lema:** *"Navegar é preciso; ter pressa, não."*
 - **Grito de guerra:** *"Devagar se vai ao fundo."* O fundo do adversário, no
   caso.
-- **Bandeira:** verde e vermelha, com uma tartaruga no lugar da esfera armilar.
-- **Mascote:** a própria tartaruga. Nome em aberto.
+- **Bandeira:** verde e vermelha, com uma tartaruga de bandana roxa (a cor da
+  Donatello) no lugar da esfera armilar.
+- **Visual da DonaTelos:** carapaça verde com a bandana roxa — depende do
+  filamento que o dono da impressora tiver.
 
 ## 11. Decisões em aberto
 
@@ -372,8 +379,10 @@ qualquer máquina.
 
 ### D10 — Identidade
 
-*Proposta:* a da [seção 10](#10-identidade). Falta o nome do mascote e o
-desenho da bandeira.
+**Parcialmente decidido em 25/09/2026:** barco e mascote são a **DonaTelos**.
+
+*Falta:* país, lema, grito de guerra e bandeira — propostas na
+[seção 10](#10-identidade).
 
 ---
 
