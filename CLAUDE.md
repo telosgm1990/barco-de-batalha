@@ -63,7 +63,7 @@ propósito. Regras que decorrem disso:
 | Como commitar | `git commit -F <arquivo>`, com a mensagem num arquivo temporário **fora do repo** — acento e here-string no Windows já estragaram mensagem |
 | Antes de cada commit | `python scripts/check_secrets.py`. Achou algo, não commite |
 | Antes de push | `python scripts/check_secrets.py --all` |
-| `Co-Authored-By` | Não usar, como nos outros projetos do Capitão — **a confirmar com ele** |
+| `Co-Authored-By` | **Sim**, no fim do corpo: `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>` (com o modelo da sessão). Diferente dos outros projetos do Capitão — aqui combina com o vibado |
 
 **Nunca sozinho:** `push` (o primeiro vai ser junto), qualquer `--force`,
 `reset --hard`, `rebase`, `clean`, apagar branch não mergeada, reescrever commit
