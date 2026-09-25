@@ -1,0 +1,18 @@
+# ESP-IDF — tudo recriável com `idf.py build`. O que se versiona é o
+# sdkconfig.defaults.
+build/
+sdkconfig
+sdkconfig.old
+managed_components/
+
+# clangd e afins
+.cache/
+compile_commands.json
+
+# Segredo do firmware (senha do Wi-Fi do barco etc.). No git vai o
+# secrets.example.hpp, com valor falso.
+secrets.h
+secrets.hpp
+
+# Testes no PC
+tests/build/

@@ -1,0 +1,12 @@
+# KiCad — backup, trava, cache e configuração local de cada máquina
+*-backups/
+_autosave-*
+\#auto_saved_files\#
+*.kicad_prl
+fp-info-cache
+*.lck
+*.bak
+*.bck
+
+# Datasheet baixado: o link vai na lista de componentes, o PDF não
+datasheets/
