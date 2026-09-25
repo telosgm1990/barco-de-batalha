@@ -3,9 +3,9 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "batalha-naval-scripts"
+name = "barco-de-batalha-scripts"
 version = "0.1.0"
-description = "Utilitários de desenvolvimento do batalha-naval"
+description = "Utilitários de desenvolvimento do barco-de-batalha"
 requires-python = ">=3.10"
 dependencies = []
 
