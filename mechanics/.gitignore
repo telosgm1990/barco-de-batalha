@@ -1,0 +1,11 @@
+# Exportação de trabalho — regerada a partir do .scad. O que foi impresso de
+# verdade vai pra impressos/, versionado.
+out/
+
+# G-code é da impressora de quem imprime, não do projeto
+*.gcode
+*.bgcode
+
+# Backup do FreeCAD, se um dia aparecer
+*.FCBak
+*.FCStd1

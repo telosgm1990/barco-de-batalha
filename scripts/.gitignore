@@ -1,0 +1,8 @@
+# Ambientes isolados — recriáveis a partir do pyproject.toml / package.json
+.venv/
+__pycache__/
+*.pyc
+node_modules/
+
+# Padrões pessoais do caçador de segredos. Por definição, não vão pro git.
+secret-patterns.local.txt

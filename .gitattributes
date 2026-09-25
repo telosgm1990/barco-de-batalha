@@ -1,0 +1,29 @@
+# Finais de linha
+#
+# O repositório guarda tudo em LF e o checkout usa o padrão de cada plataforma.
+# Assim o projeto abre igual no Windows e no Linux, sem depender do
+# `core.autocrlf` de quem clona.
+
+* text=auto
+
+# O PowerShell espera CRLF no disco.
+
+*.ps1 text eol=crlf
+
+# Shell script e hook de git quebram com CRLF ("\r: command not found").
+
+*.sh text eol=lf
+scripts/git-hooks/* text eol=lf
+
+# Binários: nunca converter.
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.pdf binary
+*.zip binary
+*.bin binary
+*.stl binary
+*.3mf binary

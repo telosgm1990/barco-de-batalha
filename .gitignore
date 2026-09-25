@@ -1,0 +1,28 @@
+# Regras que valem pro repositório inteiro. Cada pasta de primeiro nível tem o
+# seu próprio .gitignore com o que é específico dela.
+
+# Segredos — NUNCA versionar.
+# Credencial vive em .env (ou secrets.*) só na máquina; no git vai o .example,
+# com valor falso.
+.env
+.env.*
+!.env.example
+secrets.*
+!secrets.example.*
+credentials*.json
+*.key
+*.pem
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+
+# Rascunho pessoal do Capitão — não é documentação (ver CLAUDE.md).
+chat.md
+
+# Windows / editores
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
