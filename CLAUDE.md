@@ -9,8 +9,9 @@ pasta em que for mexer. Este aqui tem só o que vale pro repo inteiro.
 
 ## 1. O que é
 
-Um barco robótico em forma de tartaruga pra um campeonato amistoso: teto de
-R$ 100, quatro provas classificatórias e uma final de guerra.
+A **DonaTelos**: um barco robótico em forma de tartaruga pra um campeonato
+amistoso — teto de R$ 100, quatro provas classificatórias e uma final de
+guerra.
 
 - Regras: [docs/regulamento.md](docs/regulamento.md) — fonte da verdade. **Não
   reabra a imagem do banner**: o `.md` é a transcrição.
@@ -48,7 +49,9 @@ propósito. Regras que decorrem disso:
 - **Código em inglês; texto pra pessoa em português** — comentário, docs,
   commit.
 - **Nenhum nome de gente.** O repo vai pro GitHub. O dono é **o Capitão**; os
-  outros, pelo papel ("o dono da impressora", "a organização").
+  outros, pelo papel ("o dono da impressora", "a organização"). A única
+  exceção é o nome do barco, **DonaTelos** — escolha do Capitão, escrito
+  sempre assim, junto.
 
 ## 5. Git
 
