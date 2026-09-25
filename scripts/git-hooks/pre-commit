@@ -6,9 +6,19 @@
 
 root="$(git rev-parse --show-toplevel)"
 
+# Com o .venv criado, usa o alias instalado pelo pyproject.toml.
+for alias in "$root/scripts/.venv/Scripts/check-secrets.exe" \
+             "$root/scripts/.venv/bin/check-secrets"; do
+    if [ -x "$alias" ]; then
+        exec "$alias"
+    fi
+done
+
+# Sem .venv: o caçador só usa biblioteca padrão, qualquer Python serve.
+cd "$root/scripts" || exit 1
 for python in python3 python; do
     if "$python" --version >/dev/null 2>&1; then
-        exec "$python" "$root/scripts/check_secrets.py"
+        exec "$python" -m check_secrets
     fi
 done
 

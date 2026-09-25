@@ -1,34 +1,17 @@
-"""Caçador de segredos: barra credencial, caminho de máquina e dado pessoal
-antes que eles virem história pública no git.
+"""As regras do caçador de segredos e a varredura do repositório.
 
-Confere as linhas **adicionadas** no índice — o que vai entrar no próximo
-commit — ou, com `--all`, todos os arquivos versionados. Também barra arquivo
-com nome de segredo (`.env`, chave SSH, `secrets.*`) e as pastas de nota
-fiscal.
-
-Padrão pessoal (nome, apelido, e-mail específico) não pode morar neste script,
-que é público. Ele vai em `scripts/secret-patterns.local.txt`: um regex por
-linha, `#` comenta, e o arquivo está no `.gitignore`.
-
-Linha que precisa passar mesmo casando com um padrão leva o marcador
-`check-secrets: ignore`. Use com parcimônia.
-
-Uso:
-    python scripts/check_secrets.py          # o que está no índice
-    python scripts/check_secrets.py --all    # tudo que está versionado
-
-Saída: 0 se está limpo, 1 se achou algo, 2 se não deu pra conferir.
+Duas varreduras: a do índice (só as linhas adicionadas, é o que vai pro
+próximo commit) e a de tudo que está versionado (arquivo inteiro, como está no
+disco). Nas duas, confere o nome de cada arquivo e o conteúdo linha a linha.
 """
 
 # ------------------------------------------------------------------ Imports
-# Só biblioteca padrão: roda em qualquer Python >= 3.10, sem .venv.
-import argparse
 import re
-import subprocess
-import sys
 from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
+
+from common import repo
 
 # ------------------------------------------- Constantes de configuração
 
@@ -51,7 +34,9 @@ class Finding:
 
 # ------------------------------------------- Constantes e variáveis privadas
 
-_CONTENT_RULES: list[tuple[str, re.Pattern[str]]] = [
+_Rules = list[tuple[str, re.Pattern[str]]]
+
+_CONTENT_RULES: _Rules = [
     ("chave privada", re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----")),
     (
         "token do GitHub",
@@ -70,7 +55,10 @@ _CONTENT_RULES: list[tuple[str, re.Pattern[str]]] = [
     ),
     (
         "senha em #define",
-        re.compile(r"(?i)#define\s+\w*(pass|senha|secret|token|key)\w*\s+\"[^\"]{4,}\""),
+        re.compile(
+            r"(?i)#define\s+\w*(pass|senha|secret|token|key)\w*\s+"
+            r"\"[^\"]{4,}\""
+        ),
     ),
     (
         "caminho de usuário (Windows)",
@@ -80,13 +68,19 @@ _CONTENT_RULES: list[tuple[str, re.Pattern[str]]] = [
         "caminho de usuário (Unix)",
         re.compile(r"(?i)(?<![\w.])/(home|users)/[a-z0-9._-]+"),
     ),
-    ("e-mail", re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b")),
+    (
+        "e-mail",
+        re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b"),
+    ),
     ("CPF", re.compile(r"\b\d{3}\.\d{3}\.\d{3}-\d{2}\b")),
 ]
 
-_NAME_RULES: list[tuple[str, re.Pattern[str]]] = [
+_NAME_RULES: _Rules = [
     ("arquivo .env", re.compile(r"^\.env(\..+)?$")),
-    ("chave ou certificado", re.compile(r"\.(key|pem|p12|pfx)$", re.IGNORECASE)),
+    (
+        "chave ou certificado",
+        re.compile(r"\.(key|pem|p12|pfx)$", re.IGNORECASE),
+    ),
     ("chave SSH", re.compile(r"(^|_)(rsa|dsa|ecdsa|ed25519)(\.pub)?$")),
     (
         "arquivo de segredos",
@@ -110,31 +104,39 @@ _HUNK_HEADER = re.compile(r"^@@ -\S+ \+(\d+)")
 
 # ------------------------------------------------------------- API pública
 
-__all__ = ["Finding", "scan_staged", "scan_tracked"]
+__all__ = [
+    "LOCAL_PATTERNS_FILE",
+    "IGNORE_MARKER",
+    "MAX_FILE_BYTES",
+    "Finding",
+    "scan_staged",
+    "scan_tracked",
+]
 
 
-def scan_staged(root: Path) -> list[Finding]:
+def scan_staged() -> list[Finding]:
     """Confere o que está no índice: nomes e linhas adicionadas.
 
     Levanta RuntimeError se o git falhar e re.error se um padrão local for
     inválido.
     """
-    rules = _read_rules(root)
-    findings = [f for name in _read_staged_names(root) for f in _check_name(name)]
-    for path, line_no, text in _read_staged_added_lines(root):
+    rules = _read_rules()
+    findings = [f for name in _read_staged_names() for f in _check_name(name)]
+    for path, line_no, text in _read_staged_added_lines():
         findings.extend(_check_line(path, line_no, text, rules))
     return findings
 
 
-def scan_tracked(root: Path) -> list[Finding]:
+def scan_tracked() -> list[Finding]:
     """Confere todos os arquivos versionados, inteiros, como estão no disco.
 
     Levanta RuntimeError se o git falhar e re.error se um padrão local for
     inválido.
     """
-    rules = _read_rules(root)
+    rules = _read_rules()
+    root = repo.get_root()
     findings: list[Finding] = []
-    for name in _git(root, "ls-files", "-z").split("\0"):
+    for name in repo.run_git("ls-files", "-z").split("\0"):
         if not name:
             continue
         findings.extend(_check_name(name))
@@ -143,74 +145,34 @@ def scan_tracked(root: Path) -> list[Finding]:
     return findings
 
 
-# ---------------------------------------------------------- Ponto de entrada
-
-
-def main(argv: list[str] | None = None) -> int:
-    """Roda a conferência e devolve o código de saída."""
-    parser = argparse.ArgumentParser(
-        description="Caçador de segredos do repositório."
-    )
-    parser.add_argument(
-        "--all",
-        action="store_true",
-        help="confere todos os arquivos versionados, não só o índice",
-    )
-    args = parser.parse_args(argv)
-    # No Windows, saída em pipe (hook do git) sai em cp1252 sem isto.
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
-
-    try:
-        root = Path(_git(Path.cwd(), "rev-parse", "--show-toplevel").strip())
-        findings = scan_tracked(root) if args.all else scan_staged(root)
-    except (RuntimeError, re.error) as error:
-        print(f"Caçador de segredos: não deu pra conferir — {error}", file=sys.stderr)
-        return 2
-
-    _report(findings, "no repositório" if args.all else "no que vai pro commit")
-    return 1 if findings else 0
-
-
 # ---------------------------------------------------------- Funções privadas
 
 
-def _git(root: Path, *args: str) -> str:
-    """Roda um comando git e devolve a saída em texto."""
-    result = subprocess.run(
-        ["git", "-c", "core.quotepath=off", *args],
-        cwd=root,
-        capture_output=True,
-    )
-    if result.returncode != 0:
-        message = result.stderr.decode("utf-8", "replace").strip()
-        raise RuntimeError(message or f"git {args[0]} falhou")
-    return result.stdout.decode("utf-8", "replace")
-
-
-def _read_rules(root: Path) -> list[tuple[str, re.Pattern[str]]]:
+def _read_rules() -> _Rules:
     """Junta as regras fixas com os padrões pessoais do arquivo local."""
-    local = root / LOCAL_PATTERNS_FILE
+    local = repo.get_root() / LOCAL_PATTERNS_FILE
     if not local.is_file():
         return _CONTENT_RULES
     rules = list(_CONTENT_RULES)
     for line in local.read_text(encoding="utf-8").splitlines():
         line = line.strip()
         if line and not line.startswith("#"):
-            rules.append(("padrão pessoal (local)", re.compile(line, re.IGNORECASE)))
+            pattern = re.compile(line, re.IGNORECASE)
+            rules.append(("padrão pessoal (local)", pattern))
     return rules
 
 
-def _read_staged_names(root: Path) -> list[str]:
+def _read_staged_names() -> list[str]:
     """Lista os arquivos adicionados ou modificados no índice."""
-    output = _git(root, "diff", "--cached", "--name-only", "--diff-filter=ACMR", "-z")
+    output = repo.run_git(
+        "diff", "--cached", "--name-only", "--diff-filter=ACMR", "-z"
+    )
     return [name for name in output.split("\0") if name]
 
 
-def _read_staged_added_lines(root: Path) -> Iterator[tuple[str, int, str]]:
+def _read_staged_added_lines() -> Iterator[tuple[str, int, str]]:
     """Percorre o diff do índice e devolve só as linhas adicionadas."""
-    diff = _git(
-        root,
+    diff = repo.run_git(
         "diff",
         "--cached",
         "--no-color",
@@ -246,8 +208,7 @@ def _read_text_lines(path: Path) -> Iterator[tuple[int, str]]:
     if len(data) > MAX_FILE_BYTES or b"\0" in data[:8192]:
         return
     text = data.decode("utf-8", "replace")
-    for number, line in enumerate(text.split("\n"), start=1):
-        yield number, line
+    yield from enumerate(text.split("\n"), start=1)
 
 
 def _check_name(name: str) -> list[Finding]:
@@ -269,7 +230,7 @@ def _check_line(
     path: str,
     line_no: int,
     text: str,
-    rules: list[tuple[str, re.Pattern[str]]],
+    rules: _Rules,
 ) -> list[Finding]:
     """Confere uma linha contra todas as regras. Uma vez por regra basta."""
     if IGNORE_MARKER in text:
@@ -296,27 +257,3 @@ def _is_allowed_email(address: str) -> bool:
 def _mask(text: str) -> str:
     """Mostra só o começo: o relatório não pode vazar o que ele achou."""
     return f"{text[:4]}…" if len(text) > 6 else "…"
-
-
-def _report(findings: list[Finding], where: str) -> None:
-    """Imprime o resultado pra pessoa."""
-    if not findings:
-        print(f"Caçador de segredos: nada suspeito {where}.")
-        return
-    print(f"Caçador de segredos: {len(findings)} achado(s) {where}.\n")
-    for finding in findings:
-        place = finding.path
-        if finding.line:
-            place += f":{finding.line}"
-        print(f"  {place}  [{finding.rule}]  {finding.excerpt}")
-    print(
-        "\nSegredo guardado é segredo não commitado. Tire do arquivo (ou ponha"
-        "\nno .gitignore) e tente de novo. Falso alarme? Marque a linha com"
-        f'\n"{IGNORE_MARKER}".'
-    )
-
-
-# O disparo fica no fim: em Python, a função precisa existir antes de ser
-# chamada, então o `if __name__` não pode subir junto com o main().
-if __name__ == "__main__":
-    sys.exit(main())
