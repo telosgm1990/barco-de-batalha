@@ -4,7 +4,8 @@ A lista de compras da **Fase 1, "Boia e anda"**: o barco feio que boia, anda e
 grava o vídeo. A tartaruga ainda não tem casco, mas já tem lista de compras.
 
 > 🛒 **Rascunho pra revisão do Capitão.** Compra em loja de eletrônica de São
-> Carlos, pra agilizar. Ele revisa, risca o que não der e a gente ajusta.
+> Carlos ou no Mercado Livre — o que sair mais rápido e barato. Ele revisa,
+> risca o que não der e a gente ajusta.
 > Os preços são *chute* (do [esboço, seção 8](esbocando-a-ideia.md#8-orçamento-rascunho))
 > até a cotação na loja.
 >
@@ -23,7 +24,7 @@ kg) · 🖨️ imprimir
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | ✅ ESP32-C3 SuperMini | 1 | — | O cérebro: Wi-Fi, página do joystick, failsafe | R$ 11 (cotado) | |
 | 2 | 🛒 Módulo driver de motor, 2 canais | 1 | **MX1508** ou **DRV8833**, módulo pronto. **L298N não** — grande, pesado e come tensão | Liga e inverte os dois motores | *chute* R$ 3–8 | |
-| 3 | 🛒 Motor DC com caixa de redução | 2 | O **"motor TT" amarelo** de carrinho robô (o de eixo duplo serve) ou **N20 com redução**. Os dois **do mesmo modelo** | As rodas de pá — redução porque pá quer força, não giro | *chute* R$ 10–20 o par | |
+| 3 | 🛒 Motor DC com caixa de redução | 2 | O **"motor TT" amarelo** de carrinho robô (o de eixo duplo serve) ou **N20 com redução**. Os dois **do mesmo modelo**. **Não serve** o "mini motor DC 3–6 V" sem caixa (o prateado, tamanho 130) — ver seção 3 | As rodas de pá — redução porque pá quer força, não giro | *chute* R$ 10–20 o par | |
 | 4 | 🛒 Célula de lítio 18650 | 1 | Nova, de marca conhecida. Fuja de anúncio com capacidade absurda (tipo "9900 mAh") — é golpe | A energia (D4) | *chute* R$ 10–25 com o suporte | |
 | 5 | 🛒 Suporte pra 1× 18650, com fio | 1 | Caixinha de pilha pra uma 18650 | Segurar a célula no fundo — ela é o lastro | (no item 4) | |
 | 6 | 🛒 Módulo de carga **com proteção** | 1 | **TP4056 com proteção** — a versão com chips extras de proteção (DW01 + 8205), não o TP4056 "pelado" | Carregar a célula pela USB e cortar curto e descarga profunda. Fica no cofre; carrega com a tampa aberta, fora d'água | *a cotar* | |
@@ -58,9 +59,18 @@ responder, **guarde a nota de tudo**.
 
 ## 3. O que conferir na loja
 
+- **Nota fiscal:** o juiz pede. No Mercado Livre, prefira loja oficial ou
+  vendedor que emite nota — e guarde a nota fora do git.
 - **Motor:** pergunte a **tensão nominal** e anote — ela decide se uma 18650
   dá conta ou se a D4 vai pra duas em série. Os dois motores do **mesmo modelo
   e lote**: motor diferente faz o barco andar torto.
+- **Motor sem caixa de redução não serve pra roda de pá.** O "mini motor DC
+  3–6 V" prateado (tamanho 130) gira rápido e com pouca força; numa roda de pá
+  ele patina na água ou trava. O motor TT é justamente esse motorzinho **com** a
+  caixa de redução amarela em volta — é a caixa que troca giro por força. O
+  pelado só faz sentido se o teste da bacia mudar a D3 pra hélice — aí ele é a
+  escolha clássica. Até lá, não compre: motor parado na gaveta também pesa no
+  bônus de economia.
 - **Driver:** MX1508 ou DRV8833, tanto faz pro firmware — os dois são
   controlados do mesmo jeito, com duas entradas por motor. Leve o que tiver. Anote qual veio: é dele que sai
   a pinagem.

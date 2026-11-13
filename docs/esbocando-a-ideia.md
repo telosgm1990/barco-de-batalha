@@ -417,7 +417,8 @@ sendo o caminho que funciona igual em qualquer máquina.
 Fase 1, **Boia e anda**:
 
 1. **Revisar e comprar a [lista de materiais](lista-de-materiais.md) da Fase
-   1** — compra em loja de São Carlos, pra agilizar (decidido em 13/11/2026).
+   1** — em loja de São Carlos ou no Mercado Livre, o que for mais rápido e
+   barato (decidido em 13/11/2026).
 2. **Esquemático** no KiCad, com a pinagem — é dele que o firmware tira os
    pinos.
 3. **Firmware mínimo:** Wi-Fi, página com joystick, failsafe e dois motores.
