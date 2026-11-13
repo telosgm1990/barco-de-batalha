@@ -4,16 +4,18 @@ Regras gerais em [../CLAUDE.md](../CLAUDE.md). Aqui só o que é da mecânica.
 
 ## Estado
 
-🚧 Vazio. Nada de modelo até fechar **D2, D3 e D7** do
-[esboço](../docs/esbocando-a-ideia.md#11-decisões-em-aberto). O que está abaixo
-é proposta pra quando a D7 fechar em OpenSCAD.
+🚧 **D2 e D7 fechadas** em 13/11/2026 (ver o
+[esboço](../docs/esbocando-a-ideia.md#11-decisões)): casco híbrido, modelado
+em OpenSCAD. A **D3 (roda de pá) é provisória** até o teste da bacia — peça de
+propulsão definitiva só depois dele; roda de teste pode.
 
-## Em aberto que trava peça grande
+## A impressora
 
-- **Tamanho da mesa da impressora** e **filamento disponível** — perguntar pro
-  dono da impressora. Define se a carapaça sai inteira ou em partes.
+- **Mesa de 18 cm** (uma mini). Peça maior que isso sai em partes, com encaixe
+  e cola. A altura máxima é *a confirmar*.
+- **Filamento:** em aberto — perguntar pro dono da impressora.
 
-## Convenções propostas
+## Convenções
 
 - **Paramétrico sempre.** Toda medida é variável nomeada no topo do arquivo, em
   milímetros. Nada de número mágico no meio da geometria.

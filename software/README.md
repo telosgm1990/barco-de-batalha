@@ -3,9 +3,9 @@
 O firmware do barco (ESP32-C3) e a página de controle que ele serve pro
 celular.
 
-> 🚧 **Vazio por enquanto.** A proposta está no
-> [esboço, seção 7](../docs/esbocando-a-ideia.md#7-eletrônica-e-firmware), e
-> depende das decisões D5 (controle) e D9 (ambiente).
+> 🚧 **Vazio por enquanto.** O desenho está no
+> [esboço, seção 7](../docs/esbocando-a-ideia.md#7-eletrônica-e-firmware), com
+> D5 (celular via Wi-Fi) e D9 (ESP-IDF em Docker) fechadas.
 
 ## O que vai morar aqui
 
@@ -14,7 +14,7 @@ celular.
 - **Testes** do que tem regra de verdade — a mistura joystick → motores, o
   failsafe — rodando no PC, sem placa.
 
-## Ambiente proposto (D9)
+## Ambiente (D9)
 
 | Etapa | Como | Instala algo no PC? |
 | --- | --- | --- |

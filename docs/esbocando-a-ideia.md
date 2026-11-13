@@ -3,13 +3,13 @@
 O rascunho da **DonaTelos**, o nosso barco pro 0º Campeonato Internacional de
 Batalha Naval de São Carlos.
 
-> 🚧 **Este documento é esboço declarado.** Nada aqui está fechado. Ele existe
-> pra dar forma à ideia e montar a pauta da conversa: as decisões em aberto
-> estão na [seção 11](#11-decisões-em-aberto), numeradas pra gente poder dizer
-> "vamos resolver a D3".
+> 🚧 **Este documento nasceu esboço.** Ele existe pra dar forma à ideia e montar
+> a pauta da conversa. As decisões estão na [seção 11](#11-decisões),
+> numeradas pra gente poder dizer "vamos resolver a D3" — e **de D1 a D9 já
+> estão fechadas** (13/11/2026). O que está marcado como decidido lá vale como
+> decisão; o resto do documento continua palpite, conta e estratégia.
 >
-> As regras oficiais estão em [regulamento.md](regulamento.md). Aqui é palpite,
-> conta e estratégia.
+> As regras oficiais estão em [regulamento.md](regulamento.md).
 
 ---
 
@@ -146,8 +146,11 @@ A anatomia do híbrido:
   que protege as rodas.
 - **Lastro** — a bateria no fundo. Se faltar peso, areia. De graça ou quase.
 
-Em aberto: o tamanho da mesa da impressora e o filamento disponível. Isso
-define se a carapaça sai numa peça só.
+**A impressora é uma mini, com mesa de 18 cm** (informado pelo dono dela em
+13/11/2026; a altura máxima ainda é *a confirmar*). Ou seja: carapaça com mais
+de 18 cm não sai numa peça só — vira duas metades coladas, ou a tartaruga cabe
+em 18 cm. Ainda em aberto: o **filamento** disponível (e a cor, pra
+[seção 10](#10-identidade)).
 
 ## 5. Energia
 
@@ -287,8 +290,8 @@ vai pro juiz; a pasta `docs/notas-fiscais/` está no `.gitignore`.
 
 | Fase | Apelido | O que sai | Por quê |
 | --- | --- | --- | --- |
-| 0 | Estaleiro | Estrutura do repo, perguntas pra organização, decisões D1–D10 | É hoje |
-| 1 | Boia e anda | Cofre + isopor + 2 motores + ESP + celular. Feio de propósito | Vídeo na água = +2 de entrega antecipada. E testa Wi-Fi, motor e vedação cedo |
+| 0 | Estaleiro | Estrutura do repo, perguntas pra organização, decisões D1–D10 | ✅ Concluída em 13/11/2026 (D1–D9 fechadas) |
+| 1 | Boia e anda | Cofre + isopor + 2 motores + ESP + celular. Feio de propósito | 🚧 **Em andamento.** Vídeo na água = +2 de entrega antecipada. E testa Wi-Fi, motor e vedação cedo |
 | 2 | Casco Grosso | Carapaça impressa, bico, lastro, rodas-nadadeira | Teste de autoendireitamento e de insubmersível |
 | 3 | Afinação | Modos por prova, ajuste pra andar reto, telemetria, teste de rampa | Os pontos das provas 1 a 4 |
 | 4 | Guerra | Treino de duelo, rodada de robustez sem pitstop, kit de fair play | A final |
@@ -314,68 +317,78 @@ O resto ainda é proposta, tudo trocável:
 - **Visual da DonaTelos:** carapaça verde com a bandana roxa — depende do
   filamento que o dono da impressora tiver.
 
-## 11. Decisões em aberto
+## 11. Decisões
 
-Cada uma com uma proposta, porque é mais fácil discordar de uma proposta do que
-responder uma pergunta no vazio.
+Cada uma nasceu como proposta, porque é mais fácil discordar de uma proposta do
+que responder uma pergunta no vazio. **Em 13/11/2026 o Capitão fechou de D1 a
+D9 como estavam propostas** — a D3 com uma ressalva, e a D9 com a versão do
+ESP-IDF atualizada. Mudar uma decisão fechada continua valendo: é só reabrir
+aqui, com a data e o porquê.
 
 ### D1 — Estratégia de pontos
 
-*Proposta:* jogar pela classificação — nunca último em nada — e pegar os 9
-pontos extras planejáveis (seção 2.2). A guerra continua o objetivo; a
-classificação é o ingresso.
+**Decidido em 13/11/2026:** jogar pela classificação — nunca último em nada — e
+pegar os 9 pontos extras planejáveis (seção 2.2). A guerra continua o objetivo;
+a classificação é o ingresso.
 
 ### D2 — Casco
 
-*Proposta:* híbrido — cofre de pote com tampa de rosca, isopor e carapaça
-impressa (seção 4).
+**Decidido em 13/11/2026:** híbrido — cofre de pote com tampa de rosca, isopor e
+carapaça impressa (seção 4). Com a mesa de 18 cm, a carapaça grande sai em
+partes.
 
 ### D3 — Propulsão
 
-*Proposta:* duas rodas de pá com motor de redução, com cara de nadadeira
-(seção 3.2). Fechar depois do teste da bacia.
+**Decidido em 13/11/2026, provisório:** duas rodas de pá com motor de redução,
+com cara de nadadeira (seção 3.2). Fica confirmado — ou troca pra hélice — no
+**teste da bacia**, que é parte da Fase 1.
 
 ### D4 — Energia
 
-*Proposta:* uma 18650 no protótipo, duas em série se a medição pedir.
-Capacitor como amortecedor, não como tanque. Sem 9 V, sem painel solar
+**Decidido em 13/11/2026:** uma 18650 no protótipo, duas em série se a medição
+pedir. Capacitor como amortecedor, não como tanque. Sem 9 V, sem painel solar
 (seção 5).
 
 ### D5 — Controle
 
-*Proposta:* celular via Wi-Fi no V1; controle físico por ESP-NOW como upgrade.
-Failsafe obrigatório desde o primeiro dia (seção 6).
+**Decidido em 13/11/2026:** celular via Wi-Fi no V1; controle físico por
+ESP-NOW como upgrade. Failsafe obrigatório desde o primeiro dia (seção 6).
 
 ### D6 — Ataque
 
-*Proposta:* sem arma ativa. Aríete com cunha (o bico da tartaruga-de-pente) +
-empurrão das rodas + ser difícil de virar e de afundar. Parte móvel é peça que
-quebra, e o Maratonista não perdoa. Revisitar quando as duas condições riscadas
-forem reveladas (pergunta 13) — se uma delas for "empurrar pra fora da arena", a
-proposta fica ainda mais forte.
+**Decidido em 13/11/2026:** sem arma ativa. Aríete com cunha (o bico da
+tartaruga-de-pente) + empurrão das rodas + ser difícil de virar e de afundar.
+Parte móvel é peça que quebra, e o Maratonista não perdoa. Revisitar quando as
+duas condições riscadas forem reveladas (pergunta 13) — se uma delas for
+"empurrar pra fora da arena", a decisão fica ainda mais forte.
 
 ### D7 — Ferramenta de mecânica
 
-O "opencad" deve ser o **OpenSCAD**. *Proposta:* ele mesmo. O modelo é código: a
-IA escreve, o Capitão só abre pra olhar e exporta. Exporta `.3mf` limpo, sem
-configuração de filamento — do jeito que o dono da impressora pediu. Carapaça em
-domo é fácil ali (esfera achatada e cortada).
+**Decidido em 13/11/2026:** **OpenSCAD**. O modelo é código: a IA escreve, o
+Capitão só abre pra olhar e exporta. Exporta `.3mf` limpo, sem configuração de
+filamento — do jeito que o dono da impressora pediu. Carapaça em domo é fácil
+ali (esfera achatada e cortada).
 
-Alternativas: FreeCAD (melhor pra forma orgânica, mas é clicar, não código) e
-build123d (Python, roda num `.venv` sem instalar nada no sistema, mas sem um
-visualizador tão simples).
+Usamos a versão de desenvolvimento (*snapshot*), portátil, sem instalador: a
+última estável é de 2021, e a nova é bem mais rápida pra renderizar.
+
+Alternativas que ficaram de fora: FreeCAD (melhor pra forma orgânica, mas é
+clicar, não código) e build123d (Python, mas sem um visualizador tão simples).
 
 ### D8 — Placa
 
-*Proposta:* sem PCB de fábrica. Módulos + placa perfurada; KiCad só pro
-esquemático (seção 7).
+**Decidido em 13/11/2026:** sem PCB de fábrica. Módulos + placa perfurada;
+KiCad só pro esquemático (seção 7). KiCad atualizado pra versão 10, que checa o
+esquemático pela linha de comando.
 
 ### D9 — Ambiente de firmware
 
-*Proposta:* ESP-IDF v5 em Docker pra compilar; `esptool` num `.venv` em
-`scripts/` pra gravar e ler a serial. Se o ESP-IDF for instalado no PC um dia,
-dá pra usar os dois — o Docker continua sendo o caminho que funciona igual em
-qualquer máquina.
+**Decidido em 13/11/2026:** ESP-IDF em Docker pra compilar, com a imagem oficial
+fixada em **v6.1**; `esptool` num `.venv` em `scripts/` pra gravar e ler a
+serial. A proposta dizia "v5", mas a v6.1 já era a estável mais nova quando o
+projeto começou — começar no mais novo evita migrar no meio do campeonato. Se o
+ESP-IDF for instalado no PC um dia, dá pra usar os dois — o Docker continua
+sendo o caminho que funciona igual em qualquer máquina.
 
 ### D10 — Identidade
 
@@ -400,10 +413,20 @@ qualquer máquina.
 
 ## 13. Próximo passo
 
-1. **Mandar as perguntas** de [regulamento.md](regulamento.md#6-perguntas-pra-organização)
-   pra organização — principalmente a 1, 2, 4, 6 e 13, que mexem em custo,
-   bateria e ataque.
-2. **Perguntar pro dono da impressora** o tamanho da mesa e o filamento que ele
-   tem.
-3. **Fechar D3, D5 e D9** — são as que travam a Fase 1.
-4. **Fase 1: Boia e anda.**
+Fase 1, **Boia e anda**:
+
+1. **Revisar e comprar a lista de materiais da Fase 1** — compra em loja de São
+   Carlos, pra agilizar (decidido em 13/11/2026).
+2. **Esquemático** no KiCad, com a pinagem — é dele que o firmware tira os
+   pinos.
+3. **Firmware mínimo:** Wi-Fi, página com joystick, failsafe e dois motores.
+4. **Teste da bacia** — fecha a D3 de vez — e o vídeo na água (+2).
+
+Correndo em paralelo, sem travar nada:
+
+- **Mandar as perguntas** de [regulamento.md](regulamento.md#6-perguntas-pra-organização)
+  pra organização — principalmente a 16 (a data da entrega antecipada), e a 1,
+  2, 4, 6 e 13, que mexem em custo, bateria e ataque.
+- **Perguntar pro dono da impressora** o filamento que ele tem (a mesa já
+  sabemos: 18 cm).
+- **Fechar a D10** — país, lema, grito de guerra e bandeira.

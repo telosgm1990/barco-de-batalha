@@ -4,8 +4,10 @@ Regras gerais em [../CLAUDE.md](../CLAUDE.md). Aqui só o que é da elétrica.
 
 ## Estado
 
-🚧 Vazio. Nada de esquemático até fechar **D4, D5 e D8** do
-[esboço](../docs/esbocando-a-ideia.md#11-decisões-em-aberto).
+🚧 **D4, D5 e D8 fechadas** em 13/11/2026 (ver o
+[esboço](../docs/esbocando-a-ideia.md#11-decisões)): uma 18650, celular via
+Wi-Fi, módulos em placa perfurada. O esquemático da Fase 1 espera a lista de
+materiais ser comprada — a pinagem depende do módulo que vier da loja.
 
 ## Regras
 

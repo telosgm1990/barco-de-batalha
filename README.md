@@ -5,9 +5,9 @@ Internacional de Batalha Naval de São Carlos**: um campeonato amistoso de barco
 robóticos, com teto de R$ 100 por barco, quatro provas classificatórias e uma
 final de guerra.
 
-> 🚧 **Fase 0: estaleiro.** A estrutura está pronta e nada foi construído
-> ainda. A ideia está em [docs/esbocando-a-ideia.md](docs/esbocando-a-ideia.md),
-> com 10 decisões em aberto.
+> 🚧 **Fase 1: boia e anda.** O estaleiro fechou: estrutura pronta e decisões
+> D1–D9 tomadas, em [docs/esbocando-a-ideia.md](docs/esbocando-a-ideia.md).
+> Agora é o barco feio que boia, anda e grava o vídeo.
 
 ## A ideia em um parágrafo
 
@@ -30,7 +30,7 @@ do projeto perde ponto. Código, modelo 3D e esquemático são escritos por IA
 | --- | --- |
 | Estrutura do repositório | ✅ pronta |
 | Regulamento transcrito, com as perguntas pra organização | ✅ |
-| Esboço da ideia | ✅ escrito — 10 decisões em aberto |
+| Esboço da ideia | ✅ D1–D9 fechadas; D10 (identidade) parcial |
 | Caçador de segredos (pré-commit) | ✅ |
 | Hardware, software, mecânica | ❌ nada ainda |
 

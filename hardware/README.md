@@ -2,9 +2,10 @@
 
 A parte elétrica do barco: esquemático, ligações e a lista do que vai no cofre.
 
-> 🚧 **Vazio por enquanto.** O desenho proposto está no
-> [esboço, seção 7](../docs/esbocando-a-ideia.md#7-eletrônica-e-firmware), e
-> depende das decisões D4 (energia), D5 (controle) e D8 (placa).
+> 🚧 **Vazio por enquanto.** O desenho está no
+> [esboço, seção 7](../docs/esbocando-a-ideia.md#7-eletrônica-e-firmware), com
+> D4 (energia), D5 (controle) e D8 (placa) fechadas. O esquemático nasce
+> depois da compra da lista de materiais da Fase 1.
 
 ## O que vai morar aqui
 

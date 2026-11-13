@@ -16,15 +16,18 @@ guerra.
 - Regras: [docs/regulamento.md](docs/regulamento.md) — fonte da verdade. **Não
   reabra a imagem do banner**: o `.md` é a transcrição.
 - Ideia e decisões: [docs/esbocando-a-ideia.md](docs/esbocando-a-ideia.md) —
-  esboço declarado, com as decisões **D1–D10** na seção 11.
+  nasceu esboço; as decisões **D1–D10** estão na seção 11. De D1 a D9 estão
+  fechadas (13/11/2026); a D10 (identidade) está parcial.
 
-## 2. Estado atual — Fase 0
+## 2. Estado atual — Fase 1 ("Boia e anda")
 
-Estrutura pronta; `hardware/`, `software/` e `mechanics/` estão vazias de
-propósito. Regras que decorrem disso:
+A Fase 0 (estaleiro) acabou. Agora é o barco feio que boia e anda: lista de
+materiais, esquemático, firmware mínimo e teste da bacia — o plano está na
+seção 13 do esboço. Regras que valem sempre:
 
 1. **Não implemente a partir de decisão aberta.** Se a tarefa depende de uma D
-   aberta, pare e pergunte. Entregue o que não depende dela.
+   aberta (hoje: a D10, e a D3 até o teste da bacia), pare e pergunte. Entregue
+   o que não depende dela.
 2. **Decisão fechada vai pro esboço**, na própria D, com a data. Não fica só no
    chat.
 3. **Ambíguo?** Entregue o que dá pra entregar e liste o que ficou em aberto.
