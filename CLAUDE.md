@@ -59,7 +59,9 @@ seção 13 do esboço. Regras que valem sempre:
 ## 5. Git
 
 **Neste projeto (diferente dos outros do Capitão) você pode, sozinho e inclusive
-à noite:** criar branch, commitar e mergear na `main`.
+à noite:** criar branch, commitar, mergear na `main` e **dar push da `main`
+depois do merge** (liberado em 13/11/2026). Sem `gh` por enquanto: nada de PR,
+o merge é local.
 
 | Regra | Como |
 | --- | --- |
@@ -68,10 +70,10 @@ seção 13 do esboço. Regras que valem sempre:
 | Mensagem | Português. Título + corpo **curto**, com as principais mudanças em tópicos |
 | Como commitar | `git commit -F <arquivo>`, com a mensagem num arquivo temporário **fora do repo** — acento e here-string no Windows já estragaram mensagem |
 | Antes de cada commit | `scripts/.venv/Scripts/check-secrets`. Achou algo, não commite |
-| Antes de push | `scripts/.venv/Scripts/check-secrets --all` |
+| Push | Só a `main`, depois do merge — as branches de assunto ficam locais. Antes: `scripts/.venv/Scripts/check-secrets --all`. Achou algo, não dê push |
 | `Co-Authored-By` | **Sim**, no fim do corpo: `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>` (com o modelo da sessão). Diferente dos outros projetos do Capitão — aqui combina com o vibado |
 
-**Nunca sozinho:** `push` (o primeiro vai ser junto), qualquer `--force`,
+**Nunca sozinho:** push de branch que não seja a `main`, qualquer `--force`,
 `reset --hard`, `rebase`, `clean`, apagar branch não mergeada, reescrever commit
 já publicado, mexer em config global do git. O e-mail do autor está configurado
 **local** neste repo — não mexa.
