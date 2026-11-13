@@ -4,9 +4,9 @@ Regras gerais em [../CLAUDE.md](../CLAUDE.md). Aqui só o que é do firmware.
 
 ## Estado
 
-🚧 Vazio. Nada de código até fechar **D5 e D9** do
-[esboço](../docs/esbocando-a-ideia.md#11-decisões-em-aberto). As camadas e o
-ambiente descritos abaixo são **proposta**, não regra — valem a partir do
+🚧 **D5 e D9 fechadas** em 13/11/2026 (ver o
+[esboço](../docs/esbocando-a-ideia.md#11-decisões)): celular via Wi-Fi, e
+ESP-IDF v6.1 em Docker. As camadas e as convenções abaixo valem a partir do
 primeiro commit de código.
 
 ## Ambiente
