@@ -81,7 +81,8 @@ powershell -ExecutionPolicy Bypass -File scripts/install-python-venv.ps1
 | O quê | Como |
 | --- | --- |
 | Branches | `main` + uma por assunto, em inglês (`creating-dev-environment`, `implementing-flippers`) |
-| Merge na `main` | Sempre 3-way: `git merge --no-ff` |
+| Merge na `main` | Sempre 3-way e local: `git merge --no-ff` |
+| Push | Só a `main`, depois do merge, com `check-secrets --all` antes. Branch de assunto fica local |
 | Mensagem de commit | Em português: título + corpo curto com as principais mudanças |
 | Antes de commitar | `scripts/.venv/Scripts/check-secrets` — ou ative o hook (ver [scripts/](scripts/README.md)) |
 | Co-autoria | Commit feito pela IA leva `Co-Authored-By` — é vibado, afinal |
