@@ -1,0 +1,8 @@
+# Configuração versionada do firmware. O `sdkconfig` é gerado a partir daqui
+# pelo `idf.py` e fica fora do git: mudança de configuração entra AQUI.
+
+# O chip da SuperMini
+CONFIG_IDF_TARGET="esp32c3"
+
+# Log pela USB nativa do chip — é a única USB que a SuperMini tem
+CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y
