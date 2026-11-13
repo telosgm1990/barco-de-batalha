@@ -13,6 +13,10 @@ Regras gerais em [../CLAUDE.md](../CLAUDE.md). Aqui só o que é da documentaç�
 - **[esbocando-a-ideia.md](esbocando-a-ideia.md) é esboço declarado.** Decisão
   fechada é marcada **na própria D** (seção 11) com a data: "**Decidido em
   DD/MM/AAAA:** ...". Não implemente a partir de D aberta.
+- **[lista-de-materiais.md](lista-de-materiais.md) é a conta.** Antes da compra,
+  lista de compras com estimativa (*chute*); depois, o orçamento — a coluna
+  *Pago* recebe preço e loja, tirados da nota. A nota em si nunca vem pro git.
+  Componente novo no barco entra aqui na mesma hora.
 
 ## Como escrever aqui
 

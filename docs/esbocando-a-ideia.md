@@ -282,8 +282,9 @@ desenhar o **esquemático** (documenta e mostra pro juiz), sem fabricar nada.
 Ficar abaixo de R$ 50 (+2 de economia) só com reaproveitamento — motor e
 bateria de sucata — e carapaça leve. Casco duro, bolso mais ainda.
 
-Quando a primeira compra acontecer, isto vira `docs/orcamento.md`, com item,
-preço e origem. **Nota fiscal não entra no git**: tem CPF, nome e endereço. Ela
+A conta de verdade mora na [lista de materiais](lista-de-materiais.md): hoje é
+a lista de compras da Fase 1, e depois da compra vira o orçamento, com o preço
+pago e a loja. **Nota fiscal não entra no git**: tem CPF, nome e endereço. Ela
 vai pro juiz; a pasta `docs/notas-fiscais/` está no `.gitignore`.
 
 ## 9. Um caminho por fases
@@ -415,8 +416,8 @@ sendo o caminho que funciona igual em qualquer máquina.
 
 Fase 1, **Boia e anda**:
 
-1. **Revisar e comprar a lista de materiais da Fase 1** — compra em loja de São
-   Carlos, pra agilizar (decidido em 13/11/2026).
+1. **Revisar e comprar a [lista de materiais](lista-de-materiais.md) da Fase
+   1** — compra em loja de São Carlos, pra agilizar (decidido em 13/11/2026).
 2. **Esquemático** no KiCad, com a pinagem — é dele que o firmware tira os
    pinos.
 3. **Firmware mínimo:** Wi-Fi, página com joystick, failsafe e dois motores.
