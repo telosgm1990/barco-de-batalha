@@ -7,7 +7,8 @@ grava o vídeo. A tartaruga ainda não tem casco, mas já tem lista de compras.
 > Carlos ou no Mercado Livre — o que sair mais rápido e barato. Ele revisa,
 > risca o que não der e a gente ajusta.
 > Os preços são *chute* (do [esboço, seção 8](esbocando-a-ideia.md#8-orçamento-rascunho))
-> até a cotação na loja.
+> até a cotação na loja. **Frete não entra no teto de R$ 100** — mas sai do
+> bolso, então compra online vale juntar num pedido só.
 >
 > **Depois da compra, esta lista vira o orçamento:** a coluna *Pago* recebe o
 > preço da nota e a loja. A nota fiscal em si **não entra no git** — tem CPF,
