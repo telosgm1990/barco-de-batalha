@@ -11,8 +11,10 @@ primeiro commit de código.
 
 ## Ambiente
 
-- **Nada instalado no PC.** Compila no Docker (imagem oficial `espressif/idf`);
-  grava e lê serial com `esptool`/`pyserial` no `.venv` de `scripts/`.
+- **Nada instalado no PC.** Compila no Docker, com a imagem oficial fixada em
+  `espressif/idf:v6.1` — trocar de versão é decisão, não detalhe. Grava e lê
+  serial com `esptool`/`pyserial`, e formata com `clang-format`, todos no
+  `.venv` de `scripts/`.
 - **Build é recriável:** `build/`, `sdkconfig` e `managed_components/` ficam
   fora do git. O que se versiona é o `sdkconfig.defaults`.
 - **Segredo do firmware** (senha do Wi-Fi do barco etc.) fica em

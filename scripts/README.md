@@ -23,6 +23,16 @@ Cria `scripts/.venv/` e instala os scripts em modo editável — mexeu no códig
 já vale, sem reinstalar. Cada script vira um executável em
 `scripts/.venv/Scripts/`, com o nome do alias. `-Force` recria do zero.
 
+Junto vêm as ferramentas do projeto (o `dev` do [pyproject.toml](pyproject.toml)),
+cada uma com o seu executável no mesmo lugar:
+
+| Ferramenta | Pra quê |
+| --- | --- |
+| `ruff` | Lint e formatação do Python |
+| `esptool` | Gravar o firmware na ESP |
+| `pyserial` | Ler a serial do firmware (`python -m serial.tools.miniterm`) |
+| `clang-format` | Formatar o C++ do firmware |
+
 ## Rodando
 
 Pelo alias:

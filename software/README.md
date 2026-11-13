@@ -18,8 +18,8 @@ celular.
 
 | Etapa | Como | Instala algo no PC? |
 | --- | --- | --- |
-| Compilar | ESP-IDF na imagem Docker oficial da Espressif | Não — só o Docker, que já tem |
-| Gravar e ler a serial | `esptool` num `.venv` em `scripts/` | Não — fica no `.venv` do projeto |
-| Formatar | `clang-format` com o [.clang-format](.clang-format) daqui | A decidir: Docker ou `.venv` |
+| Compilar | ESP-IDF v6.1 na imagem Docker oficial (`espressif/idf:v6.1`) | Não — só o Docker, que já tem |
+| Gravar e ler a serial | `esptool` e `pyserial` no `.venv` de `scripts/` | Não — fica no `.venv` do projeto |
+| Formatar | `clang-format` do `.venv`, com o [.clang-format](.clang-format) daqui | Não — idem |
 
 Os comandos entram aqui quando o primeiro código nascer.

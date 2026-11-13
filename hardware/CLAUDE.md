@@ -18,8 +18,14 @@ materiais ser comprada — a pinagem depende do módulo que vier da loja.
   Sem fonte, fica marcado como *a medir*.
 - **Custo manda.** Todo componente novo entra no orçamento com preço e origem.
   O teto é R$ 100, e a meta é ficar abaixo de R$ 50.
-- **KiCad:** ferramenta aberta, projeto em `hardware/kicad/` quando nascer.
-  Registre aqui a versão do KiCad usada assim que o primeiro arquivo for criado.
+- **KiCad 10.0** (10.0.8 instalado em 13/11/2026), projeto em
+  `hardware/kicad/` quando nascer. Arquivo salvo no 10 não abre em versão
+  antiga — quem for abrir precisa do 10 ou mais novo. O PC ainda tem o 7.0
+  instalado: **não use**.
+- **`kicad-cli`** vem com o KiCad, mas não está no PATH. Use pra checar e
+  exportar sem abrir a interface: `kicad-cli sch erc` (regras elétricas) antes
+  de dizer que o esquemático está pronto, e `kicad-cli sch export pdf` pra
+  quem for ler.
 - **Datasheet não vai pro git** (peso e direito autoral). Vai o link, na lista
   de componentes. PDF baixado fica em `hardware/datasheets/`, que é ignorada.
 

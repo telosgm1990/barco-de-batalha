@@ -10,7 +10,9 @@ requires-python = ">=3.10"
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["ruff"]
+# ruff: lint e formatação do Python. esptool e pyserial: gravar a ESP e ler a
+# serial do firmware. clang-format: formatar o C++ do firmware.
+dev = ["ruff", "esptool", "pyserial", "clang-format"]
 
 # Um alias por script: vira executável em .venv/Scripts/ (Windows) ou
 # .venv/bin/ (Linux). Script novo entra aqui e na tabela do README.md.
