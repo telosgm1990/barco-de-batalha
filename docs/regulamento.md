@@ -20,6 +20,7 @@ Lema do rodapé: *Engenharia · IA · Estratégia · Diversão*.
 | Regra | Detalhe |
 | --- | --- |
 | **Teto de custo** | O barco pronto custa **até R$ 100,00** pra produzir |
+| **Frete** | **Não entra** nos R$ 100 do barco (passado pelo Capitão em 13/11/2026) |
 | **Prestação de contas** | As notas vão pra um juiz, que confere se ninguém estourou |
 | **Material reciclado** | Também tem preço: o juiz usa o **preço do kg** do material reciclado |
 | **Peças de reposição** | **R$ 10,00** de *spare parts* |
@@ -100,7 +101,7 @@ resposta sobe pras seções acima e a pergunta sai daqui.
 **Custo**
 
 1. Os R$ 10 de *spare parts* estão **dentro** dos R$ 100 ou são **à parte**?
-2. **Frete e imposto** de importação entram no custo?
+2. **Imposto** de importação entra no custo? (O frete já sabemos: não entra.)
 3. Entram no custo: o **controle** (inclusive celular), o **carregador** da
    bateria, ferramenta, consumível (solda, cola quente, fita)? E o filamento de
    impressão que **deu errado**?

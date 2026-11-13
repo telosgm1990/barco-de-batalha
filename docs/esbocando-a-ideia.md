@@ -276,7 +276,7 @@ desenhar o **esquemático** (documenta e mostra pro juiz), sem fabricar nada.
 | Capacitor, resistores, fios, placa perfurada | R$ 3–8 | |
 | Filamento (carapaça e rodas) | R$ 10–25 | Depende do peso impresso |
 | Pote, isopor, PET, lastro | ~R$ 1 | Reciclado, a preço de kg |
-| **Total** | **~R$ 50–100** | Sem frete nem imposto (pergunta 2) |
+| **Total** | **~R$ 50–100** | Frete não entra no teto; imposto ainda é a pergunta 2 |
 | Peças de reposição | R$ 10 | Um motor e um driver reserva |
 
 Ficar abaixo de R$ 50 (+2 de economia) só com reaproveitamento — motor e
@@ -407,7 +407,7 @@ sendo o caminho que funciona igual em qualquer máquina.
 | **Brownout no empurrão** | Motor travado puxa tudo, a ESP reinicia no meio do duelo | Capacitor, rampa de aceleração, testar empurrando uma parede |
 | **Água no cofre** | Vedação de fio e de tampa | Tampa de rosca, cola quente, teste de horas na banheira |
 | **Wi-Fi fraco ou interferido** | Antena da SuperMini, 2,4 GHz lotado | Testar cedo, baixar potência, antena fora d'água, failsafe |
-| **Estourar o orçamento** | Frete, imposto, peça que queima | Cotar antes, reaproveitar, R$ 10 de reposição |
+| **Estourar o orçamento** | Imposto, peça que queima (frete não conta) | Cotar antes, reaproveitar, R$ 10 de reposição |
 | **Lento demais** | Roda de pá perde pra hélice em velocidade | Duas células se a medição pedir; aceitar não ganhar a Arrancada |
 | **Precisar do pitstop** | Qualquer conserto custa 3 pontos | Poucas peças, nada exposto, rodada de robustez na Fase 4 |
 | **Saber demais do projeto** | A regra do vibado | O Capitão lê o resumo, não o código |
