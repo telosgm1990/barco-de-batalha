@@ -57,8 +57,17 @@ Cada pasta tem seu `README.md` (pra gente) e seu `CLAUDE.md` (pra IA).
 ## Ambiente
 
 Windows + PowerShell, num PC que também é de trabalho — então **nada se instala
-no sistema**. Toolchain pesada roda em Docker; dependência Node vai pro
-`node_modules` local; dependência Python, pro `scripts/.venv`:
+no sistema** sem combinar antes. A preferência é por software aberto e com
+linha de comando, que a IA consegue usar sozinha.
+
+| Ferramenta | Pra quê | Como chega |
+| --- | --- | --- |
+| [Docker](https://www.docker.com/) | Roda o ESP-IDF v6.1, que compila o firmware | Imagem `espressif/idf:v6.1` |
+| Python 3.10+ | `esptool` (grava a ESP), `pyserial` (lê a serial), `clang-format`, `ruff` e os nossos scripts | `scripts/.venv`, com o comando abaixo |
+| [OpenSCAD](https://openscad.org/) | Modelos 3D, exportados em `.3mf` | Versão portátil (*snapshot*), sem instalador |
+| [KiCad](https://www.kicad.org/) 10 | Esquemático | Instalador oficial |
+
+O ambiente Python, uma vez por máquina:
 
 ```bash
 powershell -ExecutionPolicy Bypass -File scripts/install-python-venv.ps1

@@ -89,10 +89,21 @@ já publicado, mexer em config global do git. O e-mail do autor está configurad
 ## 7. Ambiente
 
 - **Windows 10 + PowerShell**, num PC que também é de trabalho: **nada se
-  instala no sistema.** Python → `scripts/.venv`, criado pelo
-  `scripts/install-python-venv.ps1`; Node → `node_modules` local; toolchain
-  (ESP-IDF, OpenSCAD headless) → Docker, que já está instalado. Precisa de algo
-  no sistema? **Pergunte antes.**
+  instala no sistema.** Precisa de algo no sistema? **Pergunte antes.** O
+  notebook com Zorin OS fica pra depois — por ora, tudo roda neste PC.
+- **Software aberto e com CLI**, de preferência: é a linha de comando que deixa
+  a IA rodar, exportar e conferir sem clicar.
+
+| Ferramenta | Pra quê | Onde mora |
+| --- | --- | --- |
+| Python: `ruff`, `esptool`, `pyserial`, `clang-format` | Lint, gravar a ESP, ler a serial, formatar o C++ | `scripts/.venv`, criado pelo `scripts/install-python-venv.ps1` |
+| ESP-IDF v6.1 | Compilar o firmware | Docker, imagem `espressif/idf:v6.1` |
+| OpenSCAD (*snapshot* 2026.11.12) | Modelos 3D, exportar `.3mf` | Versão portátil, fora do repo — sem instalador |
+| KiCad 10.0 | Esquemático; `kicad-cli` checa (ERC) e exporta | Instalado no sistema (com OK do Capitão, 13/11/2026); o `kicad-cli` não está no PATH |
+| Node | Se a página de controle precisar | `node_modules` local |
+
+Caminho de máquina (onde o OpenSCAD portátil mora, por exemplo) **não vai pro
+git**. Não achou a ferramenta? Pergunte.
 - Finais de linha: o `.gitattributes` guarda LF e deixa o checkout usar o padrão
   da plataforma. Hook e `.sh` são sempre LF.
 

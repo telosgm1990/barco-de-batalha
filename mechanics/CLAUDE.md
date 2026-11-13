@@ -15,6 +15,19 @@ propulsão definitiva só depois dele; roda de teste pode.
   e cola. A altura máxima é *a confirmar*.
 - **Filamento:** em aberto — perguntar pro dono da impressora.
 
+## OpenSCAD
+
+- **Snapshot 2026.11.12**, portátil, fora do repo (a estável é de 2021). O
+  executável de linha de comando é o `openscad.com`; o caminho na máquina não
+  vai pro git.
+- Sempre com o motor `manifold`, que é o rápido.
+- **Exportação pra impressora**, sem cor nem material (o dono da impressora
+  escolhe o filamento na hora de fatiar):
+
+  ```bash
+  openscad.com --backend=manifold -O export-3mf/color-mode=none -o out/peca.3mf peca.scad
+  ```
+
 ## Convenções
 
 - **Paramétrico sempre.** Toda medida é variável nomeada no topo do arquivo, em
