@@ -32,7 +32,10 @@ do projeto perde ponto. Código, modelo 3D e esquemático são escritos por IA
 | Regulamento transcrito, com as perguntas pra organização | ✅ |
 | Esboço da ideia | ✅ D1–D9 fechadas; D10 (identidade) parcial |
 | Caçador de segredos (pré-commit) | ✅ |
-| Hardware, software, mecânica | ❌ nada ainda |
+| Ambiente de desenvolvimento (ESP-IDF, OpenSCAD, KiCad) | ✅ montado |
+| [Lista de materiais da Fase 1](docs/lista-de-materiais.md) | 🛒 esperando revisão e compra |
+| Firmware | 🚧 esqueleto: compila e dá sinal de vida |
+| Hardware, mecânica | ❌ nada ainda — esperam a compra |
 
 ## Estrutura
 

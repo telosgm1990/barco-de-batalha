@@ -6,8 +6,11 @@ Regras gerais em [../CLAUDE.md](../CLAUDE.md). Aqui só o que é do firmware.
 
 🚧 **D5 e D9 fechadas** em 13/11/2026 (ver o
 [esboço](../docs/esbocando-a-ideia.md#11-decisões)): celular via Wi-Fi, e
-ESP-IDF v6.1 em Docker. As camadas e as convenções abaixo valem a partir do
-primeiro commit de código.
+ESP-IDF v6.1 em Docker. Existe só o **esqueleto** (`main/main.cpp`, que dá
+sinal de vida na serial); as camadas abaixo nascem com o firmware da Fase 1, e
+as convenções já valem. Comandos de compilar, gravar, ler a serial e formatar:
+[README.md](README.md). Antes de dizer que terminou: **compile e passe o
+`clang-format`**.
 
 ## Ambiente
 
