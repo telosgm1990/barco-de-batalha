@@ -4,10 +4,10 @@ Regras gerais em [../CLAUDE.md](../CLAUDE.md). Aqui só o que é do firmware.
 
 ## Estado
 
-🚧 **Firmware da Fase 1 escrito** (14/11/2026): Wi-Fi em ponto de acesso,
-página do joystick por WebSocket, tração com rampa, um modo por prova e
-ajuste fino guardado na placa, failsafe, leitura da bateria e LED de status.
-Compila e passa nos testes do PC; **ainda não rodou na placa**. Comandos:
+🚧 **Firmware da Fase 1 escrito:** Wi-Fi em ponto de acesso, página do
+joystick por WebSocket, API REST, tração com rampa, um modo por prova, ajuste
+fino guardado na placa, failsafe, leitura da bateria e LED de status. Compila
+e passa nos testes do PC; **ainda não rodou na placa**. Comandos:
 [README.md](README.md).
 
 **Antes de dizer que terminou:** compile, rode os testes do PC e passe o
@@ -29,7 +29,8 @@ Compila e passa nos testes do PC; **ainda não rodou na placa**. Comandos:
 ```
 main/          bootstrap: o único que conhece as concretas — cria e injeta tudo
 app/           Boat (o laço principal) e Failsafe
-services/      Remote → WifiRemote; Drive (tração); protocol (a página)
+services/      Remote → WifiRemote; Drive (tração); protocol (WebSocket e
+               API REST)
 components/    Motor → HBridgeMotor, Led → DigitalLed, Battery → DividerBattery
 platform/      DigitalOutput → EspDigitalOutput, PwmOutput → EspPwmOutput,
                AnalogInput → EspAnalogInput, Clock → EspClock,

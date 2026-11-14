@@ -101,7 +101,7 @@ constinit static app::Boat _boat(
     {_left_motor, _right_motor, _battery, _led, _remote, _logger, _store},
     {board::FAILSAFE_TIMEOUT_MS,
      board::JOYSTICK_DEADZONE,
-     board::TELEMETRY_PERIOD_MS,
+     board::STATUS_PERIOD_MS,
      {board::PROFILE_ECONOMY,
       board::PROFILE_PRECISE,
       board::PROFILE_FULL,

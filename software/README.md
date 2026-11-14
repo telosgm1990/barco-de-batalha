@@ -4,10 +4,11 @@ O firmware do barco (ESP32-C3) e a página de controle que ele serve pro
 celular.
 
 > 🚧 **Firmware da Fase 1 pronto pra bancada:** o barco cria uma rede Wi-Fi,
-> serve uma página com joystick e um botão por prova, mistura o joystick nos dois motores com rampa,
-> para tudo se o celular sumir (failsafe) e manda o nível da bateria pra
-> página. Compila sem aviso e passa nos testes do PC; **ainda não rodou na
-> placa** — os números marcados *a medir* saem da bancada.
+> serve uma página com joystick e um botão por prova, atende uma API REST,
+> mistura o joystick nos dois motores com rampa, para tudo se o celular sumir
+> (failsafe) e mostra o nível da bateria na página. Compila sem aviso e passa
+> nos testes do PC; **ainda não rodou na placa** — os números marcados
+> *a medir* saem da bancada.
 
 ## Pilotando
 
@@ -50,14 +51,39 @@ guardado na memória da placa e volta quando ela liga — vale pra todos os
 modos. O limite é 30% pra cada lado (*chute*): se precisar de mais, o problema
 é mecânico.
 
+## API
+
+A página é só um cliente: qualquer coisa na rede do barco conversa com ele
+do mesmo jeito. O joystick vai por **WebSocket** em `/ws`, 20 vezes por
+segundo; o resto é uma **API REST** em `/api`, com JSON. O contrato
+completo, com exemplo de cada resposta, mora em
+[services/include/services/protocol.hpp](services/include/services/protocol.hpp).
+
+| Pedido | Pra quê |
+| --- | --- |
+| `GET /api/status` | Bateria, failsafe, modo e ajuste fino |
+| `GET /api/settings` | Modo e ajuste fino em uso |
+| `PATCH /api/settings` | Trocar o modo e/ou o ajuste fino |
+
+Com o PC na rede do barco, dá pra testar no PowerShell, sem página:
+
+```powershell
+Invoke-RestMethod http://192.168.4.1/api/status
+```
+
+```powershell
+Invoke-RestMethod -Method Patch -Uri http://192.168.4.1/api/settings -ContentType application/json -Body '{"mode":"war"}'
+```
+
 ## Camadas
 
 ```
 main/          bootstrap: cria as peças concretas com os pinos (board.hpp)
                e injeta cada uma onde precisa
 app/           Boat (o laço principal) e Failsafe
-services/      Remote -> WifiRemote (Wi-Fi + página + WebSocket), Drive
-               (joystick -> motores), protocol; page/ é a página do joystick
+services/      Remote -> WifiRemote (Wi-Fi + página + WebSocket + API),
+               Drive (joystick -> motores), protocol (o que a página e o
+               barco dizem); page/ é a página do joystick
 components/    Motor -> HBridgeMotor, Led -> DigitalLed,
                Battery -> DividerBattery
 platform/      as abstrações da placa e as concretas Esp* (ESP-IDF por baixo):

@@ -1,57 +1,77 @@
-/*
- * O que a página do celular e o barco dizem um pro outro — mensagens de
- * texto curtas, pelo WebSocket.
+/**
+ * @file
+ * O que o celular e o barco dizem um pro outro.
  *
- * Página -> barco:
- *   "x,y"        joystick, inteiros de -100 a 100, umas 20 vezes por
- *                segundo. Mesmo parado, ela continua mandando "0,0": é o
- *                batimento que o failsafe vigia.
- *   "mode=eco"   troca o modo: eco, fine, full ou war.
- *   "trim=-12"   ajuste fino pra andar reto, de -100 a 100 (por cento).
+ * **Joystick**, pelo WebSocket em `/ws`: texto `"x,y"`, inteiros de -100 a
+ * 100, umas 20 vezes por segundo. Mesmo parado, a página continua mandando
+ * `"0,0"`: é o batimento que o failsafe vigia. WebSocket porque é uma conexão
+ * só, aberta o tempo todo — um pedido HTTP por mensagem pesaria demais nesse
+ * ritmo.
  *
- * Barco -> página: {"bat":3.87,"fs":0,"mode":"eco","trim":-12} — bateria em
- * volts, se o failsafe está armado (1) ou não (0), o modo e o ajuste fino.
+ * **O resto é uma API REST** em `/api`, com JSON — dá pra testar com o
+ * `curl`:
+ *
+ * - `GET /api/status`: 200 com o retrato do barco,
+ *   `{"bat":3.87,"fs":0,"mode":"eco","trim":-12}`
+ * - `GET /api/settings`: 200 com os ajustes em uso,
+ *   `{"mode":"eco","trim":-12}`
+ * - `PATCH /api/settings` com `{"mode":"war"}`, `{"trim":-12}` ou os dois:
+ *   204; corpo errado dá 400 com `{"error":"..."}`
+ *
+ * `bat` em volts; `fs` 1 se o failsafe parou os motores; `mode` é `eco`,
+ * `fine`, `full` ou `war`; `trim` é o ajuste fino em por cento (-100 a 100).
+ *
+ * Conta pura, sem dependência: o WifiRemote usa direto, e os testes também.
  */
 #pragma once
 
 // Includes
 #include <cstddef> // size_t
 
-#include "services/drive.hpp" // drive_mode_e
+#include "services/drive.hpp"  // drive_mode_e
+#include "services/remote.hpp" // status_st
 
 // Enums/structs
 namespace services::protocol {
 
-enum class message_e {
-    JOYSTICK,
-    MODE,
-    TRIM,
-};
-
-struct message_st {
-    message_e type;
-    float x;           // JOYSTICK: -1 a 1, pro lado
-    float y;           // JOYSTICK: -1 a 1, pra frente
-    drive_mode_e mode; // MODE
-    float trim;        // TRIM: -1 a 1
-};
-
-struct telemetry_st {
-    float battery_volts;
-    bool failsafe;
+/// Pedido de mudança nos ajustes: só muda o que veio
+struct settings_patch_st {
+    bool has_mode;
     drive_mode_e mode;
-    float trim; // -1 a 1; vai como por cento
+    bool has_trim;
+    float trim; ///< -1 a 1
 };
 
 // Funções
 
-// Leia uma mensagem da página; false se não for nenhuma das conhecidas
-bool parse_message(const char *text, message_st *message);
+/**
+ * Leia o joystick, `"x,y"`.
+ *
+ * @param[out] x de -1 a 1 (o que passar de 100 fica em 1)
+ * @param[out] y de -1 a 1
+ * @return false se não for um joystick
+ */
+bool parse_joystick(const char *text, float *x, float *y);
 
-// Nome curto do modo, o mesmo que a página usa ("eco", "fine"...)
+/**
+ * Leia o corpo de um `PATCH /api/settings`.
+ *
+ * Aceita só as chaves `mode` (texto) e `trim` (inteiro); qualquer outra coisa
+ * é erro, pra um erro de digitação não passar calado.
+ *
+ * @return false se o JSON for inválido, vazio ou tiver chave desconhecida
+ */
+bool parse_settings_patch(const char *json, settings_patch_st *patch);
+
+/// Nome curto do modo, o mesmo da API (`"eco"`, `"fine"`...)
 const char *mode_name(drive_mode_e mode);
 
-// Escreva a telemetria em out; devolve quantos caracteres escreveu
-int format_telemetry(char *out, size_t size, const telemetry_st &telemetry);
+/// @name Respostas da API
+/// Escrevem o JSON em out e devolvem quantos caracteres escreveram.
+/// @{
+int format_status(char *out, size_t size, const status_st &status);
+int format_settings(char *out, size_t size, drive_mode_e mode, float trim);
+int format_error(char *out, size_t size, const char *message);
+/// @}
 
 } // namespace services::protocol

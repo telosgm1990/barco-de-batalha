@@ -1,4 +1,4 @@
-/*
+﻿/*
  * A placa e os números de ajuste do barco.
  *
  * Os pinos são cópia da tabela de pinagem de hardware/README.md — mudou lá,
@@ -44,7 +44,7 @@ constexpr uint32_t PWM_FREQUENCY_HZ    = 5000;  // chute — ajustar na bancada
 constexpr uint32_t LOOP_PERIOD_MS      = 20;    // 50 voltas por segundo
 constexpr uint32_t FAILSAFE_TIMEOUT_MS = 500;   // a medir
 constexpr float JOYSTICK_DEADZONE      = 0.05f; // chute
-constexpr uint32_t TELEMETRY_PERIOD_MS = 500;
+constexpr uint32_t STATUS_PERIOD_MS    = 500;   // retrato pra API
 
 // ---------------------------------------------------------------- Modos
 

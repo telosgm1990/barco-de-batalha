@@ -103,10 +103,12 @@ class WebServer final : public platform::WebServer {
     bool begin(
         const char *page,
         size_t page_length,
-        platform::TextListener &listener
+        platform::TextListener &stream,
+        platform::RequestListener &api
     ) override {
         served_page.assign(page, page_length);
-        this->listener = &listener;
+        this->stream = &stream;
+        this->api    = &api;
         return true;
     }
 
@@ -114,22 +116,28 @@ class WebServer final : public platform::WebServer {
         return client >= 0 && client == open_client;
     }
 
-    bool send_text(int client, const char *text) override {
-        last_client = client;
-        last_text   = text;
-        return true;
+    // Finja que a página mandou uma mensagem pelo WebSocket
+    void receive(const char *text, int client) {
+        stream->on_text(text, std::string(text).size(), client);
     }
 
-    // Finja que a página mandou uma mensagem
-    void receive(const char *text, int client) {
-        listener->on_text(text, std::string(text).size(), client);
+    // Finja um pedido da API; guarda a resposta e devolve o status HTTP
+    int request(
+        platform::http_method_e method,
+        const char *path,
+        const char *body = ""
+    ) {
+        char out[160] = "";
+        int status    = api->on_request(method, path, body, out, sizeof(out));
+        last_response = out;
+        return status;
     }
 
     std::string served_page;
-    platform::TextListener *listener = nullptr;
-    int open_client                  = -1;
-    int last_client                  = -1;
-    std::string last_text;
+    platform::TextListener *stream = nullptr;
+    platform::RequestListener *api = nullptr;
+    int open_client                = -1;
+    std::string last_response;
 };
 
 class Store final : public platform::KeyValueStore {
@@ -220,18 +228,18 @@ class Remote final : public services::Remote {
         return connected;
     }
 
-    void send_telemetry(const char *text) override {
-        last_telemetry = text;
-        telemetry_count++;
+    void publish_status(const services::status_st &status) override {
+        last_status = status;
+        status_count++;
     }
 
     services::command_st command = {0.0f, 0.0f, 0, false};
     services::settings_st settings =
         {services::drive_mode_e::ECONOMY, 0, 0.0f, 0};
-    bool connected = false;
-    bool started   = false;
-    std::string last_telemetry;
-    int telemetry_count = 0;
+    bool connected                  = false;
+    bool started                    = false;
+    services::status_st last_status = {};
+    int status_count                = 0;
 };
 
 } // namespace fakes
