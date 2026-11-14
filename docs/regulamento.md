@@ -20,7 +20,9 @@ Lema do rodapé: *Engenharia · IA · Estratégia · Diversão*.
 | Regra | Detalhe |
 | --- | --- |
 | **Teto de custo** | O barco pronto custa **até R$ 100,00** pra produzir |
+| **O que conta** | **Só o que vai no barco.** Ferramenta, sobra e reserva de desenvolvimento não entram; pacote usado em parte entra pela parte usada (passado pelo Capitão em 14/11/2026) |
 | **Frete** | **Não entra** nos R$ 100 do barco (passado pelo Capitão em 13/11/2026) |
+| **Data** | Campeonato **estimado pra 05/12/2026** (passado pelo Capitão em 14/11/2026) |
 | **Prestação de contas** | As notas vão pra um juiz, que confere se ninguém estourou |
 | **Material reciclado** | Também tem preço: o juiz usa o **preço do kg** do material reciclado |
 | **Peças de reposição** | **R$ 10,00** de *spare parts* |
@@ -102,9 +104,8 @@ resposta sobe pras seções acima e a pergunta sai daqui.
 
 1. Os R$ 10 de *spare parts* estão **dentro** dos R$ 100 ou são **à parte**?
 2. **Imposto** de importação entra no custo? (O frete já sabemos: não entra.)
-3. Entram no custo: o **controle** (inclusive celular), o **carregador** da
-   bateria, ferramenta, consumível (solda, cola quente, fita)? E o filamento de
-   impressão que **deu errado**?
+3. O **controle** entra no custo — um controle físico feito só pro barco, por
+   exemplo? (O resto já sabemos: só conta o que vai no barco.)
 4. Como o juiz precifica **eletrônico reaproveitado** — motor de brinquedo
    velho, célula de bateria de notebook ou de vape? É "reciclado a preço de kg"
    ou vale o preço do componente novo?
@@ -136,4 +137,4 @@ resposta sobe pras seções acima e a pergunta sai daqui.
 15. Tem **frequência de rádio proibida** ou obrigatória? E *jammer* está
     explicitamente proibido?
 16. Qual a **data** da entrega antecipada (o "[DATA]" do banner)? E a data do
-    campeonato?
+    campeonato, **05/12/2026**, está confirmada?

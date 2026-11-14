@@ -9,11 +9,18 @@ Regras gerais em [../CLAUDE.md](../CLAUDE.md). Aqui só o que é da mecânica.
 em OpenSCAD. A **D3 (roda de pá) é provisória** até o teste da bacia — peça de
 propulsão definitiva só depois dele; roda de teste pode.
 
+O casco tem dois caminhos em discussão — pote e isopor (A) ou tudo impresso
+(B) — no [plano do casco](../docs/plano-do-casco.md). **Casco e carapaça só
+depois da escolha.** Rodas de pá e suportes de motor servem pros dois: podem
+nascer já, paramétricos, com as medidas do motor marcadas `// a medir`.
+
 ## A impressora
 
 - **Mesa de 18 cm** (uma mini). Peça maior que isso sai em partes, com encaixe
   e cola. A altura máxima é *a confirmar*.
-- **Filamento:** em aberto — perguntar pro dono da impressora.
+- **Filamento:** em aberto — perguntar pro dono da impressora, junto com o
+  **preço do grama**: o filamento que vai no barco entra na conta dos R$ 100.
+  Peça leve é peça barata.
 
 ## OpenSCAD
 

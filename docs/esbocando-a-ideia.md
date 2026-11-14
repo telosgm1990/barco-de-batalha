@@ -190,6 +190,12 @@ Lítio perto de água pede respeito: bateria dentro do cofre, com proteção con
 curto e descarga profunda, e nada de carregar célula estufada ou amassada. O
 carregador fica fora do barco.
 
+**Atualização de 14/11/2026:** com as peças compradas, **série não cabe** — duas
+células em série passam de 8 V, acima do driver (até 7,2 V) e dos motores
+(3–6 V). Se faltar bateria, a saída é **duas em paralelo**: mesma tensão, o
+dobro da carga, e o carregador e o driver continuam servindo. O custo disso
+está no [plano do casco](plano-do-casco.md#4-a-conta).
+
 ## 6. Controle
 
 | Opção | Custo extra | A favor | Contra |
@@ -282,9 +288,10 @@ desenhar o **esquemático** (documenta e mostra pro juiz), sem fabricar nada.
 Ficar abaixo de R$ 50 (+2 de economia) só com reaproveitamento — motor e
 bateria de sucata — e carapaça leve. Casco duro, bolso mais ainda.
 
-A conta de verdade mora na [lista de materiais](lista-de-materiais.md): hoje é
-a lista de compras da Fase 1, e depois da compra vira o orçamento, com o preço
-pago e a loja. **Nota fiscal não entra no git**: tem CPF, nome e endereço. Ela
+A conta de verdade mora na [lista de materiais](lista-de-materiais.md), que
+desde a compra de 14/11/2026 é o orçamento: a eletrônica que vai no barco dá
+~R$ 74 com uma célula (*estimativa*). A conta com o casco está no
+[plano do casco](plano-do-casco.md#4-a-conta). **Nota fiscal não entra no git**: tem CPF, nome e endereço. Ela
 vai pro juiz; a pasta `docs/notas-fiscais/` está no `.gitignore`.
 
 ## 9. Um caminho por fases
@@ -350,6 +357,11 @@ com cara de nadadeira (seção 3.2). Fica confirmado — ou troca pra hélice �
 pedir. Capacitor como amortecedor, não como tanque. Sem 9 V, sem painel solar
 (seção 5).
 
+**Em aberto desde 14/11/2026:** a parte do "duas em série" caiu — não cabe no
+driver nem nos motores comprados (seção 5.4). A pergunta agora é **uma célula
+ou duas em paralelo** no barco de prova; o que pesa é a conta, no
+[plano do casco](plano-do-casco.md#4-a-conta).
+
 ### D5 — Controle
 
 **Decidido em 13/11/2026:** celular via Wi-Fi no V1; controle físico por
@@ -414,21 +426,26 @@ sendo o caminho que funciona igual em qualquer máquina.
 
 ## 13. Próximo passo
 
-Fase 1, **Boia e anda**:
+O campeonato está **estimado pra sábado, 05/12/2026**. As peças da Fase 1 foram
+compradas em 14/11 e chegam em Ribeirão Preto em 3 a 6 dias úteis — com o
+feriado de 20/11 no meio, entre **18/11 e 24/11**. O Capitão retira no sábado,
+**21/11**; se o correio atrasar, só em **28/11**, e aí tudo abaixo encolhe uma
+semana.
 
-1. **Revisar e comprar a [lista de materiais](lista-de-materiais.md) da Fase
-   1** — em loja de São Carlos ou no Mercado Livre, o que for mais rápido e
-   barato (decidido em 13/11/2026).
-2. **Esquemático** no KiCad, com a pinagem — é dele que o firmware tira os
-   pinos.
-3. **Firmware mínimo:** Wi-Fi, página com joystick, failsafe e dois motores.
-4. **Teste da bacia** — fecha a D3 de vez — e o vídeo na água (+2).
+| Quando | O quê |
+| --- | --- |
+| **16–20/11** (sem as peças) | Esquemático no KiCad com as peças compradas. Firmware da Fase 1 — Wi-Fi, página com joystick, failsafe, motores — testado na ESP que já está na mão. Modelos da roda de pá e do suporte do motor, paramétricos, esperando a medida. Escolher o caminho do [plano do casco](plano-do-casco.md) e achar pote e isopor |
+| **Sáb 21/11** | Retirar as peças. Medir o motor com paquímetro e conferir as células (ver a [lista](lista-de-materiais.md#3-quando-a-caixa-chegar)) |
+| **23–28/11** | Soldar e montar a placa, gravar, teste de bancada com a fonte limitando corrente. Imprimir rodas e suportes. Montar o casco da Fase 1. **Teste da bacia** e o vídeo (+2) |
+| **30/11–04/12** | Fase 2 e 3 espremidas: carapaça, teste de desvirar e de afundar, modos por prova, rodada de robustez, kit de fair play |
+| **Sáb 05/12** | 🐢 Campeonato |
 
 Correndo em paralelo, sem travar nada:
 
 - **Mandar as perguntas** de [regulamento.md](regulamento.md#6-perguntas-pra-organização)
-  pra organização — principalmente a 16 (a data da entrega antecipada), e a 1,
-  2, 4, 6 e 13, que mexem em custo, bateria e ataque.
-- **Perguntar pro dono da impressora** o filamento que ele tem (a mesa já
-  sabemos: 18 cm).
+  pra organização — **a 16 é urgente**: se a entrega antecipada for antes de
+  28/11, o +2 depende do correio. Depois, a 4, 6 e 13, que mexem em bateria e
+  ataque.
+- **Perguntar pro dono da impressora** o filamento, a altura máxima, o **preço
+  do grama** e se a fila dele dá conta até 05/12 (a mesa já sabemos: 18 cm).
 - **Fechar a D10** — país, lema, grito de guerra e bandeira.
