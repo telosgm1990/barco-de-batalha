@@ -60,6 +60,8 @@ scripts/
 - **O `__all__` segue a ordem das definições**, não a alfabética (por isso a
   `RUF022` está desligada no `pyproject.toml`).
 - **Código em inglês, texto pra pessoa em português.**
+- **Docstring em tudo que é público** (regra 13 da raiz), no estilo Google:
+  `Args:` e `Returns:` só quando acrescentam. O ruff cobra (regras `D`).
 - Lint e formatação, antes de dizer que terminou:
 
   ```bash

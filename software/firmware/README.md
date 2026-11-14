@@ -172,6 +172,9 @@ docker run --rm -v "${PWD}\software\firmware:/project" -w /project espressif/idf
 
 ## A medir na bancada
 
+O roteiro passo a passo, da fonte de bancada ao osciloscópio, está em
+[docs/bancada.md](../../docs/bancada.md).
+
 Os números de comportamento estão em `main/board.hpp`, cada um com a etiqueta
 *a medir* ou *chute*. A lista com o que fazer pra medir cada um está no
 [esboço, seção 7](../../docs/esbocando-a-ideia.md#7-eletrônica-e-firmware).

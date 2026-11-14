@@ -19,6 +19,9 @@ Regras gerais em [../CLAUDE.md](../CLAUDE.md). Aqui só o que é da documentaç�
   barco entra aqui na mesma hora.
 - **[plano-do-casco.md](plano-do-casco.md)** compara os dois caminhos do casco;
   a escolha vai pra D2 do esboço.
+- **[bancada.md](bancada.md)** é o roteiro da primeira vez que liga, e de
+  como medir cada número *chute* do firmware. Número medido vai pro
+  `board.hpp` e pra seção 7.1 do esboço.
 - **[montagem.md](montagem.md)** mostra como os módulos se ligam, com a
   ilustração. Ela **copia o esquemático, nunca o contrário**.
 

@@ -18,16 +18,23 @@ dev = ["ruff", "esptool", "pyserial", "clang-format"]
 # .venv/bin/ (Linux). Script novo entra aqui e na tabela do README.md.
 [project.scripts]
 check-secrets = "check_secrets.__main__:main"  # check-secrets: ignore
+check-all = "check_all.__main__:main"
 
 # Cada script é um pacote (nome/__main__.py); common/ é o código compartilhado.
 [tool.setuptools.packages.find]
-include = ["check_secrets*", "common*"]
+include = ["check_all*", "check_secrets*", "common*"]
 
 [tool.ruff]
 line-length = 80
 target-version = "py310"
 
 [tool.ruff.lint]
+# Os padrões do ruff, mais o D: docstring em tudo que é público (regra 13 do
+# CLAUDE.md da raiz), no estilo Google (Args:, Returns:).
+extend-select = ["D"]
 # O __all__ segue a ordem das definições (init → ... → execução), não a
 # alfabética: é o substituto do bloco de protótipos do header.
 ignore = ["RUF022"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

@@ -143,7 +143,9 @@ a partir dele, resuma e confirme antes.
    elegância.
 3. O Capitão edita em paralelo: se um arquivo mudou no disco, o novo vale —
    releia em vez de reverter.
-4. Rode teste e lint antes de dizer que terminou. Falhou? Mostre a saída.
+4. Rode teste e lint antes de dizer que terminou — de uma vez, com o
+   `scripts/.venv/Scripts/check-all` (`--quick` pula o Docker). Falhou?
+   Mostre a saída.
 
 ## 12. Camadas e dependências
 

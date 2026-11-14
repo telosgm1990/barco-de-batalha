@@ -1,5 +1,6 @@
-"""Caçador de segredos: barra credencial, caminho de máquina e dado pessoal
-antes que eles virem história pública no git.
+"""Caçador de segredos: barra segredo antes de virar história pública no git.
+
+Credencial, caminho de máquina e dado pessoal não entram no repositório.
 
 Confere as linhas **adicionadas** no índice — o que vai entrar no próximo
 commit — ou, com `--all`, todos os arquivos versionados. Também barra arquivo
