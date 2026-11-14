@@ -50,7 +50,11 @@ for (side = [-1, 1])
         translate([shaft_x, motor_center_y, shaft_z]) tt_motor();
         color(flipper_color)
             translate([shaft_x, wheel_inner_y, shaft_z])
-                rotate([-90, 0, 0]) paddle_wheel();
+                rotate([-90, 0, 0])
+                    paddle_wheel(radius = wheel_radius, width = wheel_width,
+                                 shaft_diameter = tt_shaft_diameter,
+                                 shaft_flat = tt_shaft_flat,
+                                 clearance = shaft_clearance);
     }
 
 // Baterias atravessadas no fundo (lastro) e a placa em cima

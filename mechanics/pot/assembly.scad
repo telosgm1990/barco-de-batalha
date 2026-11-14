@@ -37,8 +37,9 @@ flipper_color = "#4E8F57";
 color(raft_color)
     linear_extrude(height = raft_thickness)
         difference() {
-            raft_outline();
-            pot_hole();
+            raft_outline(raft_length, raft_width, raft_shape_n);
+            pot_hole(pot_length, pot_width, pot_corner_radius, pot_taper,
+                     pot_height, raft_thickness, pot_hole_clearance);
         }
 
 // Pote (casca translúcida pra ver por dentro)
@@ -57,11 +58,28 @@ translate([0, 0, pot_height + explode]) {
 for (side = [-1, 1])
     translate([shaft_x, side * raft_edge_y, 0])
         rotate([0, 0, side > 0 ? 0 : 180]) {
-            color(mount_color) motor_mount();
+            color(mount_color)
+                motor_mount(
+                    motor_length = tt_total_length,
+                    shaft_from_end = tt_shaft_from_end,
+                    tab_length = tt_tab_length,
+                    motor_width = max(tt_thickness, tt_can_thickness),
+                    motor_height = tt_height,
+                    raft_thickness = raft_thickness,
+                    shaft_z = shaft_z,
+                    inner_y = motor_inner_y - raft_edge_y,
+                    clearance = mount_clearance,
+                    wall = mount_wall,
+                    flange_length = mount_flange_length
+                );
             translate([0, motor_center_y - raft_edge_y, shaft_z]) tt_motor();
             color(flipper_color)
                 translate([0, wheel_inner_y - raft_edge_y, shaft_z])
-                    rotate([-90, 0, 0]) paddle_wheel();
+                    rotate([-90, 0, 0])
+                        paddle_wheel(radius = wheel_radius, width = wheel_width,
+                                     shaft_diameter = tt_shaft_diameter,
+                                     shaft_flat = tt_shaft_flat,
+                                     clearance = shaft_clearance);
         }
 
 // Dentro do pote: bateria no fundo, placa em cima
