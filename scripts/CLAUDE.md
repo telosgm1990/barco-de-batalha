@@ -38,8 +38,13 @@ scripts/
   [pyproject.toml](pyproject.toml), e a tabela do [README.md](README.md).
   Depois, rode o `install-python-venv.ps1` de novo pra criar o alias.
 - **`common/`** é pra código que dois scripts usam — não pra "talvez um dia".
-  Caminho do repo sai de `common.repo.get_root()`: **nunca caminho absoluto de
-  máquina** num script.
+  **Nunca caminho absoluto de máquina** num script.
+- **Camadas e dependências** (regra da raiz, seção 12): a abstração é um
+  `typing.Protocol` e a concreta mora no mesmo módulo (`repo.Repository` e
+  `repo.GitRepository`). A lógica recebe a abstração por parâmetro; quem cria
+  a concreta é o `__main__.py`.
+- **Testes** em `tests/`, com peça falsa no lugar da abstração. Rodar a partir
+  de `scripts/`: `python -m unittest discover -s tests -t .`
 - **Dependência** entra no `pyproject.toml`, nunca `pip install` solto. Se o
   script só usa biblioteca padrão, diga isso na docstring do `__main__` — é o
   que deixa ele rodar sem `.venv`.

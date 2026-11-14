@@ -1,21 +1,15 @@
 /*
- * Controle remoto pelo celular: a rede Wi-Fi do barco, a página do joystick e o
- * WebSocket por onde chegam os comandos e sai a telemetria.
+ * Abstração: o controle remoto — de onde vêm os comandos do joystick e pra
+ * onde vai a telemetria. A camada de cima (o barco) depende disto; quem
+ * implementa é WifiRemote.
  */
 #pragma once
 
 // Includes
-#include <cstdint> // uint32_t, int8_t
+#include <cstdint> // uint32_t
 
 // Enums/structs
-namespace remote {
-
-struct config_st {
-    const char *ssid;
-    const char *password;
-    int channel;
-    int8_t max_tx_power_qdbm; // 0 = padrão da placa
-};
+namespace services {
 
 struct command_st {
     float x;              // -1 a 1, pro lado
@@ -24,21 +18,24 @@ struct command_st {
     bool valid;           // já chegou algum comando desde que ligou
 };
 
-// Funções
+// Classes
 
-// Guarde a configuração da rede
-void init(const config_st &config);
+class Remote {
+  public:
+    // Suba o controle (rede, página...); false se não deu
+    virtual bool begin() = 0;
 
-// Suba a rede e o servidor da página
-bool begin();
+    // Último comando que chegou do joystick
+    virtual command_st get_command() = 0;
 
-// Último comando que chegou do joystick
-command_st get_command();
+    // Diga se tem alguém com o controle aberto
+    virtual bool is_connected() = 0;
 
-// Diga se tem um celular com a página aberta
-bool is_connected();
+    // Mande a telemetria, se tiver alguém ouvindo
+    virtual void send_telemetry(const char *text) = 0;
 
-// Mande a telemetria pra página, se tiver alguém ouvindo
-void send_telemetry(const char *text);
+  protected:
+    ~Remote() = default;
+};
 
-} // namespace remote
+} // namespace services

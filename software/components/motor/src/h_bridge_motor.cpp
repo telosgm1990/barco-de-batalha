@@ -1,17 +1,16 @@
 // Includes
-#include "components/motor.hpp" // Motor
+#include "components/h_bridge_motor.hpp" // HBridgeMotor
 
 #include "common/math.hpp" // clamp
 
 // Funções públicas
 namespace components {
 
-void Motor::begin() {
-    _in1.begin();
-    _in2.begin();
+void HBridgeMotor::begin() {
+    set_speed(0.0f);
 }
 
-void Motor::set_speed(float speed) {
+void HBridgeMotor::set_speed(float speed) {
     speed = common::clamp(speed, -1.0f, 1.0f);
     if (_reversed) {
         speed = -speed;

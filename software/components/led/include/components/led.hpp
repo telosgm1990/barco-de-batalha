@@ -1,42 +1,31 @@
 /*
- * LED de status: aceso, apagado ou piscando num ritmo.
+ * Abstração: LED de status — aceso, apagado ou piscando num ritmo. A camada
+ * de cima depende disto; quem implementa é DigitalLed.
  */
 #pragma once
 
 // Includes
 #include <cstdint> // uint32_t
 
-#include "platform/gpio.hpp" // OutputPin
-
 // Classes
 namespace components {
 
 class Led {
   public:
-    // Guarde o pino; active_low quando ele acende com o pino em zero
-    constexpr Led(int pin, bool active_low)
-        : _pin(pin), _active_low(active_low) {
-    }
-
-    // Ligue o pino, com o LED apagado
-    void begin();
+    // Comece apagado
+    virtual void begin() = 0;
 
     // Atualize a piscada; chame sempre, com o relógio em ms
-    void update(uint32_t now_ms);
+    virtual void update(uint32_t now_ms) = 0;
 
     // Acenda fixo (period_ms = 0) ou pisque com esse período
-    void set_blink(uint32_t period_ms);
+    virtual void set_blink(uint32_t period_ms) = 0;
 
     // Apague
-    void set_off();
+    virtual void set_off() = 0;
 
-  private:
-    void _write(bool on);
-
-    platform::OutputPin _pin;
-    bool _active_low;
-    bool _enabled       = false;
-    uint32_t _period_ms = 0;
+  protected:
+    ~Led() = default;
 };
 
 } // namespace components

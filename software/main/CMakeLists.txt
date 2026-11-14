@@ -1,4 +1,5 @@
-# main/: app_main e o bootstrap — a cola com a placa (pinos e peças).
+# main/: app_main e o bootstrap — o único lugar que conhece as classes
+# concretas e monta tudo.
 idf_component_register(
     SRCS "main.cpp"
     INCLUDE_DIRS "."
