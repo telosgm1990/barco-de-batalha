@@ -16,8 +16,9 @@ guerra.
 - Regras: [docs/regulamento.md](docs/regulamento.md) — fonte da verdade. **Não
   reabra a imagem do banner**: o `.md` é a transcrição.
 - Ideia e decisões: [docs/esbocando-a-ideia.md](docs/esbocando-a-ideia.md) —
-  nasceu esboço; as decisões **D1–D10** estão na seção 11. De D1 a D9 estão
-  fechadas (13/11/2026); a D10 (identidade) está parcial.
+  nasceu esboço; as decisões **D1–D11** estão na seção 11. De D1 a D9 estão
+  fechadas (13/11/2026); a D10 (identidade) está parcial; a D11 (protocolo e
+  app do celular) tem o protocolo assumido e o app em aberto.
 
 ## 2. Estado atual — Fase 1 ("Boia e anda")
 
@@ -29,8 +30,8 @@ seção 13 do esboço. Código, mecânica e hardware liberados pelo Capitão em
 Regras que valem sempre:
 
 1. **Não implemente a partir de decisão aberta.** Se a tarefa depende de uma D
-   aberta (hoje: a D10, e a D3 até o teste da bacia), pare e pergunte. Entregue
-   o que não depende dela.
+   aberta (hoje: a D10, o app da D11, e a D3 até o teste da bacia), pare e
+   pergunte. Entregue o que não depende dela.
 2. **Decisão fechada vai pro esboço**, na própria D, com a data. Não fica só no
    chat.
 3. **Ambíguo?** Entregue o que dá pra entregar e liste o que ficou em aberto.
@@ -117,7 +118,7 @@ git**. Não achou a ferramenta? Pergunte.
 ```
 docs/        regulamento, esboço, imagens            → docs/CLAUDE.md
 hardware/    esquemático KiCad, pinagem              → hardware/CLAUDE.md
-software/    firmware ESP-IDF em C++, página web     → software/CLAUDE.md
+software/    firmware/ (ESP-IDF, C++); app, se sair  → software/CLAUDE.md
 mechanics/   modelos OpenSCAD, peças impressas       → mechanics/CLAUDE.md
 scripts/     caçador de segredos, utilitários        → scripts/CLAUDE.md
 ```
@@ -165,9 +166,33 @@ do Capitão, 14/11/2026):
 
 | Linguagem | Abstração | Concreta | Quem monta |
 | --- | --- | --- | --- |
-| C++ (`software/`) | Classe com `virtual ... = 0` e destrutor protegido (`platform::DigitalOutput`) | `final`, na mesma camada (`platform::EspDigitalOutput`) | `main/main.cpp` |
+| C++ (`software/firmware/`) | Classe com `virtual ... = 0` e destrutor protegido (`platform::DigitalOutput`) | `final`, na mesma camada (`platform::EspDigitalOutput`) | `main/main.cpp` |
 | Python (`scripts/`) | `typing.Protocol` (`repo.Repository`) | Classe no mesmo módulo (`repo.GitRepository`) | O `__main__.py` de cada script |
 | OpenSCAD (`mechanics/`) | Não tem classe: o módulo recebe as medidas por parâmetro, em vez de ler variável global | — | O arquivo da peça ou do conjunto |
 
 Os modelos de OpenSCAD de hoje ainda leem as medidas dos arquivos comuns;
 eles migram pro jeito acima quando forem mexidos.
+
+## 13. Documentação do código
+
+O repo é também **material de estudo de embarcados**: código que um júnior lê,
+com a organização mínima de um sênior. Bem documentado pra estudo, sem
+comentário demais (regra do Capitão, 14/11/2026):
+
+1. **Tudo que é público tem comentário de documentação**, curto — a primeira
+   frase diz o que faz. Parâmetro e retorno só quando acrescentam algo
+   (unidade, faixa, quem é dono, o que volta no erro).
+2. **Função interna** (estática no C/C++, `_` no começo no Python): a
+   documentação fica **só no protótipo**, nunca repetida na definição.
+3. **O porquê vai no código; o histórico, no `git log`.** Nada de data, "antes
+   era", "agora" ou nome de quem mexeu — comentário é foto do código de hoje.
+4. **Comentário de passo** (dentro da função) só onde o código não se explica
+   sozinho: o porquê de uma escolha, um cuidado de hardware, de tarefa ou de
+   protocolo.
+
+| Linguagem | Jeito | Ferramenta |
+| --- | --- | --- |
+| C++ (`software/firmware/`) | Doxygen: `/** @file */` no topo de cada `.hpp`, `///` em cima da declaração, `///<` no fim da linha de membro; `/** */` com `@param`/`@return` quando precisar | `doxygen` no Docker, sem aviso (comando no README do firmware) |
+| Python (`scripts/`) | Docstring no módulo, classe e função pública; `Args:`/`Returns:` só quando acrescentam | `ruff` (regras `D` de docstring) |
+| OpenSCAD (`mechanics/`) | Bloco `//` em cima de cada módulo: o que desenha e uma linha por parâmetro, com a unidade | — |
+
