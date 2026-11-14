@@ -6,7 +6,8 @@ A papelada do estaleiro: regra do campeonato, ideia, decisão e conta.
 | --- | --- |
 | [regulamento.md](regulamento.md) | 📜 As regras oficiais, transcritas do banner, e as perguntas que faltam fazer pra organização |
 | [esbocando-a-ideia.md](esbocando-a-ideia.md) | 🚧 Esboço — estratégia, a tartaruga, energia, controle, orçamento rascunho, fases e as decisões D1–D10 (D1–D9 fechadas) |
-| [lista-de-materiais.md](lista-de-materiais.md) | 🛒 O que comprar pra Fase 1 — e, depois da compra, o orçamento com o preço pago |
+| [lista-de-materiais.md](lista-de-materiais.md) | 📦 O que foi comprado pra Fase 1 e quanto vai pra conta do barco |
+| [plano-do-casco.md](plano-do-casco.md) | 🚧 Dois caminhos pro casco — pote e isopor, ou tudo impresso — com a conta e a recomendação |
 | [imagens/](imagens/) | O banner original das provas e, no futuro, foto e desenho do barco |
 
 Documento marcado com 🚧 é material de discussão, não especificação.
