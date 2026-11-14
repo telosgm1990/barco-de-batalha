@@ -29,15 +29,23 @@ andando sozinho é pior que barco parado.
 ## Camadas
 
 ```
-main/          app_main e o bootstrap: os pinos (board.hpp) e as peças
-app/           o barco (o laço principal) e o failsafe
-services/      tração (joystick -> motores), protocolo da página, controle
-               remoto (Wi-Fi + página + WebSocket); page/ é a página do joystick
-components/    motor, bateria, LED
-platform/      o ESP-IDF por baixo: PWM, ADC, GPIO, Wi-Fi, HTTP, relógio, log
+main/          bootstrap: cria as peças concretas com os pinos (board.hpp)
+               e injeta cada uma onde precisa
+app/           Boat (o laço principal) e Failsafe
+services/      Remote -> WifiRemote (Wi-Fi + página + WebSocket), Drive
+               (joystick -> motores), protocol; page/ é a página do joystick
+components/    Motor -> HBridgeMotor, Led -> DigitalLed,
+               Battery -> DividerBattery
+platform/      as abstrações da placa e as concretas Esp* (ESP-IDF por baixo):
+               saída digital, PWM, ADC, relógio, log, rede, servidor
 common/        conta pequena: limitar, aproximar, zona morta
-tests/         testes no PC, sem placa
+tests/         testes no PC, sem placa, com peças falsas (fakes.hpp)
 ```
+
+`A -> B` é "abstração -> quem implementa": cada camada tem as duas, e a de
+cima só conhece a abstração da de baixo (regra 12 do
+[CLAUDE.md da raiz](../CLAUDE.md#12-camadas-e-dependências)). É isso que deixa
+o barco inteiro rodar nos testes do PC.
 
 Os pinos em `main/board.hpp` são cópia da
 [tabela de pinagem](../hardware/README.md#pinagem).

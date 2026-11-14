@@ -9,7 +9,18 @@ daqui, Node no `node_modules` daqui, ferramenta pesada no Docker.
 | [install-python-venv.ps1](install-python-venv.ps1) | — | Cria o `.venv` e instala os scripts com seus aliases |
 | [git-hooks/pre-commit](git-hooks/pre-commit) | — | Roda o caçador sozinho a cada commit |
 
-[common/](common/) é o código compartilhado entre os scripts.
+[common/](common/) é o código compartilhado entre os scripts — por exemplo o
+`repo.Repository` (a abstração do repositório) e o `repo.GitRepository` (o de
+verdade). A lógica recebe a abstração por parâmetro; quem monta o de verdade é
+o `__main__.py` de cada script. Nos testes entra um falso.
+
+## Testes
+
+A partir da pasta `scripts/`:
+
+```bash
+.venv/Scripts/python -m unittest discover -s tests -t .
+```
 
 ## Criando o ambiente
 
