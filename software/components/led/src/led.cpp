@@ -4,9 +4,8 @@
 // Funções públicas
 namespace components {
 
-void Led::init(int pin, bool active_low) {
-    _active_low = active_low;
-    _pin.init(pin);
+void Led::begin() {
+    _pin.begin();
     _write(false);
 }
 

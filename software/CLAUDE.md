@@ -69,6 +69,17 @@ errado: pare e discuta.
 - **Público antes de privado**, no arquivo e na classe.
 - **Ordem das funções:** `init` → `deinit` → `begin` → `update` → obtenção
   (`get`/`read`/`is`/`was`) → execução (`set`/`write` e ações).
+- **`init` × `begin`** (estilo do Capitão): **`init` só inicializa variáveis e
+  structs** — guarda pino, canal, configuração, zera estado; não mexe em
+  hardware. **`begin` dá a partida em processos** — configura o periférico,
+  sobe o Wi-Fi, roda a rotina de reset de um CI. No bootstrap: todo mundo faz
+  `init` primeiro, depois todo mundo faz `begin`.
+- **Em classe, o `init` é o construtor** — `constexpr` sempre que der. As
+  peças são objetos estáticos, construídos antes do `app_main`: o construtor
+  só guarda valores e nunca encosta em hardware nem no ESP-IDF. No `main/`
+  elas são `constinit` — se um construtor deixar de ser `constexpr`, o
+  compilador reclama. Serviço (`namespace`) não tem construtor, então
+  continua com `init()`.
 - **Nomes:** `snake_case` pra função, método e variável; `PascalCase` pra
   classe; struct simples com sufixo `_st`, enum com `_e`; constante e macro em
   `MAIUSCULO`. **`_` no começo = privado** (membro e função estática). Serviço

@@ -22,7 +22,7 @@ struct server_config_st {
 // Funções
 
 // Suba o servidor: a página em "/" e o WebSocket em "/ws"
-bool start(const server_config_st &config);
+bool begin(const server_config_st &config);
 
 // Diga se o cliente ainda está com o WebSocket aberto
 bool is_client_open(int client);

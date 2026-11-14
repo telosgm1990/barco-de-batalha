@@ -14,14 +14,20 @@ namespace components {
 
 class Motor {
   public:
-    // Ligue o motor às duas entradas da ponte H; reversed inverte o sentido
-    void init(
+    // Guarde as duas entradas da ponte H; reversed inverte o sentido
+    constexpr Motor(
         int pin_in1,
         int channel_in1,
         int pin_in2,
         int channel_in2,
         bool reversed
-    );
+    )
+        : _in1(pin_in1, channel_in1), _in2(pin_in2, channel_in2),
+          _reversed(reversed) {
+    }
+
+    // Ligue o PWM das duas entradas, com o motor parado
+    void begin();
 
     // Velocidade de -1 (ré cheia) a 1 (frente cheia)
     void set_speed(float speed);
@@ -29,7 +35,7 @@ class Motor {
   private:
     platform::PwmOutput _in1;
     platform::PwmOutput _in2;
-    bool _reversed = false;
+    bool _reversed;
 };
 
 } // namespace components

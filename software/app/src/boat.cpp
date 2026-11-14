@@ -16,7 +16,7 @@ static constexpr uint32_t LED_FAILSAFE_MS = 200;
 
 static boat::parts_st _parts   = {};
 static boat::tuning_st _tuning = {};
-static app::Failsafe _failsafe;
+static app::Failsafe _failsafe{0}; // o tempo de verdade chega no init
 static uint32_t _last_update_ms    = 0;
 static uint32_t _last_telemetry_ms = 0;
 static bool _was_tripped           = true;
@@ -33,11 +33,15 @@ void init(
     const tuning_st &tuning,
     const remote::config_st &remote_config
 ) {
-    _parts  = parts;
-    _tuning = tuning;
-    _failsafe.init(tuning.failsafe_timeout_ms);
+    _parts    = parts;
+    _tuning   = tuning;
+    _failsafe = app::Failsafe(tuning.failsafe_timeout_ms);
     drive::init(tuning.slew_per_second, tuning.deadzone);
     remote::init(remote_config);
+}
+
+void begin() {
+    remote::begin();
     platform::log::info(TAG, "DonaTelos acordou. Devagar e sempre.");
 }
 

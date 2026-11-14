@@ -4,9 +4,9 @@
 #include <atomic> // std::atomic
 
 #include "platform/clock.hpp"    // millis
-#include "platform/http.hpp"     // start, send_text
+#include "platform/http.hpp"     // begin, send_text
 #include "platform/log.hpp"      // info
-#include "platform/wifi.hpp"     // start_ap
+#include "platform/wifi.hpp"     // begin_ap
 #include "services/protocol.hpp" // parse_joystick
 
 // Constantes/variáveis estáticas
@@ -15,6 +15,8 @@ static constexpr const char *TAG = "remote";
 // A página, embutida no firmware pelo CMakeLists.txt (EMBED_TXTFILES)
 extern const char _page_start[] asm("_binary_index_html_start");
 extern const char _page_end[] asm("_binary_index_html_end");
+
+static remote::config_st _config = {};
 
 // O comando chega pela tarefa do servidor e é lido pelo laço principal
 static std::atomic<int32_t> _packed_xy{0};
@@ -28,14 +30,22 @@ static void _on_text(const char *text, size_t length, int client);
 // Funções públicas
 namespace remote {
 
-bool init(const config_st &config) {
+void init(const config_st &config) {
+    _config = config;
+    _packed_xy.store(0);
+    _received_ms.store(0);
+    _valid.store(false);
+    _client.store(-1);
+}
+
+bool begin() {
     platform::wifi::ap_config_st ap = {
-        config.ssid,
-        config.password,
-        config.channel,
-        config.max_tx_power_qdbm
+        _config.ssid,
+        _config.password,
+        _config.channel,
+        _config.max_tx_power_qdbm
     };
-    if (!platform::wifi::start_ap(ap)) {
+    if (!platform::wifi::begin_ap(ap)) {
         platform::log::warn(TAG, "Wi-Fi não subiu");
         return false;
     }
@@ -45,14 +55,14 @@ bool init(const config_st &config) {
         static_cast<size_t>(_page_end - _page_start - 1),
         _on_text
     };
-    if (!platform::http::start(server)) {
+    if (!platform::http::begin(server)) {
         platform::log::warn(TAG, "servidor da página não subiu");
         return false;
     }
     platform::log::info(
         TAG,
         "rede \"%s\" no ar: abra http://192.168.4.1",
-        config.ssid
+        _config.ssid
     );
     return true;
 }

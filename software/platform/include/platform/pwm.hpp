@@ -11,17 +11,23 @@ namespace platform {
 
 class PwmOutput {
   public:
-    // Configure o timer compartilhado (uma vez, antes dos canais)
-    static void init_timer(uint32_t frequency_hz);
+    // Guarde o pino e o canal — sem mexer no hardware
+    constexpr PwmOutput(int pin, int channel) : _pin(pin), _channel(channel) {
+    }
 
-    // Ligue um canal a um pino, começando parado
-    void init(int pin, int channel);
+    // Ligue o timer compartilhado (uma vez, antes de qualquer canal)
+    static void begin_timer(uint32_t frequency_hz);
+
+    // Ligue o canal ao pino, começando parado
+    void begin();
 
     // Escreva o ciclo de trabalho, de 0 (desligado) a 1 (sempre ligado)
     void write(float duty);
 
   private:
-    int _channel = -1;
+    int _pin;
+    int _channel;
+    bool _started = false;
 };
 
 } // namespace platform

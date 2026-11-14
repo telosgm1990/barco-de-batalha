@@ -20,6 +20,6 @@ struct ap_config_st {
 // Funções
 
 // Suba a rede do barco
-bool start_ap(const ap_config_st &config);
+bool begin_ap(const ap_config_st &config);
 
 } // namespace platform::wifi

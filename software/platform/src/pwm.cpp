@@ -12,7 +12,7 @@ static constexpr uint32_t DUTY_MAX           = (1u << 10) - 1;
 // Funções públicas
 namespace platform {
 
-void PwmOutput::init_timer(uint32_t frequency_hz) {
+void PwmOutput::begin_timer(uint32_t frequency_hz) {
     ledc_timer_config_t timer = {};
     timer.speed_mode          = MODE;
     timer.duty_resolution     = RESOLUTION;
@@ -22,20 +22,22 @@ void PwmOutput::init_timer(uint32_t frequency_hz) {
     ledc_timer_config(&timer);
 }
 
-void PwmOutput::init(int pin, int channel) {
-    _channel                     = channel;
+void PwmOutput::begin() {
+    if (_pin < 0 || _channel < 0) {
+        return;
+    }
     ledc_channel_config_t config = {};
-    config.gpio_num              = pin;
+    config.gpio_num              = _pin;
     config.speed_mode            = MODE;
-    config.channel               = static_cast<ledc_channel_t>(channel);
+    config.channel               = static_cast<ledc_channel_t>(_channel);
     config.timer_sel             = TIMER;
     config.duty                  = 0;
     config.hpoint                = 0;
-    ledc_channel_config(&config);
+    _started                     = ledc_channel_config(&config) == ESP_OK;
 }
 
 void PwmOutput::write(float duty) {
-    if (_channel < 0) {
+    if (!_started) {
         return;
     }
     // Limite o ciclo e converta pra contagem do timer

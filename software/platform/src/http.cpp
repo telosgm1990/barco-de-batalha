@@ -18,7 +18,7 @@ static esp_err_t _ws_handler(httpd_req_t *request);
 // Funções públicas
 namespace platform::http {
 
-bool start(const server_config_st &config) {
+bool begin(const server_config_st &config) {
     _config                      = config;
     httpd_config_t server_config = HTTPD_DEFAULT_CONFIG();
     if (httpd_start(&_server, &server_config) != ESP_OK) {

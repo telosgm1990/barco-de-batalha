@@ -13,8 +13,13 @@ namespace components {
 
 class Led {
   public:
-    // Prepare o LED; active_low quando ele acende com o pino em zero
-    void init(int pin, bool active_low);
+    // Guarde o pino; active_low quando ele acende com o pino em zero
+    constexpr Led(int pin, bool active_low)
+        : _pin(pin), _active_low(active_low) {
+    }
+
+    // Ligue o pino, com o LED apagado
+    void begin();
 
     // Atualize a piscada; chame sempre, com o relógio em ms
     void update(uint32_t now_ms);
@@ -29,7 +34,7 @@ class Led {
     void _write(bool on);
 
     platform::OutputPin _pin;
-    bool _active_low    = false;
+    bool _active_low;
     bool _enabled       = false;
     uint32_t _period_ms = 0;
 };
