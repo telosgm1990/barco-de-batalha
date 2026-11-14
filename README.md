@@ -34,10 +34,11 @@ do projeto perde ponto. Código, modelo 3D e esquemático são escritos por IA
 | Caçador de segredos (pré-commit) | ✅ |
 | Ambiente de desenvolvimento (ESP-IDF, OpenSCAD, KiCad) | ✅ montado |
 | [Lista de materiais da Fase 1](docs/lista-de-materiais.md) | 📦 comprada em 14/11; entrega estimada pra 24/11 |
-| [Plano do casco](docs/plano-do-casco.md) | 🚧 caminho A (pote e isopor) por ora; os dois vão ser projetados |
-| [Montagem ilustrada](docs/montagem.md) | 🖼️ como os módulos se ligam — pinagem espera o esquemático |
+| [Plano do casco](docs/plano-do-casco.md) | 🚧 caminho A (pote e isopor) por ora |
+| [Mecânica](mechanics/README.md) | ✅ os dois caminhos projetados em OpenSCAD, com renders; medidas do pote e do motor *a medir* |
+| [Esquemático e pinagem](hardware/README.md) | ✅ KiCad 10, ERC limpo |
+| [Montagem ilustrada](docs/montagem.md) | ✅ com a pinagem do esquemático |
 | Firmware | 🚧 esqueleto: compila e dá sinal de vida |
-| Hardware, mecânica | ❌ nada ainda — esperam a compra |
 
 ## Estrutura
 

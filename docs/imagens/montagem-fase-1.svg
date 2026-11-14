@@ -16,19 +16,19 @@
 <rect x="640" y="176" width="24" height="18" rx="5" fill="#E6E7EA" />
 <circle cx="652" cy="185" r="5" fill="#B9BCC3"/>
 <text x="590" y="134" font-family="Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">ESP32-C3 SuperMini</text>
-<text x="495" y="232" font-family="Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#E4E5EA" text-anchor="middle">BAT*</text>
+<text x="495" y="232" font-family="Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#E4E5EA" text-anchor="middle">IO3</text>
 <circle cx="495" cy="246" r="6" fill="#F4F4F6" stroke="#D4B35A" stroke-width="2.5"/>
 <text x="525" y="232" font-family="Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#E4E5EA" text-anchor="middle">5V</text>
 <circle cx="525" cy="246" r="6" fill="#F4F4F6" stroke="#D4B35A" stroke-width="2.5"/>
 <text x="555" y="232" font-family="Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#E4E5EA" text-anchor="middle">GND</text>
 <circle cx="555" cy="246" r="6" fill="#F4F4F6" stroke="#D4B35A" stroke-width="2.5"/>
-<text x="590" y="232" font-family="Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#E4E5EA" text-anchor="middle">IN1*</text>
+<text x="590" y="232" font-family="Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#E4E5EA" text-anchor="middle">IO4</text>
 <circle cx="590" cy="246" r="6" fill="#F4F4F6" stroke="#D4B35A" stroke-width="2.5"/>
-<text x="620" y="232" font-family="Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#E4E5EA" text-anchor="middle">IN2*</text>
+<text x="620" y="232" font-family="Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#E4E5EA" text-anchor="middle">IO5</text>
 <circle cx="620" cy="246" r="6" fill="#F4F4F6" stroke="#D4B35A" stroke-width="2.5"/>
-<text x="650" y="232" font-family="Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#E4E5EA" text-anchor="middle">IN3*</text>
+<text x="650" y="232" font-family="Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#E4E5EA" text-anchor="middle">IO6</text>
 <circle cx="650" cy="246" r="6" fill="#F4F4F6" stroke="#D4B35A" stroke-width="2.5"/>
-<text x="680" y="232" font-family="Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#E4E5EA" text-anchor="middle">IN4*</text>
+<text x="680" y="232" font-family="Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#E4E5EA" text-anchor="middle">IO7</text>
 <circle cx="680" cy="246" r="6" fill="#F4F4F6" stroke="#D4B35A" stroke-width="2.5"/>
 <rect x="790" y="330" width="180" height="160" rx="12" fill="#EE8E8A" filter="url(#sh)"/>
 <circle cx="816" cy="344" r="6" fill="#F4F4F6" stroke="#D4B35A" stroke-width="2.5"/>
@@ -272,5 +272,5 @@
 <line x1="892.0" y1="696" x2="902.0" y2="696" stroke="#E9B44C" stroke-width="5" stroke-linecap="round"/>
 <line x1="906.0" y1="696" x2="916.0" y2="696" stroke="#A47551" stroke-width="5" stroke-linecap="round"/>
 <text x="928" y="700" font-family="Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="normal" fill="#4B4D5C" text-anchor="start">Motores</text>
-<text x="40" y="728" font-family="Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="normal" fill="#6B6E7B" text-anchor="start">* IN1–IN4 e BAT: o GPIO sai do esquemático, em hardware/. A ordem dos pinos aqui é ilustrativa.</text>
+<text x="40" y="728" font-family="Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="normal" fill="#6B6E7B" text-anchor="start">Pinos da ESP (hardware/README.md): IO3 lê a bateria; IO4–IO7 vão nos IN1–IN4 da ponte H. A ordem dos pinos aqui é ilustrativa.</text>
 </svg>

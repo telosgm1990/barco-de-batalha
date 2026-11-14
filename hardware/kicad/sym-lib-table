@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "DonaTelos") (type "KiCad") (uri "${KIPRJMOD}/donatelos.kicad_sym") (options "") (descr "Símbolos da DonaTelos"))
+)
