@@ -268,6 +268,21 @@ desenhar o **esquemático** (documenta e mostra pro juiz), sem fabricar nada.
 - **Um modo por prova:** econômico (Autonomia), fino (Manobrabilidade), tudo
   (Arrancada e Salto) e guerra (tudo, com rampa de aceleração contra brownout).
 
+### 7.1 A medir na bancada
+
+O firmware da Fase 1 nasceu com estes números em `software/main/board.hpp`,
+todos *chute* até a bancada ou a bacia dizerem o valor:
+
+| Número | Hoje | Como medir |
+| --- | --- | --- |
+| Tempo do failsafe | 500 ms | Desligar o Wi-Fi do celular com o barco andando na bancada e ver se ele para rápido o bastante, sem parar à toa com o sinal bom |
+| Rampa da tração | 3 (cheio em ~0,3 s) | Osciloscópio na alimentação da ESP, motor travado com a mão: aumentar a rampa até a tensão não afundar a ponto de reiniciar |
+| Frequência do PWM | 5 kHz | Ouvir o motor e sentir a força em baixa velocidade; conferir o limite da ponte H |
+| Zona morta do joystick | 5% | No celular: o barco não pode andar com o dedo solto |
+| LED aceso em nível baixo | sim | Gravar e olhar: se acender ao contrário, trocar |
+| Sentido de cada motor | normal | Joystick pra frente, os dois pra frente; senão, inverter o do lado errado |
+| Canal e potência do Wi-Fi | canal 1, padrão | Testar com vários celulares por perto; se cair, trocar o canal ou baixar a potência (antena da SuperMini) |
+
 ## 8. Orçamento rascunho
 
 > ⚠️ **Chute de ordem de grandeza**, só pra ver se a conta fecha. Fora a ESP,

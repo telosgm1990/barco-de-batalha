@@ -6,3 +6,11 @@ CONFIG_IDF_TARGET="esp32c3"
 
 # Log pela USB nativa do chip — é a única USB que a SuperMini tem
 CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y
+
+# WebSocket no servidor HTTP: é por ele que o joystick conversa com o barco
+CONFIG_HTTPD_WS_SUPPORT=y
+
+# Wi-Fi + servidor deixam o firmware perto de 1 MB: partição de app de 1,5 MB
+# (cabe em flash de 2 MB ou mais) e compilação otimizada por tamanho
+CONFIG_PARTITION_TABLE_SINGLE_APP_LARGE=y
+CONFIG_COMPILER_OPTIMIZATION_SIZE=y
