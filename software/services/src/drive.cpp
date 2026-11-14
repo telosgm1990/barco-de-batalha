@@ -11,15 +11,23 @@ namespace services {
 void Drive::update(float dt_seconds, float x, float y) {
     x = common::deadzone(common::clamp(x, -1.0f, 1.0f), _deadzone);
     y = common::deadzone(common::clamp(y, -1.0f, 1.0f), _deadzone);
+    x = shape(x, _profile.expo);
+    y = shape(y, _profile.expo);
     wheels_st target = mix(x, y);
+    target.left *= _profile.max_output;
+    target.right *= _profile.max_output;
     // Chegue no alvo aos poucos, no máximo a rampa por segundo
-    float step    = _slew_per_second * dt_seconds;
+    float step    = _profile.slew_per_second * dt_seconds;
     _output.left  = common::approach(_output.left, target.left, step);
     _output.right = common::approach(_output.right, target.right, step);
 }
 
 wheels_st Drive::get_output() const {
     return _output;
+}
+
+void Drive::set_profile(const drive_profile_st &profile) {
+    _profile = profile;
 }
 
 void Drive::stop() {
@@ -38,6 +46,11 @@ wheels_st Drive::mix(float x, float y) {
         wheels.right /= biggest;
     }
     return wheels;
+}
+
+float Drive::shape(float value, float expo) {
+    expo = common::clamp(expo, 0.0f, 1.0f);
+    return (1.0f - expo) * value + expo * value * value * value;
 }
 
 } // namespace services

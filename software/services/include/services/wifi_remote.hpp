@@ -64,6 +64,8 @@ class WifiRemote final : public Remote, private platform::TextListener {
     std::atomic<uint32_t> _received_ms{0};
     std::atomic<bool> _valid{false};
     std::atomic<int> _client{-1};
+    std::atomic<int> _mode{0};
+    std::atomic<uint32_t> _settings_seq{0};
 };
 
 } // namespace services

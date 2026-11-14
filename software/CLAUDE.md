@@ -5,9 +5,9 @@ Regras gerais em [../CLAUDE.md](../CLAUDE.md). Aqui só o que é do firmware.
 ## Estado
 
 🚧 **Firmware da Fase 1 escrito** (14/11/2026): Wi-Fi em ponto de acesso,
-página do joystick por WebSocket, tração com rampa, failsafe, leitura da
-bateria e LED de status. Compila e passa nos testes do PC; **ainda não rodou
-na placa**. Comandos: [README.md](README.md).
+página do joystick por WebSocket, tração com rampa e um modo por prova,
+failsafe, leitura da bateria e LED de status. Compila e passa nos testes do
+PC; **ainda não rodou na placa**. Comandos: [README.md](README.md).
 
 **Antes de dizer que terminou:** compile, rode os testes do PC e passe o
 `clang-format` em tudo — os três comandos estão no README.

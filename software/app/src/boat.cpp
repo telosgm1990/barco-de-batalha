@@ -24,6 +24,7 @@ void Boat::update(uint32_t now_ms) {
 
     // Vigie o failsafe antes de qualquer coisa
     services::command_st command = _parts.remote.get_command();
+    _apply_settings(command);
     _failsafe.update(now_ms, command.received_ms, command.valid);
     bool tripped = _failsafe.is_tripped();
     if (tripped != _was_tripped) {
@@ -54,6 +55,24 @@ void Boat::update(uint32_t now_ms) {
     }
 }
 
+services::drive_mode_e Boat::get_mode() const {
+    return _mode;
+}
+
+// A página pediu ajuste novo: troque o modo (o perfil da tração)
+void Boat::_apply_settings(const services::command_st &command) {
+    if (command.settings_seq == _settings_seq) {
+        return;
+    }
+    _settings_seq = command.settings_seq;
+    if (command.mode != _mode) {
+        _mode = command.mode;
+        _drive.set_profile(_tuning.profiles[services::mode_index(_mode)]);
+        _parts.logger
+            .info(TAG, "modo %s", services::protocol::mode_name(_mode));
+    }
+}
+
 // LED: pisca devagar esperando, aceso com controle, pisca rápido no failsafe
 void Boat::_update_led(uint32_t now_ms, bool connected, bool tripped) {
     if (!connected) {
@@ -69,13 +88,10 @@ void Boat::_update_led(uint32_t now_ms, bool connected, bool tripped) {
 }
 
 void Boat::_send_telemetry(bool tripped) {
-    char text[48];
-    services::protocol::format_telemetry(
-        text,
-        sizeof(text),
-        _parts.battery.read_volts(),
-        tripped
-    );
+    char text[80];
+    services::protocol::telemetry_st telemetry =
+        {_parts.battery.read_volts(), tripped, _mode};
+    services::protocol::format_telemetry(text, sizeof(text), telemetry);
     _parts.remote.send_telemetry(text);
 }
 

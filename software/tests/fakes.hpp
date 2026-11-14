@@ -198,9 +198,10 @@ class Remote final : public services::Remote {
         telemetry_count++;
     }
 
-    services::command_st command = {0.0f, 0.0f, 0, false};
-    bool connected               = false;
-    bool started                 = false;
+    services::command_st command =
+        {0.0f, 0.0f, 0, false, services::drive_mode_e::ECONOMY, 0};
+    bool connected = false;
+    bool started   = false;
     std::string last_telemetry;
     int telemetry_count = 0;
 };

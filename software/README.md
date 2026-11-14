@@ -4,7 +4,7 @@ O firmware do barco (ESP32-C3) e a página de controle que ele serve pro
 celular.
 
 > 🚧 **Firmware da Fase 1 pronto pra bancada:** o barco cria uma rede Wi-Fi,
-> serve uma página com joystick, mistura o joystick nos dois motores com rampa,
+> serve uma página com joystick e um botão por prova, mistura o joystick nos dois motores com rampa,
 > para tudo se o celular sumir (failsafe) e manda o nível da bateria pra
 > página. Compila sem aviso e passa nos testes do PC; **ainda não rodou na
 > placa** — os números marcados *a medir* saem da bancada.
@@ -25,6 +25,21 @@ celular.
 A página manda o joystick 20 vezes por segundo, mesmo parada. Se nada chegar
 por meio segundo (*a medir*), o barco para os motores — barco sem controle
 andando sozinho é pior que barco parado.
+
+### Modos por prova
+
+Os quatro botões em cima do joystick trocam o jeito de andar. O barco liga no
+**Eco**, o mais manso, e a página acende o modo que ele confirmou.
+
+| Botão | Pra prova | Jeito |
+| --- | --- | --- |
+| **Eco** | Autonomia | Metade da força e rampa mansa: devagar e sempre |
+| **Fino** | Manobrabilidade | Pouca força e joystick suave no meio, pra contornar boia sem encostar |
+| **Tudo** | Arrancada e Salto | Força toda, rampa rápida |
+| **Guerra** | Grande Final | Força toda, mas com rampa pra o empurrão não derrubar a placa |
+
+Os números de cada modo (força máxima, rampa e curva do joystick) estão em
+`main/board.hpp` — todos *chute* até a bacia.
 
 ## Camadas
 

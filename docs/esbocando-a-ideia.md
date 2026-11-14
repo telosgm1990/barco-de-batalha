@@ -276,7 +276,7 @@ todos *chute* até a bancada ou a bacia dizerem o valor:
 | Número | Hoje | Como medir |
 | --- | --- | --- |
 | Tempo do failsafe | 500 ms | Desligar o Wi-Fi do celular com o barco andando na bancada e ver se ele para rápido o bastante, sem parar à toa com o sinal bom |
-| Rampa da tração | 3 (cheio em ~0,3 s) | Osciloscópio na alimentação da ESP, motor travado com a mão: aumentar a rampa até a tensão não afundar a ponto de reiniciar |
+| Perfil de cada modo (velocidade máxima, rampa, curva) | eco 50% / rampa 1; fino 60% / 2, curva 0,6; tudo 100% / 4; guerra 100% / 2, curva 0,2 | Rampa: osciloscópio na alimentação da ESP, motor travado com a mão, subir até a tensão quase afundar a ponto de reiniciar. Velocidade e curva: na bacia, cada modo na prova dele (eco no tempo de bateria, fino no slalom) |
 | Frequência do PWM | 5 kHz | Ouvir o motor e sentir a força em baixa velocidade; conferir o limite da ponte H |
 | Zona morta do joystick | 5% | No celular: o barco não pode andar com o dedo solto |
 | LED aceso em nível baixo | sim | Gravar e olhar: se acender ao contrário, trocar |

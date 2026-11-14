@@ -10,6 +10,8 @@
 // Includes
 #include <cstdint> // uint32_t
 
+#include "services/drive.hpp" // drive_profile_st, drive_mode_e
+
 // Defines
 namespace board {
 
@@ -41,9 +43,20 @@ constexpr bool RIGHT_MOTOR_REVERSED = false; // a medir, na bancada
 constexpr uint32_t PWM_FREQUENCY_HZ    = 5000;  // chute — ajustar na bancada
 constexpr uint32_t LOOP_PERIOD_MS      = 20;    // 50 voltas por segundo
 constexpr uint32_t FAILSAFE_TIMEOUT_MS = 500;   // a medir
-constexpr float DRIVE_SLEW_PER_SECOND  = 3.0f;  // a medir — rampa anti-brownout
 constexpr float JOYSTICK_DEADZONE      = 0.05f; // chute
 constexpr uint32_t TELEMETRY_PERIOD_MS = 500;
+
+// ---------------------------------------------------------------- Modos
+
+// Um perfil por prova: velocidade máxima, rampa (fração da velocidade cheia
+// por segundo) e curva do joystick. Tudo chute — afinar na bacia.
+constexpr services::drive_profile_st PROFILE_ECONOMY = {0.5f, 1.0f, 0.0f};
+constexpr services::drive_profile_st PROFILE_PRECISE = {0.6f, 2.0f, 0.6f};
+constexpr services::drive_profile_st PROFILE_FULL    = {1.0f, 4.0f, 0.0f};
+// Guerra: tudo, mas com rampa contra o brownout no empurrão — a medir
+constexpr services::drive_profile_st PROFILE_WAR = {1.0f, 2.0f, 0.2f};
+// Liga no econômico: o mais manso, pra primeira vez na bancada
+constexpr services::drive_mode_e INITIAL_MODE = services::drive_mode_e::ECONOMY;
 
 // ---------------------------------------------------------------- Wi-Fi
 

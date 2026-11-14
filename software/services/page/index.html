@@ -36,6 +36,13 @@
           border-radius: 14px; padding: 12px; }
   .card small { color: var(--soft); display: block; font-size: 12px; }
   .card b { font-size: 22px; }
+  .modes { width: 100%; max-width: 420px; display: grid;
+           grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .modes button { border: 1px solid var(--line); border-radius: 12px;
+                  background: var(--card); color: var(--ink); padding: 10px 4px;
+                  font-size: 14px; font-weight: 600; }
+  .modes button.on { background: var(--band); border-color: var(--band);
+                     color: #fff; }
   #stop { width: 100%; max-width: 420px; border: 0; border-radius: 14px;
           padding: 16px; font-size: 18px; font-weight: 700; color: #fff;
           background: var(--coral); }
@@ -46,6 +53,12 @@
   <h1>🐢 DonaTelos</h1>
   <div id="state" class="pill">conectando…</div>
 </header>
+<div class="modes" id="modes">
+  <button data-mode="eco" class="on">Eco</button>
+  <button data-mode="fine">Fino</button>
+  <button data-mode="full">Tudo</button>
+  <button data-mode="war">Guerra</button>
+</div>
 <div id="pad"><div id="knob"></div></div>
 <div class="row">
   <div class="card"><small>Bateria</small><b id="bat">—</b></div>
@@ -86,6 +99,16 @@
   pad.addEventListener("pointercancel", release);
   document.getElementById("stop").addEventListener("pointerdown", () => setKnob(0, 0));
 
+  // Modos: o botão pede, a telemetria confirma (acende o modo que o barco usa)
+  const modes = document.getElementById("modes");
+  function showMode(mode) {
+    for (const b of modes.children) b.classList.toggle("on", b.dataset.mode === mode);
+  }
+  modes.addEventListener("click", ev => {
+    const mode = ev.target.dataset && ev.target.dataset.mode;
+    if (mode && ws && ws.readyState === WebSocket.OPEN) ws.send("mode=" + mode);
+  });
+
   // WebSocket: manda o comando 20 vezes por segundo — mesmo parado, é o
   // batimento que o failsafe do barco vigia
   function connect() {
@@ -99,6 +122,7 @@
       try {
         const t = JSON.parse(ev.data);
         document.getElementById("bat").textContent = t.bat.toFixed(2) + " V";
+        if (t.mode) showMode(t.mode);
         if (t.fs) { state.textContent = "failsafe"; state.className = "pill bad"; }
         else { state.textContent = "conectado"; state.className = "pill ok"; }
       } catch (e) {}

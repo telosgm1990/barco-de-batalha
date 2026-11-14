@@ -27,9 +27,11 @@ namespace app {
 // Os números de comportamento — vários ainda a medir na bancada
 struct tuning_st {
     uint32_t failsafe_timeout_ms;
-    float slew_per_second;
     float deadzone;
     uint32_t telemetry_period_ms;
+    // Um perfil por modo, na ordem de services::drive_mode_e
+    services::drive_profile_st profiles[services::DRIVE_MODE_COUNT];
+    services::drive_mode_e initial_mode;
 };
 
 // As peças que o barco usa, já montadas
@@ -49,7 +51,11 @@ class Boat {
     // Receba as peças e os números
     constexpr Boat(const parts_st &parts, const tuning_st &tuning)
         : _parts(parts), _tuning(tuning), _failsafe(tuning.failsafe_timeout_ms),
-          _drive(tuning.slew_per_second, tuning.deadzone) {
+          _drive(
+              tuning.deadzone,
+              tuning.profiles[services::mode_index(tuning.initial_mode)]
+          ),
+          _mode(tuning.initial_mode) {
     }
 
     // Suba o controle remoto (rede e página)
@@ -58,7 +64,11 @@ class Boat {
     // Uma volta do laço principal
     void update(uint32_t now_ms);
 
+    // Modo em que o barco está andando
+    services::drive_mode_e get_mode() const;
+
   private:
+    void _apply_settings(const services::command_st &command);
     void _update_led(uint32_t now_ms, bool connected, bool tripped);
     void _send_telemetry(bool tripped);
 
@@ -66,6 +76,8 @@ class Boat {
     tuning_st _tuning;
     Failsafe _failsafe;
     services::Drive _drive;
+    services::drive_mode_e _mode;
+    uint32_t _settings_seq      = 0;
     uint32_t _last_update_ms    = 0;
     uint32_t _last_telemetry_ms = 0;
     bool _was_tripped           = true;

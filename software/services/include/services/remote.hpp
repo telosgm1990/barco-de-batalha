@@ -8,14 +8,20 @@
 // Includes
 #include <cstdint> // uint32_t
 
+#include "services/drive.hpp" // drive_mode_e
+
 // Enums/structs
 namespace services {
 
 struct command_st {
     float x;              // -1 a 1, pro lado
     float y;              // -1 a 1, pra frente
-    uint32_t received_ms; // quando chegou, no relógio da placa
-    bool valid;           // já chegou algum comando desde que ligou
+    uint32_t received_ms; // quando chegou o joystick, no relógio da placa
+    bool valid;           // já chegou algum joystick desde que ligou
+    // Ajustes pedidos pela página; settings_seq sobe a cada pedido novo, e
+    // zero quer dizer "ninguém pediu nada ainda"
+    drive_mode_e mode;
+    uint32_t settings_seq;
 };
 
 // Classes

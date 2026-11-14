@@ -98,9 +98,13 @@ constinit static services::WifiRemote _remote(
 constinit static app::Boat _boat(
     {_left_motor, _right_motor, _battery, _led, _remote, _logger},
     {board::FAILSAFE_TIMEOUT_MS,
-     board::DRIVE_SLEW_PER_SECOND,
      board::JOYSTICK_DEADZONE,
-     board::TELEMETRY_PERIOD_MS}
+     board::TELEMETRY_PERIOD_MS,
+     {board::PROFILE_ECONOMY,
+      board::PROFILE_PRECISE,
+      board::PROFILE_FULL,
+      board::PROFILE_WAR},
+     board::INITIAL_MODE}
 );
 
 // Ponto de entrada

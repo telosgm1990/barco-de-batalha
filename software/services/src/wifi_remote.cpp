@@ -1,7 +1,7 @@
 // Includes
 #include "services/wifi_remote.hpp" // WifiRemote
 
-#include "services/protocol.hpp" // parse_joystick
+#include "services/protocol.hpp" // parse_message
 
 // Constantes/variáveis estáticas
 static constexpr const char *TAG = "remote";
@@ -28,12 +28,14 @@ bool WifiRemote::begin() {
 }
 
 command_st WifiRemote::get_command() {
-    int32_t packed      = _packed_xy.load();
-    command_st command  = {};
-    command.x           = static_cast<int16_t>(packed & 0xFFFF) / 1000.0f;
-    command.y           = static_cast<int16_t>(packed >> 16) / 1000.0f;
-    command.received_ms = _received_ms.load();
-    command.valid       = _valid.load();
+    int32_t packed       = _packed_xy.load();
+    command_st command   = {};
+    command.x            = static_cast<int16_t>(packed & 0xFFFF) / 1000.0f;
+    command.y            = static_cast<int16_t>(packed >> 16) / 1000.0f;
+    command.received_ms  = _received_ms.load();
+    command.valid        = _valid.load();
+    command.mode         = static_cast<drive_mode_e>(_mode.load());
+    command.settings_seq = _settings_seq.load();
     return command;
 }
 
@@ -45,21 +47,31 @@ void WifiRemote::send_telemetry(const char *text) {
     _server.send_text(_client.load(), text);
 }
 
-// Guarde o comando que chegou, com a hora (em milésimos, pra caber junto)
+// Guarde o que chegou: joystick (com a hora, em milésimos pra caber junto) ou
+// ajuste — só o joystick conta como batimento pro failsafe
 void WifiRemote::on_text(const char *text, size_t length, int client) {
     (void)length;
-    float x = 0.0f;
-    float y = 0.0f;
-    if (!protocol::parse_joystick(text, &x, &y)) {
+    protocol::message_st message = {};
+    if (!protocol::parse_message(text, &message)) {
         return;
     }
-    int32_t packed =
-        (static_cast<int32_t>(static_cast<int16_t>(y * 1000)) << 16) |
-        static_cast<uint16_t>(static_cast<int16_t>(x * 1000));
-    _packed_xy.store(packed);
-    _received_ms.store(_clock.millis());
     _client.store(client);
-    _valid.store(true);
+    switch (message.type) {
+    case protocol::message_e::JOYSTICK: {
+        int32_t packed =
+            (static_cast<int32_t>(static_cast<int16_t>(message.y * 1000))
+             << 16) |
+            static_cast<uint16_t>(static_cast<int16_t>(message.x * 1000));
+        _packed_xy.store(packed);
+        _received_ms.store(_clock.millis());
+        _valid.store(true);
+        break;
+    }
+    case protocol::message_e::MODE:
+        _mode.store(mode_index(message.mode));
+        _settings_seq.fetch_add(1);
+        break;
+    }
 }
 
 } // namespace services

@@ -99,11 +99,16 @@ static void _test_mix() {
     // Ré
     w = Drive::mix(0.0f, -1.0f);
     CHECK(_near(w.left, -1.0f) && _near(w.right, -1.0f));
+    // Curva: sem expo é reta; com expo, o meio fica mais suave
+    CHECK(_near(Drive::shape(0.5f, 0.0f), 0.5f));
+    CHECK(Drive::shape(0.5f, 1.0f) < 0.2f);
+    CHECK(_near(Drive::shape(1.0f, 1.0f), 1.0f));
+    CHECK(_near(Drive::shape(-1.0f, 0.6f), -1.0f));
 }
 
 static void _test_drive_ramp() {
     // Rampa de 2 por segundo: em 0,1 s anda 0,2
-    services::Drive drive(2.0f, 0.05f);
+    services::Drive drive(0.05f, {1.0f, 2.0f, 0.0f});
     drive.update(0.1f, 0.0f, 1.0f);
     services::wheels_st w = drive.get_output();
     CHECK(_near(w.left, 0.2f) && _near(w.right, 0.2f));
@@ -113,12 +118,17 @@ static void _test_drive_ramp() {
     }
     w = drive.get_output();
     CHECK(_near(w.left, 1.0f) && _near(w.right, 1.0f));
+    // Perfil com limite de 0,5: a rampa desce até ele
+    drive.set_profile({0.5f, 10.0f, 0.0f});
+    drive.update(1.0f, 0.0f, 1.0f);
+    w = drive.get_output();
+    CHECK(_near(w.left, 0.5f) && _near(w.right, 0.5f));
     // stop zera na hora, sem rampa
     drive.stop();
     w = drive.get_output();
     CHECK(_near(w.left, 0.0f) && _near(w.right, 0.0f));
     // Zona morta: joystick quase no meio conta como parado
-    services::Drive quick(100.0f, 0.05f);
+    services::Drive quick(0.05f, {1.0f, 100.0f, 0.0f});
     quick.update(0.1f, 0.03f, 0.02f);
     w = quick.get_output();
     CHECK(_near(w.left, 0.0f) && _near(w.right, 0.0f));
@@ -126,28 +136,39 @@ static void _test_drive_ramp() {
 
 static void _test_protocol() {
     namespace protocol = services::protocol;
-    float x            = 9.0f;
-    float y            = 9.0f;
-    CHECK(protocol::parse_joystick("0,0", &x, &y));
-    CHECK(_near(x, 0.0f) && _near(y, 0.0f));
-    CHECK(protocol::parse_joystick("-50,100", &x, &y));
-    CHECK(_near(x, -0.5f) && _near(y, 1.0f));
+    using services::drive_mode_e;
+    protocol::message_st message = {};
+    CHECK(protocol::parse_message("0,0", &message));
+    CHECK(message.type == protocol::message_e::JOYSTICK);
+    CHECK(_near(message.x, 0.0f) && _near(message.y, 0.0f));
+    CHECK(protocol::parse_message("-50,100", &message));
+    CHECK(_near(message.x, -0.5f) && _near(message.y, 1.0f));
     // Fora da faixa: limita em 1
-    CHECK(protocol::parse_joystick("300,-300", &x, &y));
-    CHECK(_near(x, 1.0f) && _near(y, -1.0f));
+    CHECK(protocol::parse_message("300,-300", &message));
+    CHECK(_near(message.x, 1.0f) && _near(message.y, -1.0f));
+    // Modo, pelo nome curto
+    CHECK(protocol::parse_message("mode=war", &message));
+    CHECK(message.type == protocol::message_e::MODE);
+    CHECK(message.mode == drive_mode_e::WAR);
+    CHECK(protocol::parse_message("mode=fine", &message));
+    CHECK(message.mode == drive_mode_e::PRECISE);
     // Lixo não passa
-    CHECK(!protocol::parse_joystick("", &x, &y));
-    CHECK(!protocol::parse_joystick("10", &x, &y));
-    CHECK(!protocol::parse_joystick("10,", &x, &y));
-    CHECK(!protocol::parse_joystick("a,b", &x, &y));
-    CHECK(!protocol::parse_joystick("10,20,30", &x, &y));
-    CHECK(!protocol::parse_joystick(nullptr, &x, &y));
+    CHECK(!protocol::parse_message("", &message));
+    CHECK(!protocol::parse_message("10", &message));
+    CHECK(!protocol::parse_message("10,", &message));
+    CHECK(!protocol::parse_message("a,b", &message));
+    CHECK(!protocol::parse_message("10,20,30", &message));
+    CHECK(!protocol::parse_message("mode=turbo", &message));
+    CHECK(!protocol::parse_message(nullptr, &message));
 
-    char text[48];
-    protocol::format_telemetry(text, sizeof(text), 3.874f, true);
-    CHECK(strcmp(text, "{\"bat\":3.87,\"fs\":1}") == 0);
-    protocol::format_telemetry(text, sizeof(text), 4.2f, false);
-    CHECK(strcmp(text, "{\"bat\":4.20,\"fs\":0}") == 0);
+    CHECK(strcmp(protocol::mode_name(drive_mode_e::ECONOMY), "eco") == 0);
+    char text[80];
+    protocol::format_telemetry(
+        text,
+        sizeof(text),
+        {3.874f, true, drive_mode_e::FULL}
+    );
+    CHECK(strcmp(text, "{\"bat\":3.87,\"fs\":1,\"mode\":\"full\"}") == 0);
 }
 
 static void _test_failsafe() {
@@ -252,6 +273,7 @@ static void _test_wifi_remote() {
     CHECK(server.served_page == "<html>joystick</html>");
     // Antes de qualquer mensagem: comando inválido, ninguém conectado
     CHECK(!remote.get_command().valid);
+    CHECK(remote.get_command().settings_seq == 0);
     CHECK(!remote.is_connected());
 
     // Chegou um comando: guarda x, y e a hora do relógio
@@ -269,10 +291,17 @@ static void _test_wifi_remote() {
     server.receive("lixo", 7);
     CHECK(remote.get_command().received_ms == 1234);
 
+    // Troca de modo: sobe o contador de ajustes, mas não é batimento
+    server.receive("mode=fine", 7);
+    command = remote.get_command();
+    CHECK(command.mode == services::drive_mode_e::PRECISE);
+    CHECK(command.settings_seq == 1);
+    CHECK(command.received_ms == 1234);
+
     // Telemetria vai pro cliente que mandou o comando
-    remote.send_telemetry("{\"bat\":3.90,\"fs\":0}");
+    remote.send_telemetry("{\"bat\":3.90}");
     CHECK(server.last_client == 7);
-    CHECK(server.last_text == "{\"bat\":3.90,\"fs\":0}");
+    CHECK(server.last_text == "{\"bat\":3.90}");
 
     // Rede que não sobe: begin avisa no log e devolve false
     fakes::AccessPoint broken;
@@ -284,37 +313,54 @@ static void _test_wifi_remote() {
 }
 
 static void _test_boat() {
+    using services::drive_mode_e;
     fakes::Motor left;
     fakes::Motor right;
     fakes::Battery battery;
     fakes::Led led;
     fakes::Remote remote;
     fakes::Logger logger;
-    app::Boat boat(
-        {left, right, battery, led, remote, logger},
-        {500, 100.0f, 0.05f, 500}
-    );
+    // Econômico vai até 0,5; os outros até 1 — rampa rápida pra o teste
+    app::tuning_st tuning = {
+        500,
+        0.05f,
+        500,
+        {{0.5f, 100.0f, 0.0f},
+         {0.6f, 100.0f, 0.6f},
+         {1.0f, 100.0f, 0.0f},
+         {1.0f, 100.0f, 0.2f}},
+        drive_mode_e::ECONOMY
+    };
+    app::Boat boat({left, right, battery, led, remote, logger}, tuning);
 
     boat.begin();
     CHECK(remote.started);
+    CHECK(boat.get_mode() == drive_mode_e::ECONOMY);
 
     // Sem comando nenhum: failsafe armado, motores parados, LED esperando
     boat.update(100);
     CHECK(_near(left.speed, 0.0f) && _near(right.speed, 0.0f));
     CHECK(led.blink_ms == 1000);
 
-    // Comando fresco, celular conectado: anda, LED aceso
+    // Comando fresco, celular conectado: anda até o limite do econômico
     remote.connected = true;
-    remote.command   = {0.0f, 1.0f, 150, true};
+    remote.command   = {0.0f, 1.0f, 150, true, drive_mode_e::ECONOMY, 0};
     boat.update(200);
-    CHECK(left.speed > 0.5f && right.speed > 0.5f);
+    CHECK(_near(left.speed, 0.5f) && _near(right.speed, 0.5f));
     CHECK(led.blink_ms == 0);
-    // Telemetria só depois de um período inteiro (500 ms), com a bateria
+
+    // A página pediu "tudo": o limite sobe
+    remote.command = {0.0f, 1.0f, 250, true, drive_mode_e::FULL, 1};
+    boat.update(300);
+    CHECK(boat.get_mode() == drive_mode_e::FULL);
+    CHECK(_near(left.speed, 1.0f) && _near(right.speed, 1.0f));
+
+    // Telemetria só depois de um período inteiro (500 ms), com bateria e modo
     CHECK(remote.telemetry_count == 0);
-    remote.command = {0.0f, 1.0f, 550, true};
+    remote.command = {0.0f, 1.0f, 550, true, drive_mode_e::FULL, 1};
     boat.update(600);
     CHECK(remote.telemetry_count == 1);
-    CHECK(remote.last_telemetry == "{\"bat\":3.90,\"fs\":0}");
+    CHECK(remote.last_telemetry == "{\"bat\":3.90,\"fs\":0,\"mode\":\"full\"}");
 
     // Comando parou de chegar: passou do tempo, para na hora
     boat.update(1200);
