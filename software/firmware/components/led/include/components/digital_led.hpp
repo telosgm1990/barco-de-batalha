@@ -1,4 +1,5 @@
-/*
+/**
+ * @file
  * LED ligado numa saída digital — implementa Led. A saída chega pronta, por
  * referência, como a abstração da platform/.
  */
@@ -13,23 +14,24 @@
 // Classes
 namespace components {
 
+/// LED numa saída liga/desliga, com a piscada feita no update
 class DigitalLed final : public Led {
   public:
-    // Receba a saída; active_low quando o LED acende com o pino em zero
+    /// Receba a saída; active_low quando o LED acende com o pino em zero
     constexpr DigitalLed(platform::DigitalOutput &output, bool active_low)
         : _output(output), _active_low(active_low) {
     }
 
-    // Comece apagado
+    /// Comece apagado
     void begin() override;
 
-    // Atualize a piscada; chame sempre, com o relógio em ms
+    /// Atualize a piscada; chame sempre, com o relógio em ms
     void update(uint32_t now_ms) override;
 
-    // Acenda fixo (period_ms = 0) ou pisque com esse período
+    /// Acenda fixo (period_ms = 0) ou pisque com esse período
     void set_blink(uint32_t period_ms) override;
 
-    // Apague
+    /// Apague
     void set_off() override;
 
   private:

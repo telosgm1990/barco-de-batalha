@@ -26,13 +26,19 @@ class EspWebServer final : public WebServer {
     /// Diga se o cliente ainda está com o WebSocket aberto
     bool is_client_open(int client) override;
 
-    /// @name Pro servidor do ESP-IDF, que chama de volta com este objeto
-    /// @{
+    // Pro servidor do ESP-IDF, que chama de volta com este objeto
+
+    /// A página que o begin recebeu
     const char *get_page() const;
+
+    /// Tamanho da página
     size_t get_page_length() const;
+
+    /// Quem ouve o WebSocket
     TextListener *get_stream() const;
+
+    /// Quem atende a API
     RequestListener *get_api() const;
-    /// @}
 
   private:
     void *_server         = nullptr;

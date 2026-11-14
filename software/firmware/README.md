@@ -109,6 +109,7 @@ Os pinos em `main/board.hpp` são cópia da
 | Testar no PC | O g++ que já vem na mesma imagem | Não |
 | Gravar e ler a serial | `esptool` e `pyserial` no `.venv` de `scripts/` | Não — fica no `.venv` do projeto |
 | Formatar | `clang-format` do `.venv`, com o [.clang-format](.clang-format) daqui | Não — idem |
+| Documentação | Doxygen, instalado na hora dentro da mesma imagem Docker | Não |
 
 O Docker Desktop precisa estar aberto. Todos os comandos rodam da raiz do
 repositório, no PowerShell.
@@ -145,6 +146,13 @@ scripts\.venv\Scripts\python -m serial.tools.miniterm COM5 115200
 
 ```powershell
 Get-ChildItem software\firmware -Recurse -Include *.cpp,*.hpp | Where-Object { $_.FullName -notmatch '\\build\\' } | ForEach-Object { scripts\.venv\Scripts\clang-format --style=file:software/firmware/.clang-format -i $_.FullName }
+```
+
+**Documentação** (HTML em `software/firmware/build/doxygen/html/index.html`;
+os avisos, se tiver, em `build/doxygen/avisos.txt` — o certo é vazio):
+
+```powershell
+docker run --rm -v "${PWD}\software\firmware:/project" -w /project espressif/idf:v6.1 bash -c "apt-get update -qq && apt-get install -y -qq doxygen > /dev/null && mkdir -p build/doxygen && doxygen"
 ```
 
 ## A medir na bancada

@@ -1,4 +1,5 @@
-/*
+/**
+ * @file
  * Ponto de entrada do firmware da DonaTelos: o bootstrap.
  *
  * É o único lugar que conhece as classes concretas. Aqui nasce cada peça da
@@ -111,6 +112,9 @@ constinit static app::Boat _boat(
 );
 
 // Ponto de entrada
+
+/// Comece aqui: o ESP-IDF chama depois de subir o FreeRTOS. Dê a partida em
+/// tudo e rode o laço principal pra sempre, nesta tarefa
 extern "C" void app_main(void) {
     // Dê a partida no hardware: PWM com os motores parados, ADC, LED e a
     // memória

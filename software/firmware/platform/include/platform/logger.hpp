@@ -1,4 +1,5 @@
-/*
+/**
+ * @file
  * Abstração: log. A camada de cima chama info/warn, no estilo printf; quem
  * escreve de verdade é a concreta (EspLogger, na placa) via write().
  */
@@ -11,23 +12,25 @@
 // Enums/structs
 namespace platform {
 
+/// Nível da linha de log
 enum class log_level_e {
-    INFO,
-    WARN
+    INFO, ///< andamento normal
+    WARN  ///< algo deu errado, mas o barco segue
 };
 
 // Classes
 
+/// O log: a camada de cima formata, a concreta escreve
 class Logger {
   public:
-    // Escreva uma linha pronta, no nível pedido
+    /// Escreva uma linha pronta, no nível pedido
     virtual void write(
         log_level_e level,
         const char *tag,
         const char *text
     ) = 0;
 
-    // Escreva uma linha de informação, estilo printf
+    /// Escreva uma linha de informação, estilo printf
     [[gnu::format(printf, 3, 4)]] void info(
         const char *tag,
         const char *format,
@@ -39,7 +42,7 @@ class Logger {
         va_end(args);
     }
 
-    // Escreva uma linha de aviso, estilo printf
+    /// Escreva uma linha de aviso, estilo printf
     [[gnu::format(printf, 3, 4)]] void warn(
         const char *tag,
         const char *format,

@@ -1,0 +1,39 @@
+# Doxygen do firmware: gera a documentação em HTML a partir dos comentários
+# /// e /** */ do código. Roda no Docker (comando no README); a saída fica em
+# build/doxygen/, fora do git. Só o que muda do padrão está aqui.
+
+PROJECT_NAME           = "DonaTelos — firmware"
+PROJECT_BRIEF          = "Barco-tartaruga com ESP32-C3: camadas, FreeRTOS, Wi-Fi, REST e WebSocket"
+OUTPUT_DIRECTORY       = build/doxygen
+OUTPUT_LANGUAGE        = Brazilian
+
+# O que entra: as camadas e o README como página inicial. Testes ficam fora.
+INPUT                  = README.md main app services components platform common
+FILE_PATTERNS          = *.hpp *.cpp *.md
+RECURSIVE              = YES
+EXCLUDE_PATTERNS       = */build/*
+USE_MDFILE_AS_MAINPAGE = README.md
+
+# Comentários: a primeira frase é o resumo. Privado não aparece — nem o que
+# começa com '_', que no projeto quer dizer privado (membro, objeto e função
+# estática do .cpp; a função estática tem o comentário no protótipo, pra quem
+# lê o código).
+JAVADOC_AUTOBRIEF      = YES
+EXTRACT_ALL            = NO
+EXTRACT_PRIVATE        = NO
+EXCLUDE_SYMBOLS        = _*
+DISTRIBUTE_GROUP_DOC   = YES
+
+# Avisos: tudo que é público sem comentário vira aviso. Parâmetro sem @param
+# não — @param só quando acrescenta algo (unidade, faixa, quem é dono).
+WARN_IF_UNDOCUMENTED   = YES
+WARN_NO_PARAMDOC       = NO
+WARN_IF_INCOMPLETE_DOC = NO
+WARN_LOGFILE           = build/doxygen/avisos.txt
+QUIET                  = YES
+
+# Saída: só HTML, com o código-fonte navegável
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+SOURCE_BROWSER         = YES
+HAVE_DOT               = NO

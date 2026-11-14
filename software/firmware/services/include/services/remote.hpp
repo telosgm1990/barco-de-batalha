@@ -31,18 +31,18 @@ struct command_st {
  * apaga o outro.
  */
 struct settings_st {
-    drive_mode_e mode;
-    uint32_t mode_seq;
-    float trim; ///< ajuste fino, -1 a 1 (ver Drive::set_trim)
-    uint32_t trim_seq;
+    drive_mode_e mode; ///< modo pedido
+    uint32_t mode_seq; ///< contador dos pedidos de modo
+    float trim;        ///< ajuste fino, -1 a 1 (ver Drive::set_trim)
+    uint32_t trim_seq; ///< contador dos pedidos de ajuste fino
 };
 
 /// Retrato do barco, que ele publica e a API entrega a quem pedir
 struct status_st {
-    float battery_volts;
-    bool failsafe; ///< motores parados por falta de joystick
-    drive_mode_e mode;
-    float trim; ///< -1 a 1
+    float battery_volts; ///< tensão da bateria
+    bool failsafe;       ///< motores parados por falta de joystick
+    drive_mode_e mode;   ///< modo em uso
+    float trim;          ///< ajuste fino em uso, -1 a 1
 };
 
 // Classes

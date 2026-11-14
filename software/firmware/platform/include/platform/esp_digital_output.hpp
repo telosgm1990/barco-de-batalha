@@ -1,4 +1,5 @@
-/*
+/**
+ * @file
  * Saída digital num pino do ESP32-C3 — implementa DigitalOutput.
  */
 #pragma once
@@ -9,16 +10,17 @@
 // Classes
 namespace platform {
 
+/// Um GPIO como saída
 class EspDigitalOutput final : public DigitalOutput {
   public:
-    // Guarde o número do pino — sem mexer no hardware
+    /// Guarde o número do pino — sem mexer no hardware
     constexpr explicit EspDigitalOutput(int pin) : _pin(pin) {
     }
 
-    // Configure o pino como saída, começando em nível baixo
+    /// Configure o pino como saída, começando em nível baixo
     void begin();
 
-    // Escreva o nível do pino
+    /// Escreva o nível do pino
     void write(bool high) override;
 
   private:

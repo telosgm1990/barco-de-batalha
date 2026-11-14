@@ -1,4 +1,5 @@
-/*
+/**
+ * @file
  * Motor DC numa ponte H de duas entradas (TC1508A, MX1508 e afins) —
  * implementa Motor.
  *
@@ -15,9 +16,10 @@
 // Classes
 namespace components {
 
+/// Motor DC numa ponte H, com uma saída PWM por entrada
 class HBridgeMotor final : public Motor {
   public:
-    // Receba as duas entradas da ponte H; reversed inverte o sentido
+    /// Receba as duas entradas da ponte H; reversed inverte o sentido
     constexpr HBridgeMotor(
         platform::PwmOutput &in1,
         platform::PwmOutput &in2,
@@ -26,10 +28,10 @@ class HBridgeMotor final : public Motor {
         : _in1(in1), _in2(in2), _reversed(reversed) {
     }
 
-    // Comece parado
+    /// Comece parado
     void begin() override;
 
-    // Velocidade de -1 (ré cheia) a 1 (frente cheia)
+    /// Velocidade de -1 (ré cheia) a 1 (frente cheia)
     void set_speed(float speed) override;
 
   private:

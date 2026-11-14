@@ -1,4 +1,5 @@
-/*
+/**
+ * @file
  * Abstração: LED de status — aceso, apagado ou piscando num ritmo. A camada
  * de cima depende disto; quem implementa é DigitalLed.
  */
@@ -10,18 +11,19 @@
 // Classes
 namespace components {
 
+/// Um LED de status, visto pelo barco
 class Led {
   public:
-    // Comece apagado
+    /// Comece apagado
     virtual void begin() = 0;
 
-    // Atualize a piscada; chame sempre, com o relógio em ms
+    /// Atualize a piscada; chame sempre, com o relógio em ms
     virtual void update(uint32_t now_ms) = 0;
 
-    // Acenda fixo (period_ms = 0) ou pisque com esse período
+    /// Acenda fixo (period_ms = 0) ou pisque com esse período
     virtual void set_blink(uint32_t period_ms) = 0;
 
-    // Apague
+    /// Apague
     virtual void set_off() = 0;
 
   protected:

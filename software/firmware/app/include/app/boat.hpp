@@ -36,19 +36,19 @@ struct tuning_st {
     uint32_t status_period_ms;    ///< de quanto em quanto publica o retrato
     /// Um perfil por modo, na ordem de services::drive_mode_e
     services::drive_profile_st profiles[services::DRIVE_MODE_COUNT];
-    services::drive_mode_e initial_mode;
+    services::drive_mode_e initial_mode; ///< modo ao ligar
     float max_trim; ///< ajuste fino máximo, 0 a 1, pros dois lados
 };
 
 /// As peças que o barco usa, já montadas
 struct parts_st {
-    components::Motor &left;
-    components::Motor &right;
-    components::Battery &battery;
-    components::Led &led;
-    services::Remote &remote;
-    platform::Logger &logger;
-    platform::KeyValueStore &store;
+    components::Motor &left;        ///< motor da roda esquerda
+    components::Motor &right;       ///< motor da roda direita
+    components::Battery &battery;   ///< leitura da bateria
+    components::Led &led;           ///< LED de status
+    services::Remote &remote;       ///< o controle remoto
+    platform::Logger &logger;       ///< o log
+    platform::KeyValueStore &store; ///< memória que sobrevive ao desligar
 };
 
 // Classes

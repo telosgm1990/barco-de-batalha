@@ -11,8 +11,9 @@ fino guardado na placa, failsafe, leitura da bateria e LED de status. Compila
 e passa nos testes do PC; **ainda não rodou na placa**. Comandos:
 [README.md](README.md).
 
-**Antes de dizer que terminou:** compile, rode os testes do PC e passe o
-`clang-format` em tudo — os três comandos estão no README.
+**Antes de dizer que terminou:** compile, rode os testes do PC, passe o
+`clang-format` em tudo e rode o Doxygen sem aviso — os comandos estão no
+README.
 
 ## Ambiente
 
@@ -101,9 +102,21 @@ common/        o que mais de uma camada usa e não cabe em nenhuma (math.hpp)
 - **Objetos estáticos**, montados no bootstrap. Nada de `new`/`malloc` depois
   da inicialização.
 - **Comentário é foto do agora.** Histórico é do `git log`.
+- **Documentação em Doxygen** (regra 13 do CLAUDE.md da raiz), em português:
+  - `/** @file ... */` no topo de todo `.hpp`: o que o arquivo é e, se
+    precisar, o porquê (a tarefa em que roda, o cuidado de hardware);
+  - `///` numa linha em cima de toda declaração pública; `/** */` com
+    `@param`/`@return` só quando acrescentam (unidade, faixa, erro);
+  - `///<` no fim da linha de campo de struct, valor de enum e constante;
+  - **privado fica com `//`** — membro, objeto do `main.cpp`, e o resto que
+    começa com `_`. Função estática do `.cpp` ganha `///` **só no
+    protótipo**;
+  - comentário que vale pra várias constantes vira grupo:
+    `/// @name ...`, `/// @{` ... `/// @}`.
+  - O [Doxyfile](Doxyfile) avisa o que é público e ficou sem comentário.
 
 ## Não invente
 
 Pino vem de `hardware/`. Tempo de failsafe, rampa de aceleração, duty cycle de
 cada modo: **medido na água**, não chutado. Sem medição ainda, a constante nasce
-com um comentário `// a medir` e entra na lista do esboço.
+com a etiqueta *a medir* no comentário e entra na lista do esboço.

@@ -1,4 +1,5 @@
-/*
+/**
+ * @file
  * Failsafe: perdeu o celular, os motores param.
  *
  * A página manda comando o tempo todo, mesmo parada. Se passar do tempo
@@ -13,16 +14,17 @@
 // Classes
 namespace app {
 
+/// Vigia do joystick: arma quando ele para de chegar
 class Failsafe {
   public:
-    // Guarde o tempo limite sem comando; nasce armado
+    /// Guarde o tempo limite sem comando; nasce armado
     constexpr explicit Failsafe(uint32_t timeout_ms) : _timeout_ms(timeout_ms) {
     }
 
-    // Confira o relógio contra o último comando que chegou
+    /// Confira o relógio contra o último comando que chegou
     void update(uint32_t now_ms, uint32_t last_command_ms, bool has_command);
 
-    // Diga se está armado (motores têm que parar)
+    /// Diga se está armado (motores têm que parar)
     bool is_tripped() const;
 
   private:

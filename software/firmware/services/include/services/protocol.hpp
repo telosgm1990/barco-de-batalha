@@ -36,10 +36,10 @@ namespace services::protocol {
 
 /// Pedido de mudança nos ajustes: só muda o que veio
 struct settings_patch_st {
-    bool has_mode;
-    drive_mode_e mode;
-    bool has_trim;
-    float trim; ///< -1 a 1
+    bool has_mode;     ///< veio "mode"
+    drive_mode_e mode; ///< o modo pedido
+    bool has_trim;     ///< veio "trim"
+    float trim;        ///< o ajuste fino pedido, -1 a 1
 };
 
 // Funções
@@ -66,12 +66,16 @@ bool parse_settings_patch(const char *json, settings_patch_st *patch);
 /// Nome curto do modo, o mesmo da API (`"eco"`, `"fine"`...)
 const char *mode_name(drive_mode_e mode);
 
-/// @name Respostas da API
-/// Escrevem o JSON em out e devolvem quantos caracteres escreveram.
-/// @{
+// Respostas da API: escrevem o JSON em out e devolvem quantos caracteres
+// escreveram (como o snprintf)
+
+/// Resposta do GET /api/status
 int format_status(char *out, size_t size, const status_st &status);
+
+/// Resposta do GET /api/settings
 int format_settings(char *out, size_t size, drive_mode_e mode, float trim);
+
+/// Corpo de um erro: {"error":"message"}
 int format_error(char *out, size_t size, const char *message);
-/// @}
 
 } // namespace services::protocol

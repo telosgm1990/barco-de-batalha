@@ -171,3 +171,27 @@ do Capitão, 14/11/2026):
 
 Os modelos de OpenSCAD de hoje ainda leem as medidas dos arquivos comuns;
 eles migram pro jeito acima quando forem mexidos.
+
+## 13. Documentação do código
+
+O repo é também **material de estudo de embarcados**: código que um júnior lê,
+com a organização mínima de um sênior. Bem documentado pra estudo, sem
+comentário demais (regra do Capitão, 14/11/2026):
+
+1. **Tudo que é público tem comentário de documentação**, curto — a primeira
+   frase diz o que faz. Parâmetro e retorno só quando acrescentam algo
+   (unidade, faixa, quem é dono, o que volta no erro).
+2. **Função interna** (estática no C/C++, `_` no começo no Python): a
+   documentação fica **só no protótipo**, nunca repetida na definição.
+3. **O porquê vai no código; o histórico, no `git log`.** Nada de data, "antes
+   era", "agora" ou nome de quem mexeu — comentário é foto do código de hoje.
+4. **Comentário de passo** (dentro da função) só onde o código não se explica
+   sozinho: o porquê de uma escolha, um cuidado de hardware, de tarefa ou de
+   protocolo.
+
+| Linguagem | Jeito | Ferramenta |
+| --- | --- | --- |
+| C++ (`software/firmware/`) | Doxygen: `/** @file */` no topo de cada `.hpp`, `///` em cima da declaração, `///<` no fim da linha de membro; `/** */` com `@param`/`@return` quando precisar | `doxygen` no Docker, sem aviso (comando no README do firmware) |
+| Python (`scripts/`) | Docstring no módulo, classe e função pública; `Args:`/`Returns:` só quando acrescentam | `ruff` (regras `D` de docstring) |
+| OpenSCAD (`mechanics/`) | Bloco `//` em cima de cada módulo: o que desenha e uma linha por parâmetro, com a unidade | — |
+
