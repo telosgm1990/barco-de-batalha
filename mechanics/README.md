@@ -6,7 +6,44 @@ pra impressora 3D.
 > 🚧 **Modelos paramétricos em OpenSCAD**, com as medidas que ainda não foram
 > conferidas marcadas como *a medir* ou *chute*. O casco tem dois caminhos
 > ([plano do casco](../docs/plano-do-casco.md)): **A**, pote e isopor — o
-> escolhido por ora — e **B**, tudo impresso. Os dois estão projetados aqui.
+> escolhido por ora — e **B**, tudo impresso. Os dois estão projetados aqui,
+> com a mesma roda de pá e a mesma cabeça.
+
+## Caminho A — pote e isopor (o escolhido, por ora)
+
+![Caminho A montado, na água](renders/pot_assembly.png)
+
+O pote encaixa num furo da placa de isopor, com o fundo rente ao fundo dela.
+Um **suporte impresso** de cada lado prende o motor TT na borda do isopor —
+uma aba deita em cima (presa com palito de churrasco espetado e um pouco de
+cola), um bloco encosta na lateral e uma bandeja segura o motor pra fora, com
+duas abraçadeiras. A **carapaça** vai colada em cima da tampa do pote: abriu a
+tampa, abriu a tartaruga. A cabeça cola na frente do isopor.
+
+![Caminho A explodido](renders/pot_exploded.png)
+
+Dentro do pote: as baterias no fundo e a placa em cima. A chave liga/desliga
+fica lá dentro também — abre a tampa pra ligar.
+
+| Peça | Arquivo | Caixa (mm) | Filamento (*estimativa*) |
+| --- | --- | --- | --- |
+| Suporte do motor (×2) | [pot/motor_mount.scad](pot/motor_mount.scad) | 13 × 51 × 76 | ~10 g cada |
+| Roda de pá (×2) | [paddle_wheel.scad](paddle_wheel.scad) | 52 × 59 × 16 | ~7 g cada |
+| Cabeça | [printed/head.scad](printed/head.scad) | 22 × 28 × 29 | ~3 g |
+| Carapaça (Fase 2) | [pot/carapace.scad](pot/carapace.scad) | 177 × 147 × 35 | ~67 g |
+| **Total** | | | **~37 g na Fase 1; ~104 g com a carapaça** |
+
+**Molde do isopor em tamanho real:**
+[renders/pot_raft_template.svg](renders/pot_raft_template.svg) — imprime em
+A4 paisagem, **escala 100%**, e confere a régua de 50 mm desenhada nele. Tem o
+contorno, o furo do pote e onde vão os suportes.
+
+**Linha d'água estimada: ~9 mm** (barco na casa de 310 g). O isopor quase não
+afunda, então a roda é que precisa descer até a água: o eixo fica só 4 mm
+acima do topo do isopor, e a pá molha ~13 mm.
+
+**Tudo depende das medidas do pote** — as do modelo são *chute* pela foto
+(155 × 110 × 55 mm). Com a régua, é só trocar em `pot/pot_params.scad`.
 
 ## Caminho B — tudo impresso
 
@@ -57,6 +94,12 @@ common/
   shapes.scad           formas 2D (superelipse, furo de eixo do TT)
   reference_parts.scad  motor, bateria e placa — só pra vista do conjunto
 paddle_wheel.scad       roda de pá, igual nos dois caminhos
+pot/                    caminho A
+  pot_params.scad       medidas do caminho A (o pote é chute pela foto)
+  motor_mount.scad      suporte do motor na borda do isopor
+  carapace.scad         carapaça que cola na tampa do pote
+  raft_template.scad    molde do isopor, em 2D, pra imprimir em papel
+  assembly.scad         vista do conjunto (não imprime)
 printed/                caminho B
   hull_params.scad      medidas do caminho B
   plastron.scad         plastrão
