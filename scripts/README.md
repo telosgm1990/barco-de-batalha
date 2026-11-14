@@ -5,6 +5,7 @@ daqui, Node no `node_modules` daqui, ferramenta pesada no Docker.
 
 | Script | Alias | O que faz |
 | --- | --- | --- |
+| [check_all/](check_all/) | `check-all` | ✅ Roda todas as checagens do repositório de uma vez: segredos, testes, lint, formatação, ERC e, no Docker, firmware e Doxygen |
 | [check_secrets/](check_secrets/) | `check-secrets` | 🔒 Caçador de segredos — barra credencial, caminho de máquina, e-mail, CPF e nome antes do commit |
 | [install-python-venv.ps1](install-python-venv.ps1) | — | Cria o `.venv` e instala os scripts com seus aliases |
 | [git-hooks/pre-commit](git-hooks/pre-commit) | — | Roda o caçador sozinho a cada commit |
@@ -58,6 +59,21 @@ script só usa biblioteca padrão, que é o caso do caçador:
 ```bash
 python -m check_secrets
 ```
+
+## Todas as checagens
+
+```bash
+scripts/.venv/Scripts/check-all
+```
+
+Roda, das rápidas pras demoradas: o caçador de segredos (`--all`), os testes
+e o lint do Python, a formatação do C++, o ERC do esquemático e, no Docker,
+os testes do firmware no PC, a compilação e o Doxygen. Com `--quick`, pula as
+do Docker (a rodada inteira leva perto de 1,5 minuto; a rápida, segundos).
+
+Ferramenta que não está na máquina **pula** a checagem em vez de falhar —
+Docker Desktop fechado, por exemplo. O `kicad-cli` é procurado na pasta
+padrão do KiCad no Windows (a versão mais nova), ou na variável `KICAD_CLI`.
 
 ## Caçador de segredos
 
