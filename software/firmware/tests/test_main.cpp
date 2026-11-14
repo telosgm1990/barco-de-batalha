@@ -431,7 +431,8 @@ static void _test_boat() {
     fakes::Motor left;
     fakes::Motor right;
     fakes::Battery battery;
-    fakes::Led led;
+    fakes::Led status_led;
+    fakes::Led alert_led;
     fakes::Remote remote;
     fakes::Logger logger;
     fakes::Store store;
@@ -450,7 +451,10 @@ static void _test_boat() {
         0.3f,
         {3.4f, 0.1f, 1.0f, 2000}
     };
-    app::Boat boat({left, right, battery, led, remote, logger, store}, tuning);
+    app::Boat boat(
+        {left, right, battery, status_led, alert_led, remote, logger, store},
+        tuning
+    );
 
     boat.begin();
     CHECK(remote.started);
@@ -461,7 +465,8 @@ static void _test_boat() {
     // e ainda não é hora de publicar
     boat.update(100);
     CHECK(_near(left.speed, 0.0f) && _near(right.speed, 0.0f));
-    CHECK(led.blink_ms == 1000);
+    CHECK(status_led.on && status_led.blink_ms == 1000);
+    CHECK(!alert_led.on);
     CHECK(remote.status_count == 0);
 
     // Comando fresco, celular conectado: anda até o limite do econômico,
@@ -471,7 +476,8 @@ static void _test_boat() {
     remote.command   = {0.0f, 1.0f, 150, true};
     boat.update(200);
     CHECK(_near(left.speed, 0.5f) && _near(right.speed, 0.45f));
-    CHECK(led.blink_ms == 0);
+    CHECK(status_led.on && status_led.blink_ms == 0);
+    CHECK(!alert_led.on);
     CHECK(remote.status_count == 1);
     CHECK(!remote.last_status.failsafe);
 
@@ -510,7 +516,8 @@ static void _test_boat() {
     // Comando parou de chegar: passou do tempo, para na hora e publica
     boat.update(1400);
     CHECK(_near(left.speed, 0.0f) && _near(right.speed, 0.0f));
-    CHECK(led.blink_ms == 200);
+    CHECK(status_led.on && status_led.blink_ms == 0);
+    CHECK(alert_led.on && alert_led.blink_ms == 200);
     CHECK(logger.last_line == "failsafe armado: motores parados");
     CHECK(remote.last_status.failsafe);
 
@@ -521,4 +528,10 @@ static void _test_boat() {
     }
     CHECK(remote.last_status.low_battery);
     CHECK(logger.last_line == "bateria baixa: 3.20 V");
+    // Failsafe ainda armado: o amarelo pisca rápido, que é mais urgente
+    CHECK(alert_led.on && alert_led.blink_ms == 200);
+    // Joystick de volta: o amarelo fica aceso fixo, pela bateria baixa
+    remote.command = {0.0f, 0.0f, 4350, true};
+    boat.update(4400);
+    CHECK(alert_led.on && alert_led.blink_ms == 0);
 }

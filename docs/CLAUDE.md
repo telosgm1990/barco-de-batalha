@@ -33,7 +33,8 @@ copia o visual, não a ferramenta (ela não é aberta nem tem CLI):
   como bolinha com **anel dourado**.
 - **Fios grossos, com curva arredondada nas quinas**, em **cores pastel** mas
   legíveis. Cor fixa por função: V+ coral, GND grafite, sinais em azul, lilás,
-  verde e laranja, leitura da bateria rosa, motores âmbar e marrom.
+  verde e laranja, leitura da bateria rosa, motores âmbar e marrom, LEDs
+  pêssego (3V3), lima e limão.
 - **Fio que cruza outro** ganha uma borda da cor do fundo, pra parecer que
   passa por cima. **Junção** leva bolinha.
 - **Etiquetas em pílula pastel** e uma legenda das cores.

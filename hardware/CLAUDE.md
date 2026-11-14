@@ -4,7 +4,8 @@ Regras gerais em [../CLAUDE.md](../CLAUDE.md). Aqui só o que é da elétrica.
 
 ## Estado
 
-🚧 **Esquemático da Fase 1 pronto** (14/11/2026), em `kicad/`, com ERC limpo.
+🚧 **Esquemático da Fase 1 pronto**, em `kicad/`, com ERC limpo — energia,
+cérebro, leitura da bateria, tração e os três LEDs de sinalização.
 A **pinagem** está na tabela do [README.md](README.md) — é a fonte do
 firmware e da [ilustração de montagem](../docs/montagem.md).
 

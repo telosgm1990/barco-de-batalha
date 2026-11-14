@@ -13,9 +13,10 @@ static constexpr const char *TAG = "boat";
 static constexpr const char *TRIM_KEY = "trim";
 static constexpr float TRIM_SCALE     = 100.0f;
 
-// Piscadas do LED: esperando o celular, e failsafe com o celular conectado
+// Piscadas: verde esperando o celular; amarelo no failsafe
 static constexpr uint32_t LED_WAITING_MS  = 1000;
 static constexpr uint32_t LED_FAILSAFE_MS = 200;
+static constexpr uint32_t LED_STEADY      = 0; // aceso fixo
 
 // Funções públicas
 namespace app {
@@ -59,7 +60,7 @@ void Boat::update(uint32_t now_ms) {
     _parts.left.set_speed(wheels.left);
     _parts.right.set_speed(wheels.right);
 
-    _update_led(now_ms, _parts.remote.is_connected(), tripped);
+    _update_leds(now_ms, _parts.remote.is_connected(), tripped);
 
     // Publique de tempos em tempos, ou já, se algo mudou
     if (changed || now_ms - _last_status_ms >= _tuning.status_period_ms) {
@@ -114,18 +115,22 @@ void Boat::_set_trim(float trim) {
     _drive.set_trim(_trim);
 }
 
-// Pisca devagar esperando, aceso com controle, pisca rápido no failsafe
-void Boat::_update_led(uint32_t now_ms, bool connected, bool tripped) {
-    if (!connected) {
-        _parts.led.set_blink(LED_WAITING_MS);
+// Verde: pisca devagar esperando o celular, aceso com ele conectado.
+// Amarelo: pisca rápido se o joystick parou de chegar com o celular
+// conectado (failsafe); aceso com a bateria baixa; apagado, tudo bem
+void Boat::_update_leds(uint32_t now_ms, bool connected, bool tripped) {
+    _parts.status_led.set_blink(connected ? LED_STEADY : LED_WAITING_MS);
+    if (connected && tripped) {
+        _parts.alert_led.set_blink(LED_FAILSAFE_MS);
     }
-    else if (tripped) {
-        _parts.led.set_blink(LED_FAILSAFE_MS);
+    else if (_was_low) {
+        _parts.alert_led.set_blink(LED_STEADY);
     }
     else {
-        _parts.led.set_blink(0);
+        _parts.alert_led.set_off();
     }
-    _parts.led.update(now_ms);
+    _parts.status_led.update(now_ms);
+    _parts.alert_led.update(now_ms);
 }
 
 void Boat::_publish_status(uint32_t now_ms, bool tripped) {

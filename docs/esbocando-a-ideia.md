@@ -260,7 +260,7 @@ desenhar o **esquemático** (documenta e mostra pro juiz), sem fabricar nada.
   main/          app_main + bootstrap: a cola com a placa (pinos, objetos estáticos)
   app/           o barco: modo de prova, failsafe
   services/      tração (joystick → 2 motores), link (Wi-Fi e página), telemetria
-  components/    motor, bateria, LED
+  components/    motor, bateria, LEDs
   platform/      o ESP-IDF por baixo: PWM, ADC, GPIO, Wi-Fi
   common/        tipos, log, utilitários
   ```
@@ -281,7 +281,7 @@ todos *chute* até a bancada ou a bacia dizerem o valor:
 | Aviso de bateria baixa | abaixo de 3,4 V por 2 s; desliga acima de 3,5 V | Fonte de bancada no lugar da bateria, motor girando: baixar a tensão até o aviso aparecer e conferir com o multímetro. Depois, na bacia, ver quanto tempo sobra entre o aviso e a ESP reiniciar |
 | Frequência do PWM | 5 kHz | Ouvir o motor e sentir a força em baixa velocidade; conferir o limite da ponte H |
 | Zona morta do joystick | 5% | No celular: o barco não pode andar com o dedo solto |
-| LED aceso em nível baixo | sim | Gravar e olhar: se acender ao contrário, trocar |
+| Resistor de cada LED | 1 kΩ no vermelho, 330 Ω no verde e no amarelo | Medir a queda de cada LED no multímetro (modo diodo) e olhar o brilho de dia: forte demais gasta bateria, fraco demais não se vê da beira |
 | Sentido de cada motor | normal | Joystick pra frente, os dois pra frente; senão, inverter o do lado errado |
 | Canal e potência do Wi-Fi | canal 1, padrão | Testar com vários celulares por perto; se cair, trocar o canal ou baixar a potência (antena da SuperMini) |
 

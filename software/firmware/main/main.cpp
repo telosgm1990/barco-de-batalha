@@ -55,7 +55,10 @@ constinit static platform::EspPwmOutput _right_in2(
 constinit static platform::EspAnalogInput _battery_input(
     board::PIN_BATTERY_SENSE
 );
-constinit static platform::EspDigitalOutput _led_output(board::PIN_LED);
+constinit static platform::EspDigitalOutput _status_output(
+    board::PIN_LED_STATUS
+);
+constinit static platform::EspDigitalOutput _alert_output(board::PIN_LED_ALERT);
 constinit static platform::EspClock _clock;
 constinit static platform::EspLogger _logger;
 constinit static platform::EspAccessPoint _access_point(
@@ -82,8 +85,12 @@ constinit static components::DividerBattery _battery(
     _battery_input,
     board::BATTERY_DIVIDER_RATIO
 );
-constinit static components::DigitalLed _led(
-    _led_output,
+constinit static components::DigitalLed _status_led(
+    _status_output,
+    board::LED_ACTIVE_LOW
+);
+constinit static components::DigitalLed _alert_led(
+    _alert_output,
     board::LED_ACTIVE_LOW
 );
 
@@ -99,7 +106,14 @@ constinit static services::WifiRemote _remote(
 
 // app/: o barco recebe tudo
 constinit static app::Boat _boat(
-    {_left_motor, _right_motor, _battery, _led, _remote, _logger, _store},
+    {_left_motor,
+     _right_motor,
+     _battery,
+     _status_led,
+     _alert_led,
+     _remote,
+     _logger,
+     _store},
     {board::FAILSAFE_TIMEOUT_MS,
      board::JOYSTICK_DEADZONE,
      board::STATUS_PERIOD_MS,
@@ -117,7 +131,7 @@ constinit static app::Boat _boat(
 /// Comece aqui: o ESP-IDF chama depois de subir o FreeRTOS. Dê a partida em
 /// tudo e rode o laço principal pra sempre, nesta tarefa
 extern "C" void app_main(void) {
-    // Dê a partida no hardware: PWM com os motores parados, ADC, LED e a
+    // Dê a partida no hardware: PWM com os motores parados, ADC, LEDs e a
     // memória
     platform::EspPwmOutput::begin_timer(board::PWM_FREQUENCY_HZ);
     _left_in1.begin();
@@ -125,7 +139,8 @@ extern "C" void app_main(void) {
     _right_in1.begin();
     _right_in2.begin();
     _battery_input.begin();
-    _led_output.begin();
+    _status_output.begin();
+    _alert_output.begin();
     if (!_store.begin()) {
         _logger.warn(
             "main",
@@ -136,7 +151,8 @@ extern "C" void app_main(void) {
     // Depois nos componentes e, por último, no barco (que sobe a rede)
     _left_motor.begin();
     _right_motor.begin();
-    _led.begin();
+    _status_led.begin();
+    _alert_led.begin();
     _boat.begin();
 
     // Rode o laço principal

@@ -12,16 +12,23 @@ celular.
 
 ## Pilotando
 
-1. Liga o barco. O LED da placa **pisca devagar**: esperando o celular.
+1. Liga o barco. O vermelho acende e o verde **pisca devagar**: esperando o
+   celular.
 2. No celular, entra na rede **DonaTelos**. A senha fica em
-   `software/firmware/main/secrets.hpp`, só nesta máquina — o git ignora o arquivo.
-3. Abre **http://192.168.4.1** e pilota com o joystick. O LED fica **aceso**.
+   `software/firmware/main/secrets.hpp`, só nesta máquina — o git ignora o
+   arquivo.
+3. Abre **http://192.168.4.1** e pilota com o joystick. O verde fica
+   **aceso**.
 
-| LED | Quer dizer |
-| --- | --- |
-| Pisca devagar | Esperando o celular abrir a página |
-| Aceso | No controle |
-| Pisca rápido | **Failsafe:** a página parou de mandar comando, motores parados |
+| LED | Aceso | Piscando | Apagado |
+| --- | --- | --- | --- |
+| 🔴 Vermelho | Placa alimentada | — | Sem energia: bateria, chave ou fio |
+| 🟢 Verde | No controle | Devagar: esperando o celular abrir a página | Firmware travado (com o vermelho aceso) |
+| 🟡 Amarelo | Bateria baixa | Rápido: **failsafe** — a página parou de mandar comando, motores parados | Tudo bem |
+
+O vermelho vai direto no 3V3, sem passar pelo firmware: se ele acende e o
+verde não faz nada, o problema é de software. O LED que vem na placa (GPIO8)
+fica sem uso.
 
 A página manda o joystick 20 vezes por segundo, mesmo parada. Se nada chegar
 por meio segundo (*a medir*), o barco para os motores — barco sem controle

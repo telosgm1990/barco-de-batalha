@@ -3,13 +3,14 @@
  * O barco: o laço principal.
  *
  * A cada volta: aplica os ajustes que a página pediu (modo e ajuste fino),
- * lê o joystick, vigia o failsafe, anda a tração, manda nos motores e pisca o
- * LED. De tempos em tempos (e logo depois de um ajuste), lê a bateria e
- * publica o retrato do barco pra API — com o aviso de bateria baixa. O ajuste
- * fino fica guardado na memória da placa.
+ * lê o joystick, vigia o failsafe, anda a tração, manda nos motores e pisca os
+ * LEDs (verde: o celular; amarelo: o que precisa de atenção). De tempos em
+ * tempos (e logo depois de um ajuste), lê a bateria e publica o retrato do
+ * barco pra API — com o aviso de bateria baixa. O ajuste fino fica guardado na
+ * memória da placa.
  *
  * Recebe tudo pronto, por referência, como as abstrações das camadas de
- * baixo: os motores, a bateria e o LED de components/, o controle remoto de
+ * baixo: os motores, a bateria e os LEDs de components/, o controle remoto de
  * services/, o log e a memória da platform/. Na placa, quem monta é o main/;
  * nos testes do PC, peças falsas.
  */
@@ -48,7 +49,8 @@ struct parts_st {
     components::Motor &left;        ///< motor da roda esquerda
     components::Motor &right;       ///< motor da roda direita
     components::Battery &battery;   ///< leitura da bateria
-    components::Led &led;           ///< LED de status
+    components::Led &status_led;    ///< verde: esperando ou no controle
+    components::Led &alert_led;     ///< amarelo: failsafe ou bateria baixa
     services::Remote &remote;       ///< o controle remoto
     platform::Logger &logger;       ///< o log
     platform::KeyValueStore &store; ///< memória que sobrevive ao desligar
@@ -89,8 +91,8 @@ class Boat {
     /// Mude o ajuste fino, dentro do máximo do tuning
     void _set_trim(float trim);
 
-    /// Pisque o LED conforme o estado
-    void _update_led(uint32_t now_ms, bool connected, bool tripped);
+    /// Acenda ou pisque os dois LEDs conforme o estado
+    void _update_leds(uint32_t now_ms, bool connected, bool tripped);
 
     /// Leia a bateria, vigie se está acabando e publique o retrato do barco
     void _publish_status(uint32_t now_ms, bool tripped);

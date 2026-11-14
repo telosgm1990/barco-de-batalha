@@ -18,12 +18,13 @@ namespace board {
 
 // ---------------------------------------------------------------- Pinos
 
-constexpr int PIN_BATTERY_SENSE = 3; ///< GPIO3, ADC1
-constexpr int PIN_LEFT_IN1      = 4; ///< GPIO4 -> IN1 da ponte H
-constexpr int PIN_LEFT_IN2      = 5; ///< GPIO5 -> IN2
-constexpr int PIN_RIGHT_IN1     = 6; ///< GPIO6 -> IN3
-constexpr int PIN_RIGHT_IN2     = 7; ///< GPIO7 -> IN4
-constexpr int PIN_LED           = 8; ///< GPIO8, LED da placa
+constexpr int PIN_LED_ALERT     = 1;  ///< GPIO1 -> LED amarelo (alerta)
+constexpr int PIN_BATTERY_SENSE = 3;  ///< GPIO3, ADC1
+constexpr int PIN_LEFT_IN1      = 4;  ///< GPIO4 -> IN1 da ponte H
+constexpr int PIN_LEFT_IN2      = 5;  ///< GPIO5 -> IN2
+constexpr int PIN_RIGHT_IN1     = 6;  ///< GPIO6 -> IN3
+constexpr int PIN_RIGHT_IN2     = 7;  ///< GPIO7 -> IN4
+constexpr int PIN_LED_STATUS    = 10; ///< GPIO10 -> LED verde (status)
 
 /// @name Canais do PWM, um por entrada da ponte H
 /// @{
@@ -37,7 +38,8 @@ constexpr int PWM_RIGHT_IN2 = 3;
 
 /// Divisor de 100 kΩ + 100 kΩ (esquemático): a ESP vê metade da bateria
 constexpr float BATTERY_DIVIDER_RATIO = 2.0f;
-constexpr bool LED_ACTIVE_LOW = true; ///< a medir — se o LED inverter, troque
+/// Os LEDs vão do pino pro GND, pelo resistor: acendem em nível alto
+constexpr bool LED_ACTIVE_LOW       = false;
 constexpr bool LEFT_MOTOR_REVERSED  = false; ///< a medir, na bancada
 constexpr bool RIGHT_MOTOR_REVERSED = false; ///< a medir, na bancada
 
