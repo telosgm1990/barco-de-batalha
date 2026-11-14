@@ -318,7 +318,7 @@ vai pro juiz; a pasta `docs/notas-fiscais/` está no `.gitignore`.
 | 0 | Estaleiro | Estrutura do repo, perguntas pra organização, decisões D1–D10 | ✅ Concluída em 13/11/2026 (D1–D9 fechadas) |
 | 1 | Boia e anda | Cofre + isopor + 2 motores + ESP + celular. Feio de propósito | 🚧 **Em andamento.** Vídeo na água = +2 de entrega antecipada. E testa Wi-Fi, motor e vedação cedo |
 | 2 | Casco Grosso | Carapaça impressa, bico, lastro, rodas-nadadeira | Teste de autoendireitamento e de insubmersível |
-| 3 | Afinação | Modos por prova, ajuste pra andar reto, telemetria, teste de rampa | Os pontos das provas 1 a 4 |
+| 3 | Afinação | Modos por prova, ajuste pra andar reto, telemetria, teste de rampa | Os pontos das provas 1 a 4. O firmware disso já saiu junto com a Fase 1; falta afinar na água |
 | 4 | Guerra | Treino de duelo, rodada de robustez sem pitstop, kit de fair play | A final |
 
 ## 10. Identidade
@@ -431,6 +431,37 @@ sendo o caminho que funciona igual em qualquer máquina.
 
 *Falta:* país, lema, grito de guerra e bandeira — propostas na
 [seção 10](#10-identidade).
+
+### D11 — Protocolo e app do celular
+
+**Assumido em 14/11/2026, a revisar:** o barco expõe uma API, e a página que
+vem no firmware é só um cliente dela.
+
+- **Joystick por WebSocket**, 20 vezes por segundo — é o batimento que o
+  failsafe vigia. Um pedido HTTP a cada 50 ms pesaria demais pra ESP e pro
+  Wi-Fi; o WebSocket é uma conexão só, aberta o tempo todo.
+- **O resto em REST, com JSON:** `GET /api/status` (bateria, failsafe, modo,
+  ajuste fino) e `GET`/`PATCH /api/settings`. REST porque o Capitão pediu
+  ("REST, ou um RPC que não seja o gRPC"), e porque dá pra testar do PC sem
+  página nenhuma.
+
+O contrato completo está no
+[README do firmware](../software/firmware/README.md#api).
+
+**Em aberto: o app do celular.** O celular do Capitão é Android, e a ideia é
+React Native — ele estuda React + React Native pra ter um framework só entre
+app de desktop e de celular.
+
+| Caminho | A favor | Contra |
+| --- | --- | --- |
+| Só a página do firmware (é o que existe) | Nada pra instalar nem compilar: abre no navegador do Android | Não é app: sem ícone próprio, e a tela cheia depende do navegador |
+| App React Native em `software/mobile/` | Estudo de React Native; app de verdade, com telemetria guardada e controle mais livre | Gerar o APK pede o Android SDK no PC (instalação no sistema) ou o build na nuvem da Expo (conta). No desenvolvimento, o celular precisa enxergar o PC e o barco — e a rede do barco aceita um cliente só |
+
+**Proposta:** a página continua sendo o controle da Fase 1 — está pronta e
+não instala nada. O app React Native entra depois, sem pressa pro
+campeonato, falando a mesma API. Pra começar, faltam três respostas: se faz
+o app; Expo ou React Native puro; e como gerar o APK (SDK no PC, com OK, ou
+nuvem da Expo, com conta).
 
 ---
 
