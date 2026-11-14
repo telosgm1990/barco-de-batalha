@@ -168,10 +168,10 @@ do Capitão, 14/11/2026):
 | --- | --- | --- | --- |
 | C++ (`software/firmware/`) | Classe com `virtual ... = 0` e destrutor protegido (`platform::DigitalOutput`) | `final`, na mesma camada (`platform::EspDigitalOutput`) | `main/main.cpp` |
 | Python (`scripts/`) | `typing.Protocol` (`repo.Repository`) | Classe no mesmo módulo (`repo.GitRepository`) | O `__main__.py` de cada script |
-| OpenSCAD (`mechanics/`) | Não tem classe: o módulo recebe as medidas por parâmetro, em vez de ler variável global | — | O arquivo da peça ou do conjunto |
+| OpenSCAD (`mechanics/`) | Não tem classe: o módulo recebe as medidas por parâmetro (as da própria peça com valor padrão), em vez de ler variável global | — | O arquivo da peça ou do conjunto |
 
-Os modelos de OpenSCAD de hoje ainda leem as medidas dos arquivos comuns;
-eles migram pro jeito acima quando forem mexidos.
+No OpenSCAD, as peças da Fase 1 já seguem a regra; o resto migra quando for
+mexido (ver o [CLAUDE.md da mecânica](mechanics/CLAUDE.md)).
 
 ## 13. Documentação do código
 
