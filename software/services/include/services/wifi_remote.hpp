@@ -42,6 +42,9 @@ class WifiRemote final : public Remote, private platform::TextListener {
     // Último comando que chegou do joystick
     command_st get_command() override;
 
+    // Últimos ajustes pedidos pela página
+    settings_st get_settings() override;
+
     // Diga se tem um celular com a página aberta
     bool is_connected() override;
 
@@ -65,7 +68,9 @@ class WifiRemote final : public Remote, private platform::TextListener {
     std::atomic<bool> _valid{false};
     std::atomic<int> _client{-1};
     std::atomic<int> _mode{0};
-    std::atomic<uint32_t> _settings_seq{0};
+    std::atomic<uint32_t> _mode_seq{0};
+    std::atomic<int> _trim_percent{0};
+    std::atomic<uint32_t> _trim_seq{0};
 };
 
 } // namespace services

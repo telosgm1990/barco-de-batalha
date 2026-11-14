@@ -41,6 +41,15 @@ Os quatro botões em cima do joystick trocam o jeito de andar. O barco liga no
 Os números de cada modo (força máxima, rampa e curva do joystick) estão em
 `main/board.hpp` — todos *chute* até a bacia.
 
+### Andar reto
+
+Motor nenhum é igual ao outro, e o barco puxa pra um lado com o joystick
+reto. Nos botões ◀ ▶ da página, cada toque tira 1% da força de uma roda: o
+barco puxa pra esquerda, toque no ▶ até ele andar reto. O ajuste fica
+guardado na memória da placa e volta quando ela liga — vale pra todos os
+modos. O limite é 30% pra cada lado (*chute*): se precisar de mais, o problema
+é mecânico.
+
 ## Camadas
 
 ```
@@ -52,7 +61,8 @@ services/      Remote -> WifiRemote (Wi-Fi + página + WebSocket), Drive
 components/    Motor -> HBridgeMotor, Led -> DigitalLed,
                Battery -> DividerBattery
 platform/      as abstrações da placa e as concretas Esp* (ESP-IDF por baixo):
-               saída digital, PWM, ADC, relógio, log, rede, servidor
+               saída digital, PWM, ADC, relógio, log, rede, servidor,
+               memória que sobrevive ao desligar
 common/        conta pequena: limitar, aproximar, zona morta
 tests/         testes no PC, sem placa, com peças falsas (fakes.hpp)
 ```

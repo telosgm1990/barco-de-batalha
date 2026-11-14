@@ -43,6 +43,11 @@
                   font-size: 14px; font-weight: 600; }
   .modes button.on { background: var(--band); border-color: var(--band);
                      color: #fff; }
+  .trim { display: flex; align-items: center; justify-content: space-between;
+          gap: 8px; }
+  .trim button { border: 1px solid var(--line); border-radius: 10px;
+                 background: var(--bg); color: var(--ink); width: 40px;
+                 height: 36px; font-size: 16px; font-weight: 700; }
   #stop { width: 100%; max-width: 420px; border: 0; border-radius: 14px;
           padding: 16px; font-size: 18px; font-weight: 700; color: #fff;
           background: var(--coral); }
@@ -63,6 +68,16 @@
 <div class="row">
   <div class="card"><small>Bateria</small><b id="bat">—</b></div>
   <div class="card"><small>Comando</small><b id="cmd">0, 0</b></div>
+</div>
+<div class="row">
+  <div class="card">
+    <small>Ajuste pra andar reto (puxa pra um lado? empurra pro outro)</small>
+    <div class="trim">
+      <button id="trim-left">◀</button>
+      <b id="trim">0%</b>
+      <button id="trim-right">▶</button>
+    </div>
+  </div>
 </div>
 <button id="stop">PARAR</button>
 <script>
@@ -109,6 +124,22 @@
     if (mode && ws && ws.readyState === WebSocket.OPEN) ws.send("mode=" + mode);
   });
 
+  // Ajuste fino: cada toque é 1%. O barco limita e guarda; a telemetria diz o
+  // valor que ficou. Logo depois de um toque, a página não escuta a
+  // telemetria por um segundo, pra não voltar o número no meio dos toques
+  let trim = 0, trimTouched = 0;
+  function showTrim(value) {
+    trim = value;
+    document.getElementById("trim").textContent = (value > 0 ? "+" : "") + value + "%";
+  }
+  function nudgeTrim(step) {
+    if (!ws || ws.readyState !== WebSocket.OPEN) return;
+    showTrim(trim + step); trimTouched = Date.now();
+    ws.send("trim=" + trim);
+  }
+  document.getElementById("trim-left").addEventListener("click", () => nudgeTrim(-1));
+  document.getElementById("trim-right").addEventListener("click", () => nudgeTrim(1));
+
   // WebSocket: manda o comando 20 vezes por segundo — mesmo parado, é o
   // batimento que o failsafe do barco vigia
   function connect() {
@@ -123,6 +154,7 @@
         const t = JSON.parse(ev.data);
         document.getElementById("bat").textContent = t.bat.toFixed(2) + " V";
         if (t.mode) showMode(t.mode);
+        if (typeof t.trim === "number" && Date.now() - trimTouched > 1000) showTrim(t.trim);
         if (t.fs) { state.textContent = "failsafe"; state.className = "pill bad"; }
         else { state.textContent = "conectado"; state.className = "pill ok"; }
       } catch (e) {}

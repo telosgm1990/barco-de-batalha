@@ -7,19 +7,21 @@
 // Includes
 #include <cstddef> // size_t
 #include <cstdint> // int32_t, uint32_t
+#include <map>     // std::map
 #include <string>  // std::string
 
-#include "components/battery.hpp"      // Battery
-#include "components/led.hpp"          // Led
-#include "components/motor.hpp"        // Motor
-#include "platform/access_point.hpp"   // AccessPoint
-#include "platform/analog_input.hpp"   // AnalogInput
-#include "platform/clock.hpp"          // Clock
-#include "platform/digital_output.hpp" // DigitalOutput
-#include "platform/logger.hpp"         // Logger
-#include "platform/pwm_output.hpp"     // PwmOutput
-#include "platform/web_server.hpp"     // WebServer, TextListener
-#include "services/remote.hpp"         // Remote
+#include "components/battery.hpp"       // Battery
+#include "components/led.hpp"           // Led
+#include "components/motor.hpp"         // Motor
+#include "platform/access_point.hpp"    // AccessPoint
+#include "platform/analog_input.hpp"    // AnalogInput
+#include "platform/clock.hpp"           // Clock
+#include "platform/digital_output.hpp"  // DigitalOutput
+#include "platform/key_value_store.hpp" // KeyValueStore
+#include "platform/logger.hpp"          // Logger
+#include "platform/pwm_output.hpp"      // PwmOutput
+#include "platform/web_server.hpp"      // WebServer, TextListener
+#include "services/remote.hpp"          // Remote
 
 // Classes
 namespace fakes {
@@ -130,6 +132,27 @@ class WebServer final : public platform::WebServer {
     std::string last_text;
 };
 
+class Store final : public platform::KeyValueStore {
+  public:
+    bool read_int(const char *key, int32_t *value) override {
+        auto found = values.find(key);
+        if (found == values.end()) {
+            return false;
+        }
+        *value = found->second;
+        return true;
+    }
+
+    bool write_int(const char *key, int32_t value) override {
+        values[key] = value;
+        writes++;
+        return true;
+    }
+
+    std::map<std::string, int32_t> values;
+    int writes = 0;
+};
+
 // ---------------------------------------------------------------- components/
 
 class Motor final : public components::Motor {
@@ -189,6 +212,10 @@ class Remote final : public services::Remote {
         return command;
     }
 
+    services::settings_st get_settings() override {
+        return settings;
+    }
+
     bool is_connected() override {
         return connected;
     }
@@ -198,8 +225,9 @@ class Remote final : public services::Remote {
         telemetry_count++;
     }
 
-    services::command_st command =
-        {0.0f, 0.0f, 0, false, services::drive_mode_e::ECONOMY, 0};
+    services::command_st command = {0.0f, 0.0f, 0, false};
+    services::settings_st settings =
+        {services::drive_mode_e::ECONOMY, 0, 0.0f, 0};
     bool connected = false;
     bool started   = false;
     std::string last_telemetry;

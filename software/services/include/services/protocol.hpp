@@ -7,9 +7,10 @@
  *                segundo. Mesmo parado, ela continua mandando "0,0": é o
  *                batimento que o failsafe vigia.
  *   "mode=eco"   troca o modo: eco, fine, full ou war.
+ *   "trim=-12"   ajuste fino pra andar reto, de -100 a 100 (por cento).
  *
- * Barco -> página: {"bat":3.87,"fs":0,"mode":"eco"} — bateria em volts, se o
- * failsafe está armado (1) ou não (0), e o modo atual.
+ * Barco -> página: {"bat":3.87,"fs":0,"mode":"eco","trim":-12} — bateria em
+ * volts, se o failsafe está armado (1) ou não (0), o modo e o ajuste fino.
  */
 #pragma once
 
@@ -24,6 +25,7 @@ namespace services::protocol {
 enum class message_e {
     JOYSTICK,
     MODE,
+    TRIM,
 };
 
 struct message_st {
@@ -31,12 +33,14 @@ struct message_st {
     float x;           // JOYSTICK: -1 a 1, pro lado
     float y;           // JOYSTICK: -1 a 1, pra frente
     drive_mode_e mode; // MODE
+    float trim;        // TRIM: -1 a 1
 };
 
 struct telemetry_st {
     float battery_volts;
     bool failsafe;
     drive_mode_e mode;
+    float trim; // -1 a 1; vai como por cento
 };
 
 // Funções

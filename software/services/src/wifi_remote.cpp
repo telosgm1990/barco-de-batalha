@@ -1,6 +1,8 @@
 // Includes
 #include "services/wifi_remote.hpp" // WifiRemote
 
+#include <cmath> // std::lround
+
 #include "services/protocol.hpp" // parse_message
 
 // Constantes/variáveis estáticas
@@ -28,15 +30,22 @@ bool WifiRemote::begin() {
 }
 
 command_st WifiRemote::get_command() {
-    int32_t packed       = _packed_xy.load();
-    command_st command   = {};
-    command.x            = static_cast<int16_t>(packed & 0xFFFF) / 1000.0f;
-    command.y            = static_cast<int16_t>(packed >> 16) / 1000.0f;
-    command.received_ms  = _received_ms.load();
-    command.valid        = _valid.load();
-    command.mode         = static_cast<drive_mode_e>(_mode.load());
-    command.settings_seq = _settings_seq.load();
+    int32_t packed      = _packed_xy.load();
+    command_st command  = {};
+    command.x           = static_cast<int16_t>(packed & 0xFFFF) / 1000.0f;
+    command.y           = static_cast<int16_t>(packed >> 16) / 1000.0f;
+    command.received_ms = _received_ms.load();
+    command.valid       = _valid.load();
     return command;
+}
+
+settings_st WifiRemote::get_settings() {
+    settings_st settings = {};
+    settings.mode        = static_cast<drive_mode_e>(_mode.load());
+    settings.mode_seq    = _mode_seq.load();
+    settings.trim        = _trim_percent.load() / 100.0f;
+    settings.trim_seq    = _trim_seq.load();
+    return settings;
 }
 
 bool WifiRemote::is_connected() {
@@ -69,7 +78,11 @@ void WifiRemote::on_text(const char *text, size_t length, int client) {
     }
     case protocol::message_e::MODE:
         _mode.store(mode_index(message.mode));
-        _settings_seq.fetch_add(1);
+        _mode_seq.fetch_add(1);
+        break;
+    case protocol::message_e::TRIM:
+        _trim_percent.store(static_cast<int>(std::lround(message.trim * 100)));
+        _trim_seq.fetch_add(1);
         break;
     }
 }

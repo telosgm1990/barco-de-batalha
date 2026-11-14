@@ -9,6 +9,9 @@
  * Cada prova pede um jeito de andar (esboço, seção 7): um modo escolhe o
  * perfil — velocidade máxima, rampa e curva do joystick.
  *
+ * Motor nenhum é igual ao outro: o ajuste fino (trim) tira um pouco da força
+ * de uma roda, pra o barco andar reto com o joystick reto.
+ *
  * Conta pura, sem dependência nenhuma: não tem o que inverter, então não tem
  * abstração — o barco usa direto.
  */
@@ -57,6 +60,10 @@ class Drive {
     // Troque o perfil; a rampa leva a saída até o limite novo
     void set_profile(const drive_profile_st &profile);
 
+    // Ajuste fino, de -1 a 1: positivo tira força da roda direita (o barco
+    // puxava pra esquerda), negativo, da esquerda
+    void set_trim(float trim);
+
     // Pare na hora, sem rampa — é o que o failsafe usa
     void stop();
 
@@ -69,6 +76,7 @@ class Drive {
   private:
     float _deadzone;
     drive_profile_st _profile;
+    float _trim       = 0.0f;
     wheels_st _output = {0.0f, 0.0f};
 };
 

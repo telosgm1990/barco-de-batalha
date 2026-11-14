@@ -58,6 +58,15 @@ constexpr services::drive_profile_st PROFILE_WAR = {1.0f, 2.0f, 0.2f};
 // Liga no econômico: o mais manso, pra primeira vez na bancada
 constexpr services::drive_mode_e INITIAL_MODE = services::drive_mode_e::ECONOMY;
 
+// Ajuste fino pra andar reto, até 30% de uma roda pra cada lado — chute: se
+// precisar de mais, o problema é mecânico (roda torta, eixo pegando)
+constexpr float MAX_TRIM = 0.3f;
+
+// ---------------------------------------------------------------- Memória
+
+// Espaço da memória da placa onde o barco guarda os ajustes (até 15 letras)
+constexpr const char *STORE_SPACE = "donatelos";
+
 // ---------------------------------------------------------------- Wi-Fi
 
 constexpr int WIFI_CHANNEL = 1; // a medir — troque se tiver interferência

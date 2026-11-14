@@ -14,8 +14,11 @@ void Drive::update(float dt_seconds, float x, float y) {
     x = shape(x, _profile.expo);
     y = shape(y, _profile.expo);
     wheels_st target = mix(x, y);
-    target.left *= _profile.max_output;
-    target.right *= _profile.max_output;
+    // Limite do modo e ajuste fino: tire força da roda que puxa mais
+    float left_gain  = _trim < 0.0f ? 1.0f + _trim : 1.0f;
+    float right_gain = _trim > 0.0f ? 1.0f - _trim : 1.0f;
+    target.left *= _profile.max_output * left_gain;
+    target.right *= _profile.max_output * right_gain;
     // Chegue no alvo aos poucos, no máximo a rampa por segundo
     float step    = _profile.slew_per_second * dt_seconds;
     _output.left  = common::approach(_output.left, target.left, step);
@@ -28,6 +31,10 @@ wheels_st Drive::get_output() const {
 
 void Drive::set_profile(const drive_profile_st &profile) {
     _profile = profile;
+}
+
+void Drive::set_trim(float trim) {
+    _trim = common::clamp(trim, -1.0f, 1.0f);
 }
 
 void Drive::stop() {

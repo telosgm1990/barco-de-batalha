@@ -5,17 +5,14 @@
 
 #include "esp_event.h" // esp_event_loop_create_default
 #include "esp_netif.h" // esp_netif_*
+#include "esp_nvs.hpp" // begin_nvs_flash
 #include "esp_wifi.h"  // esp_wifi_*
-#include "nvs_flash.h" // nvs_flash_init
-
-// Protótipos de funções estáticas
-static bool _init_nvs();
 
 // Funções públicas
 namespace platform {
 
 bool EspAccessPoint::begin() {
-    if (!_init_nvs()) {
+    if (!begin_nvs_flash()) {
         return false;
     }
     esp_netif_init();
@@ -57,14 +54,3 @@ bool EspAccessPoint::begin() {
 }
 
 } // namespace platform
-
-// Funções estáticas
-static bool _init_nvs() {
-    esp_err_t result = nvs_flash_init();
-    if (result == ESP_ERR_NVS_NO_FREE_PAGES ||
-        result == ESP_ERR_NVS_NEW_VERSION_FOUND) {
-        nvs_flash_erase();
-        result = nvs_flash_init();
-    }
-    return result == ESP_OK;
-}

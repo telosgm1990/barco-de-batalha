@@ -18,10 +18,16 @@ struct command_st {
     float y;              // -1 a 1, pra frente
     uint32_t received_ms; // quando chegou o joystick, no relógio da placa
     bool valid;           // já chegou algum joystick desde que ligou
-    // Ajustes pedidos pela página; settings_seq sobe a cada pedido novo, e
-    // zero quer dizer "ninguém pediu nada ainda"
+};
+
+// Ajustes pedidos pela página. Cada um tem o seu contador, que sobe a cada
+// pedido novo — zero quer dizer "ninguém pediu ainda". Assim, pedir um não
+// apaga o outro.
+struct settings_st {
     drive_mode_e mode;
-    uint32_t settings_seq;
+    uint32_t mode_seq;
+    float trim; // ajuste fino, -1 a 1 (ver Drive::set_trim)
+    uint32_t trim_seq;
 };
 
 // Classes
@@ -33,6 +39,9 @@ class Remote {
 
     // Último comando que chegou do joystick
     virtual command_st get_command() = 0;
+
+    // Últimos ajustes pedidos pela página
+    virtual settings_st get_settings() = 0;
 
     // Diga se tem alguém com o controle aberto
     virtual bool is_connected() = 0;

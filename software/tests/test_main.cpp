@@ -123,6 +123,17 @@ static void _test_drive_ramp() {
     drive.update(1.0f, 0.0f, 1.0f);
     w = drive.get_output();
     CHECK(_near(w.left, 0.5f) && _near(w.right, 0.5f));
+    // Ajuste fino positivo: tira 20% da roda direita
+    drive.set_trim(0.2f);
+    drive.update(1.0f, 0.0f, 1.0f);
+    w = drive.get_output();
+    CHECK(_near(w.left, 0.5f) && _near(w.right, 0.4f));
+    // Negativo: tira da esquerda, também na ré
+    drive.set_trim(-0.2f);
+    drive.update(1.0f, 0.0f, -1.0f);
+    w = drive.get_output();
+    CHECK(_near(w.left, -0.4f) && _near(w.right, -0.5f));
+    drive.set_trim(0.0f);
     // stop zera na hora, sem rampa
     drive.stop();
     w = drive.get_output();
@@ -159,6 +170,14 @@ static void _test_protocol() {
     CHECK(!protocol::parse_message("a,b", &message));
     CHECK(!protocol::parse_message("10,20,30", &message));
     CHECK(!protocol::parse_message("mode=turbo", &message));
+    // Ajuste fino, em por cento
+    CHECK(protocol::parse_message("trim=-12", &message));
+    CHECK(message.type == protocol::message_e::TRIM);
+    CHECK(_near(message.trim, -0.12f));
+    CHECK(protocol::parse_message("trim=500", &message));
+    CHECK(_near(message.trim, 1.0f));
+    CHECK(!protocol::parse_message("trim=", &message));
+    CHECK(!protocol::parse_message("trim=5x", &message));
     CHECK(!protocol::parse_message(nullptr, &message));
 
     CHECK(strcmp(protocol::mode_name(drive_mode_e::ECONOMY), "eco") == 0);
@@ -166,9 +185,14 @@ static void _test_protocol() {
     protocol::format_telemetry(
         text,
         sizeof(text),
-        {3.874f, true, drive_mode_e::FULL}
+        {3.874f, true, drive_mode_e::FULL, -0.12f}
     );
-    CHECK(strcmp(text, "{\"bat\":3.87,\"fs\":1,\"mode\":\"full\"}") == 0);
+    CHECK(
+        strcmp(
+            text,
+            "{\"bat\":3.87,\"fs\":1,\"mode\":\"full\",\"trim\":-12}"
+        ) == 0
+    );
 }
 
 static void _test_failsafe() {
@@ -273,7 +297,8 @@ static void _test_wifi_remote() {
     CHECK(server.served_page == "<html>joystick</html>");
     // Antes de qualquer mensagem: comando inválido, ninguém conectado
     CHECK(!remote.get_command().valid);
-    CHECK(remote.get_command().settings_seq == 0);
+    CHECK(remote.get_settings().mode_seq == 0);
+    CHECK(remote.get_settings().trim_seq == 0);
     CHECK(!remote.is_connected());
 
     // Chegou um comando: guarda x, y e a hora do relógio
@@ -291,12 +316,20 @@ static void _test_wifi_remote() {
     server.receive("lixo", 7);
     CHECK(remote.get_command().received_ms == 1234);
 
-    // Troca de modo: sobe o contador de ajustes, mas não é batimento
+    // Troca de modo: sobe o contador do modo, mas não é batimento
     server.receive("mode=fine", 7);
-    command = remote.get_command();
-    CHECK(command.mode == services::drive_mode_e::PRECISE);
-    CHECK(command.settings_seq == 1);
-    CHECK(command.received_ms == 1234);
+    services::settings_st settings = remote.get_settings();
+    CHECK(settings.mode == services::drive_mode_e::PRECISE);
+    CHECK(settings.mode_seq == 1);
+    CHECK(settings.trim_seq == 0);
+    CHECK(remote.get_command().received_ms == 1234);
+
+    // Ajuste fino: o contador dele, sem mexer no do modo
+    server.receive("trim=7", 7);
+    settings = remote.get_settings();
+    CHECK(_near(settings.trim, 0.07f));
+    CHECK(settings.trim_seq == 1);
+    CHECK(settings.mode_seq == 1);
 
     // Telemetria vai pro cliente que mandou o comando
     remote.send_telemetry("{\"bat\":3.90}");
@@ -320,6 +353,9 @@ static void _test_boat() {
     fakes::Led led;
     fakes::Remote remote;
     fakes::Logger logger;
+    fakes::Store store;
+    // Da última vez, o barco puxava pra esquerda: 10% a menos na direita
+    store.values["trim"] = 10;
     // Econômico vai até 0,5; os outros até 1 — rampa rápida pra o teste
     app::tuning_st tuning = {
         500,
@@ -329,38 +365,58 @@ static void _test_boat() {
          {0.6f, 100.0f, 0.6f},
          {1.0f, 100.0f, 0.0f},
          {1.0f, 100.0f, 0.2f}},
-        drive_mode_e::ECONOMY
+        drive_mode_e::ECONOMY,
+        0.3f
     };
-    app::Boat boat({left, right, battery, led, remote, logger}, tuning);
+    app::Boat boat({left, right, battery, led, remote, logger, store}, tuning);
 
     boat.begin();
     CHECK(remote.started);
     CHECK(boat.get_mode() == drive_mode_e::ECONOMY);
+    CHECK(_near(boat.get_trim(), 0.1f));
 
     // Sem comando nenhum: failsafe armado, motores parados, LED esperando
     boat.update(100);
     CHECK(_near(left.speed, 0.0f) && _near(right.speed, 0.0f));
     CHECK(led.blink_ms == 1000);
 
-    // Comando fresco, celular conectado: anda até o limite do econômico
+    // Comando fresco, celular conectado: anda até o limite do econômico,
+    // com o ajuste fino guardado tirando da direita
     remote.connected = true;
-    remote.command   = {0.0f, 1.0f, 150, true, drive_mode_e::ECONOMY, 0};
+    remote.command   = {0.0f, 1.0f, 150, true};
     boat.update(200);
-    CHECK(_near(left.speed, 0.5f) && _near(right.speed, 0.5f));
+    CHECK(_near(left.speed, 0.5f) && _near(right.speed, 0.45f));
     CHECK(led.blink_ms == 0);
 
-    // A página pediu "tudo": o limite sobe
-    remote.command = {0.0f, 1.0f, 250, true, drive_mode_e::FULL, 1};
+    // A página pediu "tudo": o limite sobe, o ajuste fino fica
+    remote.settings = {drive_mode_e::FULL, 1, 0.0f, 0};
+    remote.command  = {0.0f, 1.0f, 250, true};
     boat.update(300);
     CHECK(boat.get_mode() == drive_mode_e::FULL);
-    CHECK(_near(left.speed, 1.0f) && _near(right.speed, 1.0f));
+    CHECK(_near(boat.get_trim(), 0.1f));
+    CHECK(_near(left.speed, 1.0f) && _near(right.speed, 0.9f));
 
-    // Telemetria só depois de um período inteiro (500 ms), com bateria e modo
+    // Ajuste fino novo, além do máximo: fica no máximo e vai pra memória
+    remote.settings = {drive_mode_e::FULL, 1, -0.5f, 1};
+    boat.update(320);
+    CHECK(_near(boat.get_trim(), -0.3f));
+    CHECK(store.values["trim"] == -30);
+    CHECK(store.writes == 1);
+    CHECK(_near(left.speed, 0.7f) && _near(right.speed, 1.0f));
+    // O mesmo pedido de novo não grava outra vez
+    boat.update(340);
+    CHECK(store.writes == 1);
+
+    // Telemetria só depois de um período inteiro (500 ms), com bateria, modo
+    // e ajuste fino
     CHECK(remote.telemetry_count == 0);
-    remote.command = {0.0f, 1.0f, 550, true, drive_mode_e::FULL, 1};
+    remote.command = {0.0f, 1.0f, 550, true};
     boat.update(600);
     CHECK(remote.telemetry_count == 1);
-    CHECK(remote.last_telemetry == "{\"bat\":3.90,\"fs\":0,\"mode\":\"full\"}");
+    CHECK(
+        remote.last_telemetry ==
+        "{\"bat\":3.90,\"fs\":0,\"mode\":\"full\",\"trim\":-30}"
+    );
 
     // Comando parou de chegar: passou do tempo, para na hora
     boat.update(1200);

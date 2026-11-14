@@ -1,25 +1,27 @@
 /*
  * O barco: a cada volta do laço, lê o joystick, vigia o failsafe, anda a
  * tração, manda nos motores, pisca o LED e, de tempos em tempos, manda a
- * bateria pra página.
+ * bateria pra página. Os ajustes que a página pede (modo e ajuste fino)
+ * entram na tração; o ajuste fino fica guardado na memória da placa.
  *
  * Recebe tudo pronto, por referência, como as abstrações das camadas de
  * baixo: os motores, a bateria e o LED de components/, o controle remoto de
- * services/ e o log da platform/. Na placa, quem monta é o main/; nos testes
- * do PC, peças falsas.
+ * services/, o log e a memória da platform/. Na placa, quem monta é o main/;
+ * nos testes do PC, peças falsas.
  */
 #pragma once
 
 // Includes
 #include <cstdint> // uint32_t
 
-#include "app/failsafe.hpp"       // Failsafe
-#include "components/battery.hpp" // Battery
-#include "components/led.hpp"     // Led
-#include "components/motor.hpp"   // Motor
-#include "platform/logger.hpp"    // Logger
-#include "services/drive.hpp"     // Drive
-#include "services/remote.hpp"    // Remote
+#include "app/failsafe.hpp"             // Failsafe
+#include "components/battery.hpp"       // Battery
+#include "components/led.hpp"           // Led
+#include "components/motor.hpp"         // Motor
+#include "platform/key_value_store.hpp" // KeyValueStore
+#include "platform/logger.hpp"          // Logger
+#include "services/drive.hpp"           // Drive
+#include "services/remote.hpp"          // Remote
 
 // Enums/structs
 namespace app {
@@ -32,6 +34,7 @@ struct tuning_st {
     // Um perfil por modo, na ordem de services::drive_mode_e
     services::drive_profile_st profiles[services::DRIVE_MODE_COUNT];
     services::drive_mode_e initial_mode;
+    float max_trim; // ajuste fino máximo, de 0 a 1, pros dois lados
 };
 
 // As peças que o barco usa, já montadas
@@ -42,6 +45,7 @@ struct parts_st {
     components::Led &led;
     services::Remote &remote;
     platform::Logger &logger;
+    platform::KeyValueStore &store;
 };
 
 // Classes
@@ -58,7 +62,7 @@ class Boat {
           _mode(tuning.initial_mode) {
     }
 
-    // Suba o controle remoto (rede e página)
+    // Pegue o ajuste fino guardado e suba o controle remoto (rede e página)
     void begin();
 
     // Uma volta do laço principal
@@ -67,8 +71,12 @@ class Boat {
     // Modo em que o barco está andando
     services::drive_mode_e get_mode() const;
 
+    // Ajuste fino em uso, de -1 a 1
+    float get_trim() const;
+
   private:
-    void _apply_settings(const services::command_st &command);
+    void _apply_settings();
+    void _set_trim(float trim);
     void _update_led(uint32_t now_ms, bool connected, bool tripped);
     void _send_telemetry(bool tripped);
 
@@ -77,7 +85,9 @@ class Boat {
     Failsafe _failsafe;
     services::Drive _drive;
     services::drive_mode_e _mode;
-    uint32_t _settings_seq      = 0;
+    float _trim                 = 0.0f;
+    uint32_t _mode_seq          = 0;
+    uint32_t _trim_seq          = 0;
     uint32_t _last_update_ms    = 0;
     uint32_t _last_telemetry_ms = 0;
     bool _was_tripped           = true;

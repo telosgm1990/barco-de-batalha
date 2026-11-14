@@ -9,20 +9,21 @@
  */
 
 // Includes
-#include "app/boat.hpp"                    // Boat
-#include "board.hpp"                       // pinos e ajustes
-#include "components/digital_led.hpp"      // DigitalLed
-#include "components/divider_battery.hpp"  // DividerBattery
-#include "components/h_bridge_motor.hpp"   // HBridgeMotor
-#include "platform/esp_access_point.hpp"   // EspAccessPoint
-#include "platform/esp_analog_input.hpp"   // EspAnalogInput
-#include "platform/esp_clock.hpp"          // EspClock
-#include "platform/esp_digital_output.hpp" // EspDigitalOutput
-#include "platform/esp_logger.hpp"         // EspLogger
-#include "platform/esp_pwm_output.hpp"     // EspPwmOutput
-#include "platform/esp_web_server.hpp"     // EspWebServer
-#include "services/page.hpp"               // page_start, page_end
-#include "services/wifi_remote.hpp"        // WifiRemote
+#include "app/boat.hpp"                     // Boat
+#include "board.hpp"                        // pinos e ajustes
+#include "components/digital_led.hpp"       // DigitalLed
+#include "components/divider_battery.hpp"   // DividerBattery
+#include "components/h_bridge_motor.hpp"    // HBridgeMotor
+#include "platform/esp_access_point.hpp"    // EspAccessPoint
+#include "platform/esp_analog_input.hpp"    // EspAnalogInput
+#include "platform/esp_clock.hpp"           // EspClock
+#include "platform/esp_digital_output.hpp"  // EspDigitalOutput
+#include "platform/esp_key_value_store.hpp" // EspKeyValueStore
+#include "platform/esp_logger.hpp"          // EspLogger
+#include "platform/esp_pwm_output.hpp"      // EspPwmOutput
+#include "platform/esp_web_server.hpp"      // EspWebServer
+#include "services/page.hpp"                // page_start, page_end
+#include "services/wifi_remote.hpp"         // WifiRemote
 
 #if __has_include("secrets.hpp")
 #include "secrets.hpp" // senha do Wi-Fi
@@ -63,6 +64,7 @@ constinit static platform::EspAccessPoint _access_point(
      board::WIFI_MAX_TX_POWER_QDBM}
 );
 constinit static platform::EspWebServer _web_server;
+constinit static platform::EspKeyValueStore _store(board::STORE_SPACE);
 
 // components/: recebem as abstrações da platform/
 constinit static components::HBridgeMotor _left_motor(
@@ -96,7 +98,7 @@ constinit static services::WifiRemote _remote(
 
 // app/: o barco recebe tudo
 constinit static app::Boat _boat(
-    {_left_motor, _right_motor, _battery, _led, _remote, _logger},
+    {_left_motor, _right_motor, _battery, _led, _remote, _logger, _store},
     {board::FAILSAFE_TIMEOUT_MS,
      board::JOYSTICK_DEADZONE,
      board::TELEMETRY_PERIOD_MS,
@@ -104,12 +106,14 @@ constinit static app::Boat _boat(
       board::PROFILE_PRECISE,
       board::PROFILE_FULL,
       board::PROFILE_WAR},
-     board::INITIAL_MODE}
+     board::INITIAL_MODE,
+     board::MAX_TRIM}
 );
 
 // Ponto de entrada
 extern "C" void app_main(void) {
-    // Dê a partida no hardware: PWM com os motores parados, ADC, LED
+    // Dê a partida no hardware: PWM com os motores parados, ADC, LED e a
+    // memória
     platform::EspPwmOutput::begin_timer(board::PWM_FREQUENCY_HZ);
     _left_in1.begin();
     _left_in2.begin();
@@ -117,6 +121,12 @@ extern "C" void app_main(void) {
     _right_in2.begin();
     _battery_input.begin();
     _led_output.begin();
+    if (!_store.begin()) {
+        _logger.warn(
+            "main",
+            "memória não abriu: ajuste fino não fica guardado"
+        );
+    }
 
     // Depois nos componentes e, por último, no barco (que sobe a rede)
     _left_motor.begin();
