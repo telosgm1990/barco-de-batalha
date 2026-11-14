@@ -12,8 +12,8 @@ e grava o vídeo — e quanto disso vai pra conta do barco.
 > parte entra pela fração usada; peça comprada a mais pra reserva de
 > desenvolvimento não entra. Frete também não entra.
 
-Legenda: ✅ já tinha · 📦 comprado · ♻️ reaproveitar (reciclado entra a preço
-de kg) · 🖨️ imprimir
+Legenda: ✅ já tinha · 📦 comprado · 🛒 a comprar · ♻️ reaproveitar (reciclado
+entra a preço de kg) · 🖨️ imprimir
 
 ## 1. O que vai no barco
 
@@ -36,10 +36,13 @@ de kg) · 🖨️ imprimir
 | 15 | 📦 Fita isolante 5 m | 2 × R$ 3,99 | um pedaço (*chute*) | R$ 0,50 | No lugar do termorretrátil |
 | 16 | ♻️ Pote, isopor | — | depende do casco | ~R$ 1 (*chute*) | Ver o [plano do casco](plano-do-casco.md) |
 | 17 | 🖨️ Rodas de pá e suportes de motor | — | 2 + 2 | *chute* R$ 1–3 | Desenhadas depois de medir o motor |
+| 18 | 🛒 LED 5 mm difuso: vermelho, verde e amarelo | em São Carlos, uns 2 de cada | 3 | *a cotar* | Sinalização: alimentação, status e alerta ([hardware](../hardware/README.md#sinalização)). Verde **comum**, não o de alto brilho |
+| 19 | 🛒 Resistor 1 kΩ e 330 Ω, 1/4 W | em São Carlos, uns 5 de cada | 1 + 2 | *a cotar* | 1 kΩ no LED vermelho, 330 Ω no verde e no amarelo |
 
 **Na conta do barco, só a eletrônica (itens 1–15):** ~**R$ 74** com uma célula,
 ~**R$ 93** com duas em paralelo — *estimativa*, porque as frações dos pacotes
-são chute. Ainda falta o casco: o [plano do casco](plano-do-casco.md#4-a-conta)
+são chute. Os LEDs e resistores (itens 18 e 19) entram quando tiverem preço:
+são centavos, mas entram. Ainda falta o casco: o [plano do casco](plano-do-casco.md#4-a-conta)
 faz a conta inteira.
 
 **Total do pedido:** R$ 150,77 (preço do carrinho, sem frete). A diferença pra

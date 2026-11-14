@@ -1,12 +1,14 @@
 # Montagem — Fase 1
 
-Como as peças da Fase 1 se ligam: bateria, carregador, chave, ESP, ponte H e
-os dois motores.
+Como as peças da Fase 1 se ligam: bateria, carregador, chave, ESP, ponte H,
+os dois motores e os três LEDs de sinalização.
 
 > 🖼️ **Ilustração, não esquemático.** O desenho mostra quem liga em quem, no
 > estilo dos diagramas de montagem — cantos arredondados, cores pastel. A
 > pinagem nasce no [esquemático](../hardware/README.md#pinagem) e o desenho
-> copia de lá: **IO3** lê a bateria, **IO4 a IO7** vão nos IN1–IN4 da ponte H.
+> copia de lá: **IO3** lê a bateria, **IO4 a IO7** vão nos IN1–IN4 da ponte H,
+> **IO10** e **IO1** acendem os LEDs verde e amarelo, e o vermelho fica no
+> **3V3**.
 
 ![Montagem da Fase 1](imagens/montagem-fase-1.svg)
 
@@ -44,6 +46,9 @@ antes da bateria (já está nos cuidados de [hardware/](../hardware/CLAUDE.md)).
 | TP4056 OUT− | Ponte H (−), ESP (GND), capacitores (−), divisor | grafite (GND) | |
 | ESP GPIO4–GPIO7 | Ponte H IN1–IN4 | azul, lilás, verde, laranja | Dois pinos por motor: IN1/IN2 o esquerdo, IN3/IN4 o direito |
 | Meio do divisor | ESP GPIO3 | rosa | Pino com ADC que funciona junto com o Wi-Fi |
+| ESP 3V3 | Resistor de 1 kΩ → LED vermelho → GND | pêssego | Aceso = placa alimentada |
+| ESP GPIO10 | Resistor de 330 Ω → LED verde → GND | lima | Status |
+| ESP GPIO1 | Resistor de 330 Ω → LED amarelo → GND | limão | Alerta |
 | Ponte H MOTOR-A | Motor esquerdo | âmbar e marrom | Pelo borne |
 | Ponte H MOTOR-B | Motor direito | âmbar e marrom | Pelo borne |
 
@@ -59,10 +64,14 @@ Motor girando ao contrário não é defeito: troque os dois fios dele no borne
 3. **Três bornes:** bateria e os dois motores.
 4. **Capacitores** perto da ponte H, conferindo a faixa do −.
 5. **Divisor** perto da ESP.
-6. **V+ e GND** com fio pela placa, depois os sinais IN1–IN4 e BAT.
-7. **Chave** fora da placa, no fio do OUT+, num lugar que dê pra alcançar com
+6. **LEDs e resistores** num canto da placa que fique visível com o barco
+   montado. **LED tem lado:** a perna comprida é o anodo (vai no resistor);
+   a curta, com o chanfro na borda, é o catodo (vai no GND).
+7. **V+ e GND** com fio pela placa, depois os sinais IN1–IN4, BAT e os dos
+   LEDs.
+8. **Chave** fora da placa, no fio do OUT+, num lugar que dê pra alcançar com
    o barco montado.
-8. **Antes da bateria:** multímetro em continuidade entre V+ e GND — não pode
+9. **Antes da bateria:** multímetro em continuidade entre V+ e GND — não pode
    apitar. Depois, a primeira vez liga pela **fonte de bancada, com limite de
    corrente**. A bateria vem só depois.
 

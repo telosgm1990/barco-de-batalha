@@ -19,12 +19,15 @@ A parte elétrica do barco: esquemático, ligações e a pinagem.
 | Motor esquerdo, entrada 2 | GPIO5 | `IN2` | Livre no boot |
 | Motor direito, entrada 1 | GPIO6 | `IN3` | Livre no boot |
 | Motor direito, entrada 2 | GPIO7 | `IN4` | Livre no boot |
-| LED de status | GPIO8 | — (na placa) | Pino de boot: só saída, depois que liga |
+| LED amarelo (alerta) | GPIO1 | `LED_Y` | Livre no boot; deixa o GPIO0 livre pra um sensor analógico |
+| LED verde (status) | GPIO10 | `LED_G` | Livre no boot, e não é ADC: não gasta pino analógico |
+| LED vermelho (alimentação) | 3V3 | `3V3` | Direto, sem firmware: aceso = placa alimentada |
+| LED da placa | GPIO8 | — (na placa) | Sem uso: o status foi pro LED verde. Pino de boot |
 | Botão BOOT | GPIO9 | — (na placa) | Pino de boot |
 | Alimentação | 5V | `V+` | Entrada do regulador da placa |
 | Terra | GND | `GND` | |
 
-Ficaram livres: GPIO0, 1, 2, 10, 20 e 21, e o 3V3. Os motores fogem dos pinos
+Ficaram livres: GPIO0, 2, 20 e 21. Os motores e os LEDs fogem dos pinos
 de boot (GPIO2, 8 e 9, datasheet p. 30) e do GPIO20/21, que é a serial onde o
 chip escreve quando liga — ligado num motor, daria um tranco no boot.
 
@@ -43,6 +46,26 @@ bateria entra no 5V da SuperMini, passando pelo regulador da placa. Com a
 célula descarregando, sobra pouca folga. Até onde ela aguenta, a fonte de
 bancada responde — antes de confiar na bateria.
 
+## Sinalização
+
+Três LEDs comuns de 5 mm, cada um com o seu resistor, pra ler o barco de
+longe — inclusive na água, sem o celular na mão.
+
+| LED | Liga em | Resistor | O que diz |
+| --- | --- | --- | --- |
+| Vermelho (D1) | 3V3, direto | 1 kΩ (R3) | Aceso = placa alimentada. Acende até com o firmware travado |
+| Verde (D2) | GPIO10 | 330 Ω (R4) | Status: pisca devagar esperando o celular; aceso, no controle |
+| Amarelo (D3) | GPIO1 | 330 Ω (R5) | Alerta: pisca rápido no failsafe; aceso com bateria baixa |
+
+**A conta do resistor** é I = (3,3 V − Vf) / R, e o Vf (a queda do LED) é
+*estimativa* até medir: perto de 2 V no vermelho e no amarelo comuns, o que
+dá ~1,3 mA no de 1 kΩ e ~4 mA nos de 330 Ω. O vermelho fica no 1 kΩ porque
+fica aceso o tempo todo: menos corrente, mais autonomia.
+
+**Verde: compre o comum (difuso), não o de alto brilho.** O verde "puro" tem
+Vf perto de 3 V (*estimativa*) e, com 3,3 V, quase não acende. Na dúvida,
+meça a queda com o multímetro no modo diodo antes de soldar.
+
 ## Componentes
 
 | Ref. | O quê | Fonte |
@@ -55,6 +78,9 @@ bancada responde — antes de confiar na bateria.
 | SW1 | Chave gangorra KCD11 | — |
 | C1, C2 | 100 µF 16 V | — |
 | R1, R2 | 100 kΩ (divisor da bateria) | — |
+| D1–D3 | LED 5 mm difuso: vermelho, verde e amarelo | — |
+| R3 | 1 kΩ (LED vermelho) | — |
+| R4, R5 | 330 Ω (LEDs verde e amarelo) | — |
 | J1–J3 | Borne KF301, 2 vias | — |
 
 A lista completa, com preço: [docs/lista-de-materiais.md](../docs/lista-de-materiais.md).
