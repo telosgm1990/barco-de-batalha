@@ -4,13 +4,13 @@ Regras gerais em [../CLAUDE.md](../CLAUDE.md). Aqui só o que é do firmware.
 
 ## Estado
 
-🚧 **D5 e D9 fechadas** em 13/11/2026 (ver o
-[esboço](../docs/esbocando-a-ideia.md#11-decisões)): celular via Wi-Fi, e
-ESP-IDF v6.1 em Docker. Existe só o **esqueleto** (`main/main.cpp`, que dá
-sinal de vida na serial); as camadas abaixo nascem com o firmware da Fase 1, e
-as convenções já valem. Comandos de compilar, gravar, ler a serial e formatar:
-[README.md](README.md). Antes de dizer que terminou: **compile e passe o
-`clang-format`**.
+🚧 **Firmware da Fase 1 escrito** (14/11/2026): Wi-Fi em ponto de acesso,
+página do joystick por WebSocket, tração com rampa, failsafe, leitura da
+bateria e LED de status. Compila e passa nos testes do PC; **ainda não rodou
+na placa**. Comandos: [README.md](README.md).
+
+**Antes de dizer que terminou:** compile, rode os testes do PC e passe o
+`clang-format` em tudo — os três comandos estão no README.
 
 ## Ambiente
 
@@ -23,21 +23,35 @@ as convenções já valem. Comandos de compilar, gravar, ler a serial e formatar
 - **Segredo do firmware** (senha do Wi-Fi do barco etc.) fica em
   `secrets.hpp`, ignorado. No git vai o `secrets.example.hpp` com valor falso.
 
-## Camadas propostas
+## Camadas
 
 ```
 main/          app_main + bootstrap: a cola com a placa (pinos, objetos estáticos)
-app/           o barco: modo de prova, failsafe
-services/      tração, link (Wi-Fi e página), telemetria
+app/           o barco (laço principal) e o failsafe
+services/      tração (drive), protocolo da página, controle remoto (remote)
 components/    motor, bateria, LED
-platform/      ESP-IDF por baixo: PWM, ADC, GPIO, Wi-Fi
-common/        tipos, log, utilitários
+platform/      ESP-IDF por baixo: PWM, ADC, GPIO, Wi-Fi, HTTP, relógio, log
+common/        utilitários de conta
 ```
 
 Regra de dependência: cada camada só inclui as de baixo; `common/` não inclui
 ninguém. `platform/` é a única que conhece o ESP-IDF — é isso que deixa testar
 `app/` e `services/` no PC. Precisou incluir camada de cima? O desenho está
 errado: pare e discuta.
+
+- **Cada camada é um componente do ESP-IDF:** `app`, `services`, `platform` e
+  `common` entram pelo `EXTRA_COMPONENT_DIRS` do `CMakeLists.txt`; cada peça de
+  `components/` é um componente sozinha. Include com o nome da camada:
+  `"services/drive.hpp"`, `"components/motor.hpp"`.
+- **Headers de `platform/` não expõem tipo do ESP-IDF** — o `#include` do
+  ESP-IDF fica no `.cpp`.
+- **Conta pura vai em arquivo próprio**, sem `platform/`: `drive`, `protocol` e
+  `failsafe` são compilados pelos testes em `tests/` (g++ da imagem Docker).
+  Regra nova com conta? Ganha teste lá.
+- **O serviço do Wi-Fi se chama `remote`, não `link`:** `link()` é função do
+  POSIX e o nome colide.
+- **A página** (`services/page/index.html`) entra no binário pelo
+  `EMBED_TXTFILES` do `CMakeLists.txt` de `services/`.
 
 ## Convenções de código
 

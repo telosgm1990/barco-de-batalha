@@ -38,7 +38,7 @@ do projeto perde ponto. Código, modelo 3D e esquemático são escritos por IA
 | [Mecânica](mechanics/README.md) | ✅ os dois caminhos projetados em OpenSCAD, com renders; medidas do pote e do motor *a medir* |
 | [Esquemático e pinagem](hardware/README.md) | ✅ KiCad 10, ERC limpo |
 | [Montagem ilustrada](docs/montagem.md) | ✅ com a pinagem do esquemático |
-| Firmware | 🚧 esqueleto: compila e dá sinal de vida |
+| [Firmware](software/README.md) | ✅ Fase 1: Wi-Fi, joystick no celular, failsafe, motores e bateria — compila e passa nos testes; falta a placa |
 
 ## Estrutura
 
