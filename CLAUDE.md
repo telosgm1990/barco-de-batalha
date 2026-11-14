@@ -117,7 +117,7 @@ git**. Não achou a ferramenta? Pergunte.
 ```
 docs/        regulamento, esboço, imagens            → docs/CLAUDE.md
 hardware/    esquemático KiCad, pinagem              → hardware/CLAUDE.md
-software/    firmware ESP-IDF em C++, página web     → software/CLAUDE.md
+software/    firmware/ (ESP-IDF, C++); app, se sair  → software/CLAUDE.md
 mechanics/   modelos OpenSCAD, peças impressas       → mechanics/CLAUDE.md
 scripts/     caçador de segredos, utilitários        → scripts/CLAUDE.md
 ```
@@ -165,7 +165,7 @@ do Capitão, 14/11/2026):
 
 | Linguagem | Abstração | Concreta | Quem monta |
 | --- | --- | --- | --- |
-| C++ (`software/`) | Classe com `virtual ... = 0` e destrutor protegido (`platform::DigitalOutput`) | `final`, na mesma camada (`platform::EspDigitalOutput`) | `main/main.cpp` |
+| C++ (`software/firmware/`) | Classe com `virtual ... = 0` e destrutor protegido (`platform::DigitalOutput`) | `final`, na mesma camada (`platform::EspDigitalOutput`) | `main/main.cpp` |
 | Python (`scripts/`) | `typing.Protocol` (`repo.Repository`) | Classe no mesmo módulo (`repo.GitRepository`) | O `__main__.py` de cada script |
 | OpenSCAD (`mechanics/`) | Não tem classe: o módulo recebe as medidas por parâmetro, em vez de ler variável global | — | O arquivo da peça ou do conjunto |
 

@@ -38,14 +38,15 @@ do projeto perde ponto. Código, modelo 3D e esquemático são escritos por IA
 | [Mecânica](mechanics/README.md) | ✅ os dois caminhos projetados em OpenSCAD, com renders; medidas do pote e do motor *a medir* |
 | [Esquemático e pinagem](hardware/README.md) | ✅ KiCad 10, ERC limpo |
 | [Montagem ilustrada](docs/montagem.md) | ✅ com a pinagem do esquemático |
-| [Firmware](software/README.md) | ✅ Fase 1: Wi-Fi, joystick no celular, failsafe, motores e bateria — compila e passa nos testes; falta a placa |
+| [Firmware](software/firmware/README.md) | ✅ Fase 1: Wi-Fi, joystick no celular, failsafe, motores e bateria — compila e passa nos testes; falta a placa |
 
 ## Estrutura
 
 ```
 docs/          regulamento, esboço da ideia, imagens
 hardware/      esquemático (KiCad) e pinagem
-software/      firmware da ESP32-C3 (C++ / ESP-IDF) e a página de controle
+software/      um projeto por pasta: firmware/ (ESP32-C3, C++ / ESP-IDF, com a
+               página de controle)
 mechanics/     modelos 3D (OpenSCAD) e as peças que foram impressas
 scripts/       utilitários — por enquanto, o caçador de segredos
 ```

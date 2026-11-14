@@ -270,7 +270,7 @@ desenhar o **esquemático** (documenta e mostra pro juiz), sem fabricar nada.
 
 ### 7.1 A medir na bancada
 
-O firmware da Fase 1 nasceu com estes números em `software/main/board.hpp`,
+O firmware da Fase 1 nasceu com estes números em `software/firmware/main/board.hpp`,
 todos *chute* até a bancada ou a bacia dizerem o valor:
 
 | Número | Hoje | Como medir |
