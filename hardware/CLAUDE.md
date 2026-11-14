@@ -4,10 +4,18 @@ Regras gerais em [../CLAUDE.md](../CLAUDE.md). Aqui só o que é da elétrica.
 
 ## Estado
 
-🚧 **D4, D5 e D8 fechadas** em 13/11/2026 (ver o
-[esboço](../docs/esbocando-a-ideia.md#11-decisões)): uma 18650, celular via
-Wi-Fi, módulos em placa perfurada. O esquemático da Fase 1 espera a lista de
-materiais ser comprada — a pinagem depende do módulo que vier da loja.
+🚧 **Esquemático da Fase 1 pronto** (14/11/2026), em `kicad/`, com ERC limpo.
+A **pinagem** está na tabela do [README.md](README.md) — é a fonte do
+firmware e da [ilustração de montagem](../docs/montagem.md).
+
+- **Símbolos próprios**, em `kicad/donatelos.kicad_sym`: os módulos (ESP,
+  TP4056, ponte H) são caixas com os pinos que a placa expõe, todos
+  `passive` — assim o ERC só cobra pino solto e rede com um ponto só.
+- **Ligação por rótulo** (`V+`, `GND`, `IN1`…), não por fio comprido. Pino que
+  não vai em nada leva o "x" de não-conectado.
+- **Depois de mexer:** `kicad-cli sch erc` (tem que dar 0 violações),
+  conferir as redes com `kicad-cli sch export netlist`, e exportar de novo o
+  `esquematico.svg`, que é o que o Capitão lê no GitHub.
 
 ## Regras
 
@@ -31,13 +39,17 @@ materiais ser comprada — a pinagem depende do módulo que vier da loja.
 
 ## ESP32-C3 SuperMini — cuidados conhecidos
 
-Para conferir no datasheet do ESP32-C3 e no esquemático da placa antes de usar:
+Fonte: ESP32-C3 Series Datasheet v2.5 (página citada) e a página da placa.
 
-- **GPIO2, GPIO8 e GPIO9 são pinos de strapping** (definem o modo de boot).
-  Evite ligar neles coisa que puxe o nível no momento do boot.
-- **GPIO18 e GPIO19 são o USB nativo** — é por eles que grava e sai a serial.
-- Na SuperMini, o **LED da placa** e o **botão BOOT** costumam estar em pinos de
-  strapping (8 e 9). Confirmar no esquemático da placa.
-- A alimentação de 5 V passa por um regulador da própria placa. Tensão máxima
-  de entrada: conferir no datasheet do regulador — é o que decide se a bateria
-  liga direto ou precisa de conversor.
+- **GPIO2, GPIO8 e GPIO9 são pinos de strapping** (p. 30): definem o modo de
+  boot. Nada que puxe nível neles no boot.
+- **GPIO18 e GPIO19 são o USB nativo** (documentação do ESP-IDF) — gravação e
+  serial. A SuperMini nem expõe esses dois.
+- **GPIO20/21 são a UART0**: o chip escreve nela quando liga. Não serve pra
+  motor (daria tranco no boot).
+- **ADC:** GPIO0–4 são ADC1 (funciona com Wi-Fi); GPIO5 é ADC2. A 12 dB, o ADC
+  lê 0–2500 mV (p. 57).
+- **LED da placa no GPIO8, botão BOOT no GPIO9** (página da placa).
+- **A ESP aceita 3,0–3,6 V** (p. 55). A bateria entra no 5V, pelo regulador da
+  placa — modelo e queda de tensão dele: *a conferir* (a página da placa não
+  diz). A fonte de bancada responde até onde a ESP aguenta.

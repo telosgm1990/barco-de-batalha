@@ -5,9 +5,8 @@ os dois motores.
 
 > 🖼️ **Ilustração, não esquemático.** O desenho mostra quem liga em quem, no
 > estilo dos diagramas de montagem — cantos arredondados, cores pastel. A
-> pinagem de verdade (qual GPIO da ESP vai em cada IN e no BAT) nasce no
-> esquemático, em [hardware/](../hardware/), e o desenho copia de lá. Até
-> lá, esses pinos levam `*`.
+> pinagem nasce no [esquemático](../hardware/README.md#pinagem) e o desenho
+> copia de lá: **IO3** lê a bateria, **IO4 a IO7** vão nos IN1–IN4 da ponte H.
 
 ![Montagem da Fase 1](imagens/montagem-fase-1.svg)
 
@@ -26,7 +25,8 @@ os dois motores.
    **Eletrolítico tem lado:** a faixa clara é o −.
 5. **O divisor** — dois resistores de 100 kΩ — entrega metade da tensão da
    bateria pra ESP ler. É o nível de bateria que aparece na página do celular.
-   Se a metade cabe na faixa do ADC, o esquemático confere no datasheet.
+   Cheia, a célula dá 4,2 V, e a metade (2,1 V) cabe nos 0–2,5 V que o ADC lê
+   (datasheet do ESP32-C3, p. 57).
 
 **A conferir na bancada:** a bateria entra direto no pino 5V da SuperMini, que
 passa pelo regulador da própria placa. Com a célula descarregando, sobra pouca
@@ -42,8 +42,8 @@ antes da bateria (já está nos cuidados de [hardware/](../hardware/CLAUDE.md)).
 | TP4056 OUT+ | Chave | coral | |
 | Chave | Ponte H (+), ESP (5V), capacitores (+), divisor | coral (V+) | |
 | TP4056 OUT− | Ponte H (−), ESP (GND), capacitores (−), divisor | grafite (GND) | |
-| ESP IN1\*–IN4\* | Ponte H IN1–IN4 | azul, lilás, verde, laranja | Dois pinos por motor |
-| Meio do divisor | ESP BAT\* | rosa | Tem que ser pino com ADC |
+| ESP GPIO4–GPIO7 | Ponte H IN1–IN4 | azul, lilás, verde, laranja | Dois pinos por motor: IN1/IN2 o esquerdo, IN3/IN4 o direito |
+| Meio do divisor | ESP GPIO3 | rosa | Pino com ADC que funciona junto com o Wi-Fi |
 | Ponte H MOTOR-A | Motor esquerdo | âmbar e marrom | Pelo borne |
 | Ponte H MOTOR-B | Motor direito | âmbar e marrom | Pelo borne |
 
@@ -68,8 +68,6 @@ Motor girando ao contrário não é defeito: troque os dois fios dele no borne
 
 ## 4. Em aberto
 
-- **Os GPIOs** de IN1–IN4 e BAT: saem do esquemático, fugindo dos pinos de
-  boot e do USB (cuidados em [hardware/](../hardware/CLAUDE.md)).
 - **A segunda célula** (D4): se entrar, vai em paralelo com a primeira, no
   mesmo B+/B−, com o cuidado da
   [lista de materiais](lista-de-materiais.md#3-quando-a-caixa-chegar).
