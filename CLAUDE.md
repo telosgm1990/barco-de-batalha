@@ -23,11 +23,8 @@ guerra.
 
 A Fase 0 (estaleiro) acabou. Agora é o barco feio que boia e anda: lista de
 materiais, esquemático, firmware mínimo e teste da bacia — o plano está na
-seção 13 do esboço.
-
-> ⏸️ **Pausa desde 14/11/2026: só docs.** Código, mecânica e hardware esperam
-> o OK do Capitão, previsto pra segunda, 16/11. Quando ele liberar, apague
-> este aviso.
+seção 13 do esboço. Código, mecânica e hardware liberados pelo Capitão em
+14/11/2026.
 
 Regras que valem sempre:
 

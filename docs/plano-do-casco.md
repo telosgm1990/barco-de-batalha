@@ -26,18 +26,47 @@ Seja qual for o casco, por dentro é o mesmo barco:
 - **Impresso nos dois caminhos:** as rodas de pá e os suportes dos motores.
   São peças pequenas; cabem com folga na mesa de 18 cm.
 
-E o prazo manda: campeonato estimado pra **05/12/2026**, peças na mão em
-**21/11** (ou 28/11, se o correio atrasar). São **duas semanas de construção**
-— o cronograma está no [esboço, seção 13](esbocando-a-ideia.md#13-próximo-passo).
+E o prazo manda: campeonato estimado pra **05/12/2026**, e as peças devem
+chegar perto de **24/11** — o cronograma está no
+[esboço, seção 13](esbocando-a-ideia.md#13-próximo-passo).
 
 ## 1. Caminho A — pote e isopor
 
-A jangada: um pote plástico com tampa de rosca, encaixado numa placa de isopor
-recortada em forma de casco. É a D2 como foi decidida.
+A jangada: um pote plástico encaixado numa placa de isopor recortada em forma
+de casco. É a D2 como foi decidida.
+
+### O pote candidato
+
+![O pote candidato](imagens/foto-pote.jpeg)
+
+O Capitão achou este: **retangular, com tampa de pressão** (a rosa), não de
+rosca. Medidas *estimadas pela foto*, usando o polegar como régua — então
+**chute, com uns 20% de erro pra cada lado**:
+
+| Medida | Estimativa | Como confirmar |
+| --- | --- | --- |
+| Comprimento | ~15–16 cm | Régua, por fora, sem a aba da tampa |
+| Largura | ~11 cm — a foto não mostra bem | Régua, por fora |
+| Altura do corpo | ~5–6 cm | Régua, do fundo até a borda, sem a tampa |
+| Volume | ~0,8–1 L | Encher de água num copo medidor |
+
+O que muda com ele:
+
+- **Retangular ajuda.** A placa 5×7 cm e os suportes da bateria encaixam
+  melhor que num pote redondo, e o fundo reto fica firme no isopor.
+- **Tampa de pressão veda menos que tampa de rosca.** O remédio já está no
+  plano: **fita isolante na emenda** antes de ir pra água. Se a tampa tiver
+  borracha de vedação, melhor ainda.
+- **Ele boia sozinho, com folga:** fechado, quase 1 L de ar segura bem mais
+  que o barco inteiro (*estimativa*: o barco fica na casa de 200–350 g). O
+  isopor vira seguro, e não flutuação principal.
+- ⚠️ **Se o corpo for de metal** (alumínio, inox), **não serve de cofre pra
+  ESP**: metal bloqueia o Wi-Fi. Pela foto não dá pra ter certeza — se for
+  metal, a ESP vai fora, por cima, ou o pote vira outro.
 
 | Peça | De onde vem | Obs. |
 | --- | --- | --- |
-| Cofre | ♻️ Pote com tampa de rosca | Boca de pelo menos ~9 cm, pra placa 5×7 entrar deitada (a diagonal dela dá 8,6 cm). Fundo largo pras baterias deitadas |
+| Cofre | ♻️ O pote | Placa 5×7 cm deitada no fundo, baterias junto. Fios saem por um furo vedado com cola quente |
 | Corpo | ♻️ Placa de isopor de embalagem | Recortada em forma de casco, com um furo justo pro pote. Pode passar de 18 cm: isopor não depende da impressora |
 | Suportes dos motores | 🖨️ Peça pequena | Presos no isopor com abraçadeira |
 | Rodas de pá | 🖨️ Peça pequena | No eixo do TT |
@@ -63,8 +92,7 @@ recortada em forma de casco. É a D2 como foi decidida.
   artesanato — ou fita.
 - **Cola quente muito quente também derrete isopor.** Pouca cola, ou cola no
   plástico e encosta no isopor.
-- **Tampa de rosca:** apertar bem e passar fita isolante na emenda antes de ir
-  pra água.
+- **Tampa:** fechar bem e passar fita isolante na emenda antes de ir pra água.
 
 **Ganha:**
 
@@ -145,7 +173,7 @@ entre as camadas. Pro B funcionar:
 | Desvirar | Só com a carapaça (Fase 2) | Por construção |
 | Guerra | O isopor amassa | Casco duro |
 | Cara de tartaruga | Com a carapaça | Desde o começo |
-| Ligar e carregar | Tampa de rosca, 2 s | Fita e junta |
+| Ligar e carregar | Tampa de pressão e fita, poucos segundos | Fita e junta |
 
 ## 4. A conta
 
