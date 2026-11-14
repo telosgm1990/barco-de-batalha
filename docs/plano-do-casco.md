@@ -66,25 +66,34 @@ O que muda com ele:
 
 | Peça | De onde vem | Obs. |
 | --- | --- | --- |
-| Cofre | ♻️ O pote | Placa 5×7 cm deitada no fundo, baterias junto. Fios saem por um furo vedado com cola quente |
-| Corpo | ♻️ Placa de isopor de embalagem | Recortada em forma de casco, com um furo justo pro pote. Pode passar de 18 cm: isopor não depende da impressora |
-| Suportes dos motores | 🖨️ Peça pequena | Presos no isopor com abraçadeira |
-| Rodas de pá | 🖨️ Peça pequena | No eixo do TT |
-| Carapaça (Fase 2) | 🖨️ Domo, em partes se passar de 18 cm, com isopor dentro | É ela que faz desvirar (esboço, seção 3.1). Sem ela, a jangada é estável dos dois lados — virou, fica virada |
+**Projetado** em [mechanics/](../mechanics/README.md#caminho-a--pote-e-isopor-o-escolhido-por-ora),
+com o pote em *chute* pela foto:
+
+![Caminho A montado](../mechanics/renders/pot_assembly.png)
+
+| Peça | De onde vem | Obs. |
+| --- | --- | --- |
+| Cofre | ♻️ O pote | Baterias no fundo, placa em cima. Fios saem por um furo vedado com cola quente |
+| Corpo | ♻️ Placa de isopor | Recortada em forma de casco, com um furo justo pro pote — tem [molde em tamanho real](../mechanics/renders/pot_raft_template.svg) pra imprimir em papel. Pode passar de 18 cm: isopor não depende da impressora |
+| Suportes dos motores | 🖨️ Peça pequena (~10 g cada) | Na borda do isopor, presos com palito de churrasco espetado; o motor vai com duas abraçadeiras |
+| Rodas de pá | 🖨️ Peça pequena (~7 g cada) | No eixo do TT |
+| Carapaça (Fase 2) | 🖨️ Domo de ~67 g, numa peça só | **Colada em cima da tampa do pote** — abriu a tampa, abriu a tartaruga. O ar preso entre ela e a tampa faz o barco desvirar (esboço, seção 3.1). Sem ela, a jangada é estável dos dois lados — virou, fica virada |
 
 **Passo a passo:**
 
-1. **Esta semana, o Capitão:** achar o pote e o isopor, e medir a boca e a
-   altura do pote.
-2. **Sábado:** medir o motor. Eu ajusto rodas e suportes, e o dono da
-   impressora imprime.
-3. Recortar o isopor (estilete ou fio quente) e encaixar o pote, com a bateria
+1. **O Capitão:** medir o pote com régua (comprimento, largura e altura por
+   fora, e a altura da tampa) e a espessura do isopor. Eu atualizo o modelo e
+   o molde.
+2. **Quando o motor chegar:** conferir o eixo com paquímetro; o dono da
+   impressora imprime rodas e suportes.
+3. Imprimir o molde em papel (A4 paisagem, escala 100%, conferindo a régua de
+   50 mm), recortar o isopor por cima dele e encaixar o pote, com a bateria
    no fundo.
-4. Furo na tampa pros fios dos motores, vedado com cola quente.
-5. Motores e rodas nos lados, nos suportes impressos.
+4. Furo no pote, acima da linha d'água, pros fios dos motores, vedado com cola
+   quente.
+5. Suportes na borda do isopor, motores e rodas.
 6. **Teste da bacia:** boia reto? A pá molha o bastante? Entrou água no pote?
-7. **Fase 2:** carapaça impressa por cima, com isopor dentro, e o teste de
-   desvirar.
+7. **Fase 2:** carapaça colada na tampa, e o teste de desvirar.
 
 **Cuidados:**
 
@@ -117,10 +126,14 @@ A tartaruga de verdade tem duas cascas: o **plastrão**, a de baixo, da barriga,
 e a **carapaça**, o domo. O caminho B imprime as duas, e o vão entre elas é o
 cofre.
 
+**Projetado** em [mechanics/](../mechanics/README.md#caminho-b--tudo-impresso):
+
+![Caminho B montado](../mechanics/renders/printed_assembly.png)
+
 | Peça | Obs. |
 | --- | --- |
-| Plastrão | Uma banheira que cabe na mesa de 18 cm **numa peça só** — sem emenda no fundo, sem vazamento no fundo. Com berço pras baterias, apoio da placa, suportes dos motores por fora e furo de fio com ressalto pra cola quente |
-| Carapaça | Domo que encaixa num ressalto do plastrão. Se passar de 18 cm, sai em duas metades coladas |
+| Plastrão (~92 g) | Uma banheira que cabe na mesa de 18 cm **numa peça só** — sem emenda no fundo. Bico de cunha na proa, flutuadores laterais onde os motores encaixam por cima, colunas da placa e trilhos das baterias |
+| Carapaça (~72 g) | Domo com gomos em relevo, numa peça só (173 × 174 mm, cabe na mesa). Encaixa numa aba do plastrão, prende os motores no berço e deixa as rodas saírem por dois arcos. A chave fica numa torrinha atrás |
 | Junta | ♻️ Tira de câmara de pneu de bicicleta velha no encaixe, e fita isolante por fora (já veio na compra) |
 | Flutuação | O ar preso entre as cascas, dividido em **compartimentos**: se um vazar, os outros seguram. Isopor nos vãos como seguro — opcional, quase de graça |
 | Rodas de pá | Iguais às do caminho A |
@@ -186,15 +199,18 @@ da compra e pela parte dos pacotes que entra no barco
 | Com **uma** célula | ~R$ 74 |
 | Com **duas** em paralelo | ~R$ 93 |
 
-O casco, em *chute* — o fatiador dá os gramas, e falta saber o **preço do
-grama** do filamento:
+O casco — os gramas são *estimativa* pelo volume dos modelos (o fatiador dá o
+número de verdade), e falta saber o **preço do grama** do filamento:
 
-| Casco | Na conta (*chute*) |
-| --- | --- |
-| Pote e isopor | ~R$ 1 |
-| Rodas e suportes | R$ 1–3 |
-| Carapaça | R$ 10–25 (o chute do esboço) |
-| Plastrão (só no B) | Mais filamento que a carapaça — o maior gasto do B |
+| Casco | Filamento (*estimativa*) | Na conta |
+| --- | --- | --- |
+| A, Fase 1: suportes, rodas e cabeça | ~37 g | falta o preço do grama |
+| A, carapaça | ~67 g | idem |
+| B inteiro: plastrão, carapaça, cabeça e rodas | ~180 g | idem |
+| Pote e isopor | — | ~R$ 1 (reciclado, a preço de kg) |
+
+Os valores em R$ abaixo usam o chute antigo do esboço pra carapaça
+(R$ 10–25); quando o preço do grama chegar, eles viram conta.
 
 Somando:
 

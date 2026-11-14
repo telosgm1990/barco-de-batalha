@@ -56,7 +56,8 @@ module carapace_scutes() {
             }
             translate([0, 0, 6])
                 linear_extrude(height = carapace_height + 10)
-                    rotate([0, 0, 90]) hex_grid_lines();
+                    rotate([0, 0, 90])
+                        hex_grid_lines(scute_size, scute_ridge_width);
         }
         common_cuts();
     }
@@ -95,17 +96,4 @@ module switch_turret() {
     translate([switch_x, 0, 26])
         linear_extrude(height = 37 - 26)
             rounded_rect(switch_cutout_width + 8, switch_cutout_length + 8, 3);
-}
-
-// Linhas de uma grade hexagonal (colunas ao longo de Y antes de girar)
-module hex_grid_lines() {
-    r = scute_size / 2;
-    w = scute_ridge_width / cos(30);
-    for (i = [-6:6], j = [-6:6])
-        translate([i * 1.5 * r,
-                   j * sqrt(3) * r + (abs(i) % 2) * sqrt(3) * r / 2])
-            difference() {
-                circle(r = r + w / 2, $fn = 6);
-                circle(r = r - w / 2, $fn = 6);
-            }
 }

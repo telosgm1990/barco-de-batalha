@@ -18,6 +18,20 @@ module rounded_rect(length, width, radius) {
                               center = true);
 }
 
+// Linhas de uma grade hexagonal — os gomos do casco da tartaruga. Colunas ao
+// longo de Y; gire 90° pra deixar a fileira do meio ao longo do barco.
+module hex_grid_lines(size, ridge_width) {
+    r = size / 2;
+    w = ridge_width / cos(30);
+    for (i = [-7:7], j = [-7:7])
+        translate([i * 1.5 * r,
+                   j * sqrt(3) * r + (abs(i) % 2) * sqrt(3) * r / 2])
+            difference() {
+                circle(r = r + w / 2, $fn = 6);
+                circle(r = r - w / 2, $fn = 6);
+            }
+}
+
 // Furo de eixo "D duplo" do motor TT: redondo cortado por duas faces planas
 module double_d_hole(diameter, flat) {
     intersection() {
