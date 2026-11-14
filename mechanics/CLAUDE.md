@@ -9,10 +9,14 @@ Regras gerais em [../CLAUDE.md](../CLAUDE.md). Aqui só o que é da mecânica.
 em OpenSCAD. A **D3 (roda de pá) é provisória** até o teste da bacia — peça de
 propulsão definitiva só depois dele; roda de teste pode.
 
-O casco tem dois caminhos em discussão — pote e isopor (A) ou tudo impresso
-(B) — no [plano do casco](../docs/plano-do-casco.md). **Casco e carapaça só
-depois da escolha.** Rodas de pá e suportes de motor servem pros dois: podem
-nascer já, paramétricos, com as medidas do motor marcadas `// a medir`.
+O casco tem dois caminhos — pote e isopor (A) ou tudo impresso (B) — no
+[plano do casco](../docs/plano-do-casco.md). **Por ora é o A** (14/11/2026),
+mas o Capitão quer **os dois projetados**: a escolha final depende do preço do
+filamento, do tempo de impressão e da fila da impressora. Rodas de pá e
+suportes de motor servem pros dois; tudo paramétrico, com as medidas do motor
+e do pote marcadas `// a medir` até chegarem.
+
+⏸️ Nada de modelo até o OK do Capitão (previsto pra segunda, 16/11).
 
 ## A impressora
 

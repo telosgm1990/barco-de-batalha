@@ -345,6 +345,11 @@ a classificação é o ingresso.
 carapaça impressa (seção 4). Com a mesa de 18 cm, a carapaça grande sai em
 partes.
 
+**Atualizado em 14/11/2026:** vamos de **caminho A — pote e isopor — por
+ora** (ver o [plano do casco](plano-do-casco.md)). Mesmo assim, a mecânica
+**projeta os dois caminhos**, A e B. A escolha final espera o Capitão trazer o
+preço do filamento, o tempo de impressão e quando a impressora fica livre.
+
 ### D3 — Propulsão
 
 **Decidido em 13/11/2026, provisório:** duas rodas de pá com motor de redução,
@@ -434,7 +439,8 @@ semana.
 
 | Quando | O quê |
 | --- | --- |
-| **16–20/11** (sem as peças) | Esquemático no KiCad com as peças compradas. Firmware da Fase 1 — Wi-Fi, página com joystick, failsafe, motores — testado na ESP que já está na mão. Modelos da roda de pá e do suporte do motor, paramétricos, esperando a medida. Escolher o caminho do [plano do casco](plano-do-casco.md) e achar pote e isopor |
+| **14–15/11** | ⏸️ Só docs: [montagem ilustrada](montagem.md), caminho A do casco por ora. Código, mecânica e hardware esperam o OK do Capitão, na segunda |
+| **16–20/11** (sem as peças) | Esquemático no KiCad com as peças compradas. Firmware da Fase 1 — Wi-Fi, página com joystick, failsafe, motores — testado na ESP que já está na mão. Modelos da roda de pá e do suporte do motor, paramétricos, esperando a medida; os dois caminhos do [plano do casco](plano-do-casco.md). O Capitão traz pote, isopor e as respostas da impressora |
 | **Sáb 21/11** | Retirar as peças. Medir o motor com paquímetro e conferir as células (ver a [lista](lista-de-materiais.md#3-quando-a-caixa-chegar)) |
 | **23–28/11** | Soldar e montar a placa, gravar, teste de bancada com a fonte limitando corrente. Imprimir rodas e suportes. Montar o casco da Fase 1. **Teste da bacia** e o vídeo (+2) |
 | **30/11–04/12** | Fase 2 e 3 espremidas: carapaça, teste de desvirar e de afundar, modos por prova, rodada de robustez, kit de fair play |

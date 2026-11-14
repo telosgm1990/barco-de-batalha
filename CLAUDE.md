@@ -23,7 +23,13 @@ guerra.
 
 A Fase 0 (estaleiro) acabou. Agora é o barco feio que boia e anda: lista de
 materiais, esquemático, firmware mínimo e teste da bacia — o plano está na
-seção 13 do esboço. Regras que valem sempre:
+seção 13 do esboço.
+
+> ⏸️ **Pausa desde 14/11/2026: só docs.** Código, mecânica e hardware esperam
+> o OK do Capitão, previsto pra segunda, 16/11. Quando ele liberar, apague
+> este aviso.
+
+Regras que valem sempre:
 
 1. **Não implemente a partir de decisão aberta.** Se a tarefa depende de uma D
    aberta (hoje: a D10, e a D3 até o teste da bacia), pare e pergunte. Entregue

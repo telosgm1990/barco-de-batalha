@@ -4,9 +4,10 @@ O corpo da DonaTelos pode sair de dois jeitos: **A**, com pote e isopor, ou
 **B**, com tudo impresso. Este documento põe os dois lado a lado pra o Capitão
 escolher.
 
-> 🚧 **Proposta pra discussão.** A D2 foi fechada como **híbrido** — que é o
-> caminho A com a carapaça impressa por cima. O caminho B é a alternativa
-> "tudo impresso". Escolhido o caminho, a escolha vai pra D2, com a data.
+> 🚧 **Caminho A por ora (14/11/2026).** O Capitão escolheu pote e isopor pra
+> começar — é a D2, híbrida, com a carapaça impressa por cima. Mas a mecânica
+> **projeta os dois caminhos**: a escolha final espera o preço do filamento, o
+> tempo de impressão e quando a impressora fica livre (seção 6).
 >
 > Número com *estimativa* ou *chute* é isso mesmo: vira medida quando o motor,
 > o pote e o fatiador do dono da impressora disserem.
@@ -208,5 +209,7 @@ depois de o A ter boiado e andado.
 
 - **Do Capitão:** o pote (boca e altura), o isopor e, no sábado, as medidas do
   motor.
-- **Do dono da impressora:** o filamento (material e cor), a altura máxima, o
-  **preço do grama** (é o que entra na conta) e se a fila dá conta até 05/12.
+- **Do dono da impressora** (o Capitão vai perguntar): o filamento (material e
+  cor), a altura máxima, o **preço do grama** (é o que entra na conta), **quanto
+  tempo** leva pra imprimir cada peça e **quando** a impressora fica livre até
+  05/12.
