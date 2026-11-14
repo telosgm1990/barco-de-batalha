@@ -1,18 +1,19 @@
 /*
  * Ponto de entrada do firmware da DonaTelos: o bootstrap.
  *
- * Monta as peças com os pinos da placa (board.hpp), entrega pro barco e roda
- * o laço principal pra sempre.
+ * As peças nascem com os pinos da placa (board.hpp); aqui elas vão pro
+ * barco (init), o hardware e a rede ganham partida (begin) e o laço principal
+ * roda pra sempre.
  */
 
 // Includes
-#include "app/boat.hpp"           // init, update
+#include "app/boat.hpp"           // init, begin, update
 #include "board.hpp"              // pinos e ajustes
 #include "components/battery.hpp" // Battery
 #include "components/led.hpp"     // Led
 #include "components/motor.hpp"   // Motor
 #include "platform/clock.hpp"     // millis, sleep_ms
-#include "platform/pwm.hpp"       // init_timer
+#include "platform/pwm.hpp"       // begin_timer
 #include "services/remote.hpp"    // config_st
 
 #if __has_include("secrets.hpp")
@@ -23,32 +24,30 @@
 #endif
 
 // Constantes/variáveis estáticas
-static components::Motor _left_motor;
-static components::Motor _right_motor;
-static components::Battery _battery;
-static components::Led _led;
+// As peças, montadas com os pinos da placa — o construtor só guarda os
+// números; o hardware liga no begin
+constinit static components::Motor _left_motor(
+    board::PIN_LEFT_IN1,
+    board::PWM_LEFT_IN1,
+    board::PIN_LEFT_IN2,
+    board::PWM_LEFT_IN2,
+    board::LEFT_MOTOR_REVERSED
+);
+constinit static components::Motor _right_motor(
+    board::PIN_RIGHT_IN1,
+    board::PWM_RIGHT_IN1,
+    board::PIN_RIGHT_IN2,
+    board::PWM_RIGHT_IN2,
+    board::RIGHT_MOTOR_REVERSED
+);
+constinit static components::Battery _battery(
+    board::PIN_BATTERY_SENSE,
+    board::BATTERY_DIVIDER_RATIO
+);
+constinit static components::Led _led(board::PIN_LED, board::LED_ACTIVE_LOW);
 
 // Ponto de entrada
 extern "C" void app_main(void) {
-    // Monte as peças com os pinos da placa
-    platform::PwmOutput::init_timer(board::PWM_FREQUENCY_HZ);
-    _left_motor.init(
-        board::PIN_LEFT_IN1,
-        board::PWM_LEFT_IN1,
-        board::PIN_LEFT_IN2,
-        board::PWM_LEFT_IN2,
-        board::LEFT_MOTOR_REVERSED
-    );
-    _right_motor.init(
-        board::PIN_RIGHT_IN1,
-        board::PWM_RIGHT_IN1,
-        board::PIN_RIGHT_IN2,
-        board::PWM_RIGHT_IN2,
-        board::RIGHT_MOTOR_REVERSED
-    );
-    _battery.init(board::PIN_BATTERY_SENSE, board::BATTERY_DIVIDER_RATIO);
-    _led.init(board::PIN_LED, board::LED_ACTIVE_LOW);
-
     // Entregue tudo pro barco
     boat::parts_st parts   = {&_left_motor, &_right_motor, &_battery, &_led};
     boat::tuning_st tuning = {
@@ -64,6 +63,14 @@ extern "C" void app_main(void) {
         board::WIFI_MAX_TX_POWER_QDBM
     };
     boat::init(parts, tuning, remote_config);
+
+    // Dê a partida: periféricos primeiro (motores parados), rede por último
+    platform::PwmOutput::begin_timer(board::PWM_FREQUENCY_HZ);
+    _left_motor.begin();
+    _right_motor.begin();
+    _battery.begin();
+    _led.begin();
+    boat::begin();
 
     // Rode o laço principal
     while (true) {

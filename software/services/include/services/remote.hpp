@@ -26,8 +26,11 @@ struct command_st {
 
 // Funções
 
+// Guarde a configuração da rede
+void init(const config_st &config);
+
 // Suba a rede e o servidor da página
-bool init(const config_st &config);
+bool begin();
 
 // Último comando que chegou do joystick
 command_st get_command();

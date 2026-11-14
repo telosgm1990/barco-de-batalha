@@ -6,16 +6,9 @@
 // Funções públicas
 namespace components {
 
-void Motor::init(
-    int pin_in1,
-    int channel_in1,
-    int pin_in2,
-    int channel_in2,
-    bool reversed
-) {
-    _reversed = reversed;
-    _in1.init(pin_in1, channel_in1);
-    _in2.init(pin_in2, channel_in2);
+void Motor::begin() {
+    _in1.begin();
+    _in2.begin();
 }
 
 void Motor::set_speed(float speed) {

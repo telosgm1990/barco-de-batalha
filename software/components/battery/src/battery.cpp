@@ -9,9 +9,8 @@ static constexpr int SAMPLES = 8;
 // Funções públicas
 namespace components {
 
-bool Battery::init(int pin, float divider_ratio) {
-    _ratio = divider_ratio;
-    return _input.init(pin);
+bool Battery::begin() {
+    return _input.begin();
 }
 
 float Battery::read_volts() {

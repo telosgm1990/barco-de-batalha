@@ -15,8 +15,9 @@ namespace app {
 
 class Failsafe {
   public:
-    // Prepare com o tempo limite sem comando
-    void init(uint32_t timeout_ms);
+    // Guarde o tempo limite sem comando; nasce armado
+    constexpr explicit Failsafe(uint32_t timeout_ms) : _timeout_ms(timeout_ms) {
+    }
 
     // Confira o relógio contra o último comando que chegou
     void update(uint32_t now_ms, uint32_t last_command_ms, bool has_command);
@@ -25,8 +26,8 @@ class Failsafe {
     bool is_tripped() const;
 
   private:
-    uint32_t _timeout_ms = 0;
-    bool _tripped        = true;
+    uint32_t _timeout_ms;
+    bool _tripped = true;
 };
 
 } // namespace app

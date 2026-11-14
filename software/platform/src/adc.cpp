@@ -11,10 +11,10 @@ static constexpr adc_atten_t ATTENUATION = ADC_ATTEN_DB_12;
 // Funções públicas
 namespace platform {
 
-bool AnalogInput::init(int pin) {
+bool AnalogInput::begin() {
     adc_unit_t unit_id;
     adc_channel_t channel;
-    if (adc_oneshot_io_to_channel(pin, &unit_id, &channel) != ESP_OK ||
+    if (adc_oneshot_io_to_channel(_pin, &unit_id, &channel) != ESP_OK ||
         unit_id != ADC_UNIT_1) {
         return false;
     }

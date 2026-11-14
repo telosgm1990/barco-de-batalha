@@ -14,7 +14,7 @@ static bool _init_nvs();
 // Funções públicas
 namespace platform::wifi {
 
-bool start_ap(const ap_config_st &config) {
+bool begin_ap(const ap_config_st &config) {
     if (!_init_nvs()) {
         return false;
     }

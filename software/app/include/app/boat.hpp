@@ -34,12 +34,15 @@ struct tuning_st {
 
 // Funções
 
-// Prepare o barco e suba o controle remoto
+// Guarde as peças e os números, e prepare tração, failsafe e controle remoto
 void init(
     const parts_st &parts,
     const tuning_st &tuning,
     const remote::config_st &remote_config
 );
+
+// Suba o controle remoto (rede e página)
+void begin();
 
 // Uma volta do laço principal
 void update(uint32_t now_ms);

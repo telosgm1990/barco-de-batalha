@@ -6,9 +6,11 @@
 // Funções públicas
 namespace platform {
 
-void OutputPin::init(int pin) {
-    _pin           = pin;
-    gpio_num_t num = static_cast<gpio_num_t>(pin);
+void OutputPin::begin() {
+    if (_pin < 0) {
+        return;
+    }
+    gpio_num_t num = static_cast<gpio_num_t>(_pin);
     gpio_reset_pin(num);
     gpio_set_direction(num, GPIO_MODE_OUTPUT);
     gpio_set_level(num, 0);

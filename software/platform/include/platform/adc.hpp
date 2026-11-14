@@ -12,16 +12,22 @@ namespace platform {
 
 class AnalogInput {
   public:
-    // Prepare o pino (tem que ser do ADC1: GPIO0 a GPIO4)
-    bool init(int pin);
+    // Guarde o pino (tem que ser do ADC1: GPIO0 a GPIO4) — sem mexer no
+    // hardware
+    constexpr explicit AnalogInput(int pin) : _pin(pin) {
+    }
+
+    // Ligue o ADC e a calibração; false se o pino não servir
+    bool begin();
 
     // Leia a tensão no pino, em milivolts; -1 se falhar
     int32_t read_mv();
 
   private:
+    int _pin;
+    int _channel       = -1;
     void *_unit        = nullptr;
     void *_calibration = nullptr;
-    int _channel       = -1;
 };
 
 } // namespace platform

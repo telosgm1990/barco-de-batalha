@@ -132,8 +132,7 @@ static void _test_protocol() {
 }
 
 static void _test_failsafe() {
-    app::Failsafe failsafe;
-    failsafe.init(500);
+    app::Failsafe failsafe(500);
     // Ligou e ainda não chegou nada: armado
     CHECK(failsafe.is_tripped());
     failsafe.update(1000, 0, false);
