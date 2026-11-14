@@ -26,32 +26,42 @@ na placa**. Comandos: [README.md](README.md).
 ## Camadas
 
 ```
-main/          app_main + bootstrap: a cola com a placa (pinos, objetos estáticos)
-app/           o barco (laço principal) e o failsafe
-services/      tração (drive), protocolo da página, controle remoto (remote)
-components/    motor, bateria, LED
-platform/      ESP-IDF por baixo: PWM, ADC, GPIO, Wi-Fi, HTTP, relógio, log
-common/        utilitários de conta
+main/          bootstrap: o único que conhece as concretas — cria e injeta tudo
+app/           Boat (o laço principal) e Failsafe
+services/      Remote → WifiRemote; Drive (tração); protocol (a página)
+components/    Motor → HBridgeMotor, Led → DigitalLed, Battery → DividerBattery
+platform/      DigitalOutput → EspDigitalOutput, PwmOutput → EspPwmOutput,
+               AnalogInput → EspAnalogInput, Clock → EspClock,
+               Logger → EspLogger, AccessPoint → EspAccessPoint,
+               WebServer → EspWebServer
+common/        o que mais de uma camada usa e não cabe em nenhuma (math.hpp)
 ```
 
-Regra de dependência: cada camada só inclui as de baixo; `common/` não inclui
-ninguém. `platform/` é a única que conhece o ESP-IDF — é isso que deixa testar
-`app/` e `services/` no PC. Precisou incluir camada de cima? O desenho está
-errado: pare e discuta.
+`A → B` é "abstração → quem implementa". A regra é a do
+[CLAUDE.md da raiz](../CLAUDE.md#12-camadas-e-dependências), aplicada assim:
 
+- **Cada camada define as próprias abstrações e as implementa ela mesma.** A
+  abstração tem o próprio header (`platform/digital_output.hpp`); a concreta,
+  outro (`platform/esp_digital_output.hpp`). A camada de cima só inclui o da
+  abstração.
+- **A camada de cima recebe a abstração da de baixo por referência, no
+  construtor** — nunca cria nem procura a concreta. Quem monta é o `main/`.
+- **Abstração em C++:** classe com funções `virtual ... = 0` e destrutor
+  `protected` não virtual (ninguém apaga uma peça pela abstração; assim ela
+  continua `constinit`). Concreta: `final`, com `override`.
+- **Conta pura sem dependência** (`Drive`, `Failsafe`, `protocol`) não tem o
+  que inverter: é usada direto.
 - **Cada camada é um componente do ESP-IDF:** `app`, `services`, `platform` e
   `common` entram pelo `EXTRA_COMPONENT_DIRS` do `CMakeLists.txt`; cada peça de
   `components/` é um componente sozinha. Include com o nome da camada:
-  `"services/drive.hpp"`, `"components/motor.hpp"`.
-- **Headers de `platform/` não expõem tipo do ESP-IDF** — o `#include` do
-  ESP-IDF fica no `.cpp`.
-- **Conta pura vai em arquivo próprio**, sem `platform/`: `drive`, `protocol` e
-  `failsafe` são compilados pelos testes em `tests/` (g++ da imagem Docker).
-  Regra nova com conta? Ganha teste lá.
-- **O serviço do Wi-Fi se chama `remote`, não `link`:** `link()` é função do
-  POSIX e o nome colide.
+  `"services/remote.hpp"`, `"components/motor.hpp"`.
+- **Só as concretas `Esp*` da `platform/` conhecem o ESP-IDF**, e só no
+  `.cpp`. Todo o resto compila no PC: os testes em `tests/` montam cada
+  camada com peças falsas (`tests/fakes.hpp`) no lugar das abstrações de baixo
+  — até o `Boat` inteiro. Classe nova ganha teste lá.
 - **A página** (`services/page/index.html`) entra no binário pelo
-  `EMBED_TXTFILES` do `CMakeLists.txt` de `services/`.
+  `EMBED_TXTFILES` do `CMakeLists.txt` de `services/`; o `main/` entrega ela
+  pro `WifiRemote` (`services/page.hpp`).
 
 ## Convenções de código
 
@@ -78,12 +88,12 @@ errado: pare e discuta.
   peças são objetos estáticos, construídos antes do `app_main`: o construtor
   só guarda valores e nunca encosta em hardware nem no ESP-IDF. No `main/`
   elas são `constinit` — se um construtor deixar de ser `constexpr`, o
-  compilador reclama. Serviço (`namespace`) não tem construtor, então
-  continua com `init()`.
+  compilador reclama.
 - **Nomes:** `snake_case` pra função, método e variável; `PascalCase` pra
   classe; struct simples com sufixo `_st`, enum com `_e`; constante e macro em
-  `MAIUSCULO`. **`_` no começo = privado** (membro e função estática). Serviço
-  é um `namespace` (`drive::update()`).
+  `MAIUSCULO`. **`_` no começo = privado** (membro e função estática). Cada
+  camada é um `namespace` (`platform::`, `components::`, `services::`,
+  `app::`). Concreta da placa leva `Esp` na frente (`EspDigitalOutput`).
 - **Include comentado** com o que veio dali: `#include "motor.hpp" // Motor`.
 - **Objetos estáticos**, montados no bootstrap. Nada de `new`/`malloc` depois
   da inicialização.

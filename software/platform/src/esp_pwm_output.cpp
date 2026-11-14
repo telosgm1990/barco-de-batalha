@@ -1,5 +1,5 @@
 // Includes
-#include "platform/pwm.hpp" // PwmOutput
+#include "platform/esp_pwm_output.hpp" // EspPwmOutput
 
 #include "driver/ledc.h" // ledc_*
 
@@ -12,7 +12,7 @@ static constexpr uint32_t DUTY_MAX           = (1u << 10) - 1;
 // Funções públicas
 namespace platform {
 
-void PwmOutput::begin_timer(uint32_t frequency_hz) {
+void EspPwmOutput::begin_timer(uint32_t frequency_hz) {
     ledc_timer_config_t timer = {};
     timer.speed_mode          = MODE;
     timer.duty_resolution     = RESOLUTION;
@@ -22,7 +22,7 @@ void PwmOutput::begin_timer(uint32_t frequency_hz) {
     ledc_timer_config(&timer);
 }
 
-void PwmOutput::begin() {
+void EspPwmOutput::begin() {
     if (_pin < 0 || _channel < 0) {
         return;
     }
@@ -36,7 +36,7 @@ void PwmOutput::begin() {
     _started                     = ledc_channel_config(&config) == ESP_OK;
 }
 
-void PwmOutput::write(float duty) {
+void EspPwmOutput::write(float duty) {
     if (!_started) {
         return;
     }

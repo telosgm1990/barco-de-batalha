@@ -14,7 +14,7 @@
 #include <cstddef> // size_t
 
 // Funções
-namespace protocol {
+namespace services::protocol {
 
 // Leia "x,y" e devolva de -1 a 1; false se a mensagem não for isso
 bool parse_joystick(const char *text, float *x, float *y);
@@ -27,4 +27,4 @@ int format_telemetry(
     bool failsafe
 );
 
-} // namespace protocol
+} // namespace services::protocol

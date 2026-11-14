@@ -3,6 +3,9 @@
 Duas varreduras: a do índice (só as linhas adicionadas, é o que vai pro
 próximo commit) e a de tudo que está versionado (arquivo inteiro, como está no
 disco). Nas duas, confere o nome de cada arquivo e o conteúdo linha a linha.
+
+O repositório chega por parâmetro, como abstração (repo.Repository): a
+linha de comando passa o de verdade, os testes passam um falso.
 """
 
 # ------------------------------------------------------------------ Imports
@@ -114,29 +117,31 @@ __all__ = [
 ]
 
 
-def scan_staged() -> list[Finding]:
+def scan_staged(repository: repo.Repository) -> list[Finding]:
     """Confere o que está no índice: nomes e linhas adicionadas.
 
     Levanta RuntimeError se o git falhar e re.error se um padrão local for
     inválido.
     """
-    rules = _read_rules()
-    findings = [f for name in _read_staged_names() for f in _check_name(name)]
-    for path, line_no, text in _read_staged_added_lines():
+    rules = _read_rules(repository)
+    findings = [
+        f for name in _read_staged_names(repository) for f in _check_name(name)
+    ]
+    for path, line_no, text in _read_staged_added_lines(repository):
         findings.extend(_check_line(path, line_no, text, rules))
     return findings
 
 
-def scan_tracked() -> list[Finding]:
+def scan_tracked(repository: repo.Repository) -> list[Finding]:
     """Confere todos os arquivos versionados, inteiros, como estão no disco.
 
     Levanta RuntimeError se o git falhar e re.error se um padrão local for
     inválido.
     """
-    rules = _read_rules()
-    root = repo.get_root()
+    rules = _read_rules(repository)
+    root = repository.get_root()
     findings: list[Finding] = []
-    for name in repo.run_git("ls-files", "-z").split("\0"):
+    for name in repository.run_git("ls-files", "-z").split("\0"):
         if not name:
             continue
         findings.extend(_check_name(name))
@@ -148,9 +153,9 @@ def scan_tracked() -> list[Finding]:
 # ---------------------------------------------------------- Funções privadas
 
 
-def _read_rules() -> _Rules:
+def _read_rules(repository: repo.Repository) -> _Rules:
     """Junta as regras fixas com os padrões pessoais do arquivo local."""
-    local = repo.get_root() / LOCAL_PATTERNS_FILE
+    local = repository.get_root() / LOCAL_PATTERNS_FILE
     if not local.is_file():
         return _CONTENT_RULES
     rules = list(_CONTENT_RULES)
@@ -162,17 +167,19 @@ def _read_rules() -> _Rules:
     return rules
 
 
-def _read_staged_names() -> list[str]:
+def _read_staged_names(repository: repo.Repository) -> list[str]:
     """Lista os arquivos adicionados ou modificados no índice."""
-    output = repo.run_git(
+    output = repository.run_git(
         "diff", "--cached", "--name-only", "--diff-filter=ACMR", "-z"
     )
     return [name for name in output.split("\0") if name]
 
 
-def _read_staged_added_lines() -> Iterator[tuple[str, int, str]]:
+def _read_staged_added_lines(
+    repository: repo.Repository,
+) -> Iterator[tuple[str, int, str]]:
     """Percorre o diff do índice e devolve só as linhas adicionadas."""
-    diff = repo.run_git(
+    diff = repository.run_git(
         "diff",
         "--cached",
         "--no-color",

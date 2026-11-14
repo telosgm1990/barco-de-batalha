@@ -1,7 +1,7 @@
 // Includes
-#include "platform/wifi.hpp" // wifi
+#include "platform/esp_access_point.hpp" // EspAccessPoint
 
-#include <cstring> // strlen, strncpy
+#include <cstring> // memcpy, strlen, strncpy
 
 #include "esp_event.h" // esp_event_loop_create_default
 #include "esp_netif.h" // esp_netif_*
@@ -12,9 +12,9 @@
 static bool _init_nvs();
 
 // Funções públicas
-namespace platform::wifi {
+namespace platform {
 
-bool begin_ap(const ap_config_st &config) {
+bool EspAccessPoint::begin() {
     if (!_init_nvs()) {
         return false;
     }
@@ -28,21 +28,21 @@ bool begin_ap(const ap_config_st &config) {
     }
 
     wifi_config_t ap = {};
-    size_t ssid_len  = strlen(config.ssid);
+    size_t ssid_len  = strlen(_config.ssid);
     if (ssid_len > sizeof(ap.ap.ssid)) {
         ssid_len = sizeof(ap.ap.ssid);
     }
-    memcpy(ap.ap.ssid, config.ssid, ssid_len);
+    memcpy(ap.ap.ssid, _config.ssid, ssid_len);
     ap.ap.ssid_len = static_cast<uint8_t>(ssid_len);
     strncpy(
         reinterpret_cast<char *>(ap.ap.password),
-        config.password,
+        _config.password,
         sizeof(ap.ap.password) - 1
     );
-    ap.ap.channel        = static_cast<uint8_t>(config.channel);
+    ap.ap.channel        = static_cast<uint8_t>(_config.channel);
     ap.ap.max_connection = 1; // um piloto só
     ap.ap.authmode =
-        strlen(config.password) >= 8 ? WIFI_AUTH_WPA2_PSK : WIFI_AUTH_OPEN;
+        strlen(_config.password) >= 8 ? WIFI_AUTH_WPA2_PSK : WIFI_AUTH_OPEN;
 
     esp_wifi_set_mode(WIFI_MODE_AP);
     esp_wifi_set_config(WIFI_IF_AP, &ap);
@@ -50,13 +50,13 @@ bool begin_ap(const ap_config_st &config) {
         return false;
     }
     // Baixe a potência se pedido: antena fraca de alguns lotes da SuperMini
-    if (config.max_tx_power_qdbm > 0) {
-        esp_wifi_set_max_tx_power(config.max_tx_power_qdbm);
+    if (_config.max_tx_power_qdbm > 0) {
+        esp_wifi_set_max_tx_power(_config.max_tx_power_qdbm);
     }
     return true;
 }
 
-} // namespace platform::wifi
+} // namespace platform
 
 // Funções estáticas
 static bool _init_nvs() {

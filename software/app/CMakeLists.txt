@@ -1,5 +1,5 @@
-# app/: o barco — o laço que junta controle remoto, tração, motores,
-# bateria e LED — e o failsafe, que é conta pura e roda nos testes do PC.
+# app/: o barco — o laço que junta controle remoto, tração, motores, bateria
+# e LED, todos pelas abstrações das camadas de baixo — e o failsafe.
 idf_component_register(
     SRCS
         "src/boat.cpp"

@@ -1,25 +1,14 @@
 // Includes
-#include "services/drive.hpp" // drive
+#include "services/drive.hpp" // Drive
 
 #include <cmath> // std::fabs
 
 #include "common/math.hpp" // approach, clamp, deadzone
 
-// Constantes/variáveis estáticas
-static float _slew_per_second   = 1.0f;
-static float _deadzone          = 0.0f;
-static drive::wheels_st _output = {0.0f, 0.0f};
-
 // Funções públicas
-namespace drive {
+namespace services {
 
-void init(float slew_per_second, float deadzone) {
-    _slew_per_second = slew_per_second;
-    _deadzone        = deadzone;
-    _output          = {0.0f, 0.0f};
-}
-
-void update(float dt_seconds, float x, float y) {
+void Drive::update(float dt_seconds, float x, float y) {
     x = common::deadzone(common::clamp(x, -1.0f, 1.0f), _deadzone);
     y = common::deadzone(common::clamp(y, -1.0f, 1.0f), _deadzone);
     wheels_st target = mix(x, y);
@@ -29,15 +18,15 @@ void update(float dt_seconds, float x, float y) {
     _output.right = common::approach(_output.right, target.right, step);
 }
 
-wheels_st get_output() {
+wheels_st Drive::get_output() const {
     return _output;
 }
 
-void stop() {
+void Drive::stop() {
     _output = {0.0f, 0.0f};
 }
 
-wheels_st mix(float x, float y) {
+wheels_st Drive::mix(float x, float y) {
     wheels_st wheels = {y + x, y - x};
     // Se uma roda passou de 1, encolha as duas na mesma proporção
     float biggest = std::fabs(wheels.left);
@@ -51,4 +40,4 @@ wheels_st mix(float x, float y) {
     return wheels;
 }
 
-} // namespace drive
+} // namespace services

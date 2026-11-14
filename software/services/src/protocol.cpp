@@ -13,7 +13,7 @@ static constexpr float JOYSTICK_SCALE = 100.0f;
 static bool _read_int(const char *text, const char **end, long *value);
 
 // Funções públicas
-namespace protocol {
+namespace services::protocol {
 
 bool parse_joystick(const char *text, float *x, float *y) {
     if (text == nullptr || x == nullptr || y == nullptr) {
@@ -48,7 +48,7 @@ int format_telemetry(
     );
 }
 
-} // namespace protocol
+} // namespace services::protocol
 
 // Funções estáticas
 

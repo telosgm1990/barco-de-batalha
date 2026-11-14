@@ -143,3 +143,31 @@ a partir dele, resuma e confirme antes.
 3. O Capitão edita em paralelo: se um arquivo mudou no disco, o novo vale —
    releia em vez de reverter.
 4. Rode teste e lint antes de dizer que terminou. Falhou? Mostre a saída.
+
+## 12. Camadas e dependências
+
+Vale pra **qualquer linguagem e qualquer tipo de software** do projeto (regra
+do Capitão, 14/11/2026):
+
+1. **Cada camada define as próprias abstrações e as implementa ela mesma**,
+   com classes concretas.
+2. **A camada de cima depende só da abstração da de baixo**, recebida pronta —
+   por referência ou parâmetro (injeção de dependência). Nunca cria nem procura
+   a concreta.
+3. **Só o ponto de montagem conhece as concretas**: ele cria cada uma e injeta
+   onde precisa.
+4. **`common/` é só o que mais de uma camada usa e não cabe em nenhuma** —
+   todo mundo pode incluir.
+5. **Conta pura, sem dependência nenhuma, não precisa de abstração**: não tem
+   o que inverter.
+6. **Teste usa peça falsa** implementando a mesma abstração — é pra isso que
+   a regra existe.
+
+| Linguagem | Abstração | Concreta | Quem monta |
+| --- | --- | --- | --- |
+| C++ (`software/`) | Classe com `virtual ... = 0` e destrutor protegido (`platform::DigitalOutput`) | `final`, na mesma camada (`platform::EspDigitalOutput`) | `main/main.cpp` |
+| Python (`scripts/`) | `typing.Protocol` (`repo.Repository`) | Classe no mesmo módulo (`repo.GitRepository`) | O `__main__.py` de cada script |
+| OpenSCAD (`mechanics/`) | Não tem classe: o módulo recebe as medidas por parâmetro, em vez de ler variável global | — | O arquivo da peça ou do conjunto |
+
+Os modelos de OpenSCAD de hoje ainda leem as medidas dos arquivos comuns;
+eles migram pro jeito acima quando forem mexidos.

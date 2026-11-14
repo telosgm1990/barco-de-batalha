@@ -1,5 +1,5 @@
 // Includes
-#include "platform/adc.hpp" // AnalogInput
+#include "platform/esp_analog_input.hpp" // EspAnalogInput
 
 #include "esp_adc/adc_cali.h"        // adc_cali_raw_to_voltage
 #include "esp_adc/adc_cali_scheme.h" // adc_cali_create_scheme_curve_fitting
@@ -11,7 +11,7 @@ static constexpr adc_atten_t ATTENUATION = ADC_ATTEN_DB_12;
 // Funções públicas
 namespace platform {
 
-bool AnalogInput::begin() {
+bool EspAnalogInput::begin() {
     adc_unit_t unit_id;
     adc_channel_t channel;
     if (adc_oneshot_io_to_channel(_pin, &unit_id, &channel) != ESP_OK ||
@@ -47,7 +47,7 @@ bool AnalogInput::begin() {
     return true;
 }
 
-int32_t AnalogInput::read_mv() {
+int32_t EspAnalogInput::read_mv() {
     if (_unit == nullptr || _calibration == nullptr) {
         return -1;
     }

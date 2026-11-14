@@ -1,15 +1,14 @@
 // Includes
-#include "components/led.hpp" // Led
+#include "components/digital_led.hpp" // DigitalLed
 
 // Funções públicas
 namespace components {
 
-void Led::begin() {
-    _pin.begin();
+void DigitalLed::begin() {
     _write(false);
 }
 
-void Led::update(uint32_t now_ms) {
+void DigitalLed::update(uint32_t now_ms) {
     if (!_enabled) {
         _write(false);
         return;
@@ -22,17 +21,17 @@ void Led::update(uint32_t now_ms) {
     _write((now_ms % _period_ms) < _period_ms / 2);
 }
 
-void Led::set_blink(uint32_t period_ms) {
+void DigitalLed::set_blink(uint32_t period_ms) {
     _enabled   = true;
     _period_ms = period_ms;
 }
 
-void Led::set_off() {
+void DigitalLed::set_off() {
     _enabled = false;
 }
 
-void Led::_write(bool on) {
-    _pin.write(on != _active_low);
+void DigitalLed::_write(bool on) {
+    _output.write(on != _active_low);
 }
 
 } // namespace components

@@ -1,5 +1,5 @@
 // Includes
-#include "components/battery.hpp" // Battery
+#include "components/divider_battery.hpp" // DividerBattery
 
 // Constantes/variáveis estáticas
 
@@ -9,11 +9,7 @@ static constexpr int SAMPLES = 8;
 // Funções públicas
 namespace components {
 
-bool Battery::begin() {
-    return _input.begin();
-}
-
-float Battery::read_volts() {
+float DividerBattery::read_volts() {
     int32_t total = 0;
     for (int i = 0; i < SAMPLES; i++) {
         int32_t millivolts = _input.read_mv();

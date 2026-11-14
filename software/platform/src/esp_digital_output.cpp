@@ -1,12 +1,12 @@
 // Includes
-#include "platform/gpio.hpp" // OutputPin
+#include "platform/esp_digital_output.hpp" // EspDigitalOutput
 
 #include "driver/gpio.h" // gpio_*
 
 // Funções públicas
 namespace platform {
 
-void OutputPin::begin() {
+void EspDigitalOutput::begin() {
     if (_pin < 0) {
         return;
     }
@@ -16,7 +16,7 @@ void OutputPin::begin() {
     gpio_set_level(num, 0);
 }
 
-void OutputPin::write(bool high) {
+void EspDigitalOutput::write(bool high) {
     if (_pin < 0) {
         return;
     }

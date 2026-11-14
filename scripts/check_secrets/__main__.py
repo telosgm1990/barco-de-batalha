@@ -17,6 +17,8 @@ import argparse
 import re
 import sys
 
+from common import repo
+
 from . import scanner
 
 # ---------------------------------------------------------- Ponto de entrada
@@ -39,8 +41,13 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
+    # Monte o repositório de verdade e injete na varredura
+    repository = repo.GitRepository()
     try:
-        findings = scanner.scan_tracked() if args.all else scanner.scan_staged()
+        if args.all:
+            findings = scanner.scan_tracked(repository)
+        else:
+            findings = scanner.scan_staged(repository)
     except (RuntimeError, re.error) as error:
         print(
             f"Caçador de segredos: não deu pra conferir — {error}",
