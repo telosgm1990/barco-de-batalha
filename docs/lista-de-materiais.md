@@ -4,7 +4,7 @@ O que foi comprado pra **Fase 1, "Boia e anda"** — o barco feio que boia, anda
 e grava o vídeo — e quanto disso vai pra conta do barco.
 
 > 📦 **Comprado em 14/11/2026**, numa loja online só, com entrega em Ribeirão
-> Preto (retirada prevista pra **21/11**). Os preços são os do carrinho —
+> Preto (a loja estima **24/11**). Os preços são os do carrinho —
 > **conferir com a nota** quando ela chegar. A nota fiscal em si **não entra
 > no git**: tem CPF, nome e endereço; ela vai pro juiz.
 >

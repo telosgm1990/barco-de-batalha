@@ -432,15 +432,14 @@ sendo o caminho que funciona igual em qualquer máquina.
 ## 13. Próximo passo
 
 O campeonato está **estimado pra sábado, 05/12/2026**. As peças da Fase 1 foram
-compradas em 14/11 e chegam em Ribeirão Preto em 3 a 6 dias úteis — com o
-feriado de 20/11 no meio, entre **18/11 e 24/11**. O Capitão retira no sábado,
-**21/11**; se o correio atrasar, só em **28/11**, e aí tudo abaixo encolhe uma
-semana.
+compradas em 14/11, com entrega estimada pela loja pra **24/11**, em Ribeirão
+Preto. As datas abaixo são guia, não relógio — o Capitão pediu pra não
+esquentar com elas.
 
 | Quando | O quê |
 | --- | --- |
-| **14–15/11** | ⏸️ Só docs: [montagem ilustrada](montagem.md), caminho A do casco por ora. Código, mecânica e hardware esperam o OK do Capitão, na segunda |
-| **16–20/11** (sem as peças) | Esquemático no KiCad com as peças compradas. Firmware da Fase 1 — Wi-Fi, página com joystick, failsafe, motores — testado na ESP que já está na mão. Modelos da roda de pá e do suporte do motor, paramétricos, esperando a medida; os dois caminhos do [plano do casco](plano-do-casco.md). O Capitão traz pote, isopor e as respostas da impressora |
+| **14–15/11** | [Montagem ilustrada](montagem.md), caminho A do casco por ora. Código, mecânica e hardware liberados no sábado, 14/11 |
+| **Até as peças chegarem** | Esquemático no KiCad com as peças compradas. Firmware da Fase 1 — Wi-Fi, página com joystick, failsafe, motores — testado na ESP que já está na mão. Modelos da roda de pá e do suporte do motor, paramétricos, esperando a medida; os dois caminhos do [plano do casco](plano-do-casco.md). O Capitão traz pote, isopor e as respostas da impressora |
 | **Sáb 21/11** | Retirar as peças. Medir o motor com paquímetro e conferir as células (ver a [lista](lista-de-materiais.md#3-quando-a-caixa-chegar)) |
 | **23–28/11** | Soldar e montar a placa, gravar, teste de bancada com a fonte limitando corrente. Imprimir rodas e suportes. Montar o casco da Fase 1. **Teste da bacia** e o vídeo (+2) |
 | **30/11–04/12** | Fase 2 e 3 espremidas: carapaça, teste de desvirar e de afundar, modos por prova, rodada de robustez, kit de fair play |

@@ -16,8 +16,6 @@ filamento, do tempo de impressão e da fila da impressora. Rodas de pá e
 suportes de motor servem pros dois; tudo paramétrico, com as medidas do motor
 e do pote marcadas `// a medir` até chegarem.
 
-⏸️ Nada de modelo até o OK do Capitão (previsto pra segunda, 16/11).
-
 ## A impressora
 
 - **Mesa de 18 cm** (uma mini). Peça maior que isso sai em partes, com encaixe
