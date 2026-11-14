@@ -59,6 +59,7 @@ Cada pasta tem seu `README.md` (pra gente) e seu `CLAUDE.md` (pra IA).
 | --- | --- |
 | [docs/regulamento.md](docs/regulamento.md) | 📜 As regras oficiais e o que falta perguntar pra organização |
 | [docs/esbocando-a-ideia.md](docs/esbocando-a-ideia.md) | 🚧 Estratégia, a tartaruga, energia, controle, orçamento, fases e decisões |
+| [docs/bancada.md](docs/bancada.md) | 🔌 A primeira vez que liga: fonte de bancada, motores, failsafe e o que medir |
 | [CLAUDE.md](CLAUDE.md) | Instruções pra IA trabalhando aqui |
 
 ## Ambiente
