@@ -39,8 +39,24 @@ e do pote marcadas `// a medir` até chegarem.
 
 ## Convenções
 
-- **Paramétrico sempre.** Toda medida é variável nomeada no topo do arquivo, em
-  milímetros. Nada de número mágico no meio da geometria.
+- **Paramétrico sempre**, em milímetros. Nada de número mágico no meio da
+  geometria.
+- **O módulo recebe as medidas por parâmetro** (regra 12 do CLAUDE.md da
+  raiz), em vez de ler variável global:
+  - medida **da própria peça** (quantas pás, espessura da parede) é parâmetro
+    com o **valor padrão na assinatura** — o conjunto não precisa saber dela;
+  - medida **compartilhada** (motor, eixo, isopor, folga) vem **sem padrão**:
+    quem chama passa — o topo do arquivo da peça ou o conjunto;
+  - conta derivada que mais de um arquivo usa vira **função** no arquivo da
+    peça (`mount_x_min` em `pot/motor_mount.scad`).
+  - Já migraram as peças da Fase 1: roda de pá, suporte do motor e molde do
+    isopor. O caminho B (`printed/`), as carapaças e o `reference_parts`
+    ainda leem global — migram quando forem mexidos.
+- **Comentário em cima de cada módulo e função** (regra 13): o que desenha e
+  uma linha por parâmetro, com a unidade. Igual ao `common/shapes.scad`.
+- **Mudou o código sem querer mudar a forma?** Exporte em STL antes e depois e
+  compare: peça sozinha sai idêntica byte a byte; conjunto não (a ordem dos
+  triângulos varia), então compare volume e tamanho.
 - **Identificador em inglês, comentário em português** — igual ao firmware.
   Arquivo de modelo em `snake_case.scad`.
 - **Uma peça por arquivo.** Medida compartilhada (diâmetro do eixo do motor,
