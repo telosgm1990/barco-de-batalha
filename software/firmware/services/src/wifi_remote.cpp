@@ -68,6 +68,7 @@ void WifiRemote::publish_status(const status_st &status) {
         static_cast<int32_t>(std::lround(status.battery_volts * 1000))
     );
     _status_failsafe.store(status.failsafe);
+    _status_low.store(status.low_battery);
     _status_mode.store(mode_index(status.mode));
     _status_trim_percent.store(
         static_cast<int>(std::lround(status.trim * TRIM_SCALE))
@@ -143,6 +144,7 @@ status_st WifiRemote::_load_status() const {
     status_st status     = {};
     status.battery_volts = _status_mv.load() / 1000.0f;
     status.failsafe      = _status_failsafe.load();
+    status.low_battery   = _status_low.load();
     status.mode          = static_cast<drive_mode_e>(_status_mode.load());
     status.trim          = _status_trim_percent.load() / TRIM_SCALE;
     return status;

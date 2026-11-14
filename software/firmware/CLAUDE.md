@@ -7,7 +7,7 @@ Regras gerais em [../../CLAUDE.md](../../CLAUDE.md) e
 
 🚧 **Firmware da Fase 1 escrito:** Wi-Fi em ponto de acesso, página do
 joystick por WebSocket, API REST, tração com rampa, um modo por prova, ajuste
-fino guardado na placa, failsafe, leitura da bateria e LED de status. Compila
+fino guardado na placa, failsafe, aviso de bateria baixa e LED de status. Compila
 e passa nos testes do PC; **ainda não rodou na placa**. Comandos:
 [README.md](README.md).
 
@@ -30,7 +30,7 @@ README.
 
 ```
 main/          bootstrap: o único que conhece as concretas — cria e injeta tudo
-app/           Boat (o laço principal) e Failsafe
+app/           Boat (o laço principal), Failsafe e BatteryWatch
 services/      Remote → WifiRemote; Drive (tração); protocol (WebSocket e
                API REST)
 components/    Motor → HBridgeMotor, Led → DigitalLed, Battery → DividerBattery
@@ -53,8 +53,8 @@ common/        o que mais de uma camada usa e não cabe em nenhuma (math.hpp)
 - **Abstração em C++:** classe com funções `virtual ... = 0` e destrutor
   `protected` não virtual (ninguém apaga uma peça pela abstração; assim ela
   continua `constinit`). Concreta: `final`, com `override`.
-- **Conta pura sem dependência** (`Drive`, `Failsafe`, `protocol`) não tem o
-  que inverter: é usada direto.
+- **Conta pura sem dependência** (`Drive`, `Failsafe`, `BatteryWatch`,
+  `protocol`) não tem o que inverter: é usada direto.
 - **Cada camada é um componente do ESP-IDF:** `app`, `services`, `platform` e
   `common` entram pelo `EXTRA_COMPONENT_DIRS` do `CMakeLists.txt`; cada peça de
   `components/` é um componente sozinha. Include com o nome da camada:

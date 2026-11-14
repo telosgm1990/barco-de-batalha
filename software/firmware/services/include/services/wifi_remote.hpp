@@ -112,6 +112,7 @@ class WifiRemote final : public Remote,
     // failsafe armado, que é como o barco liga
     std::atomic<int32_t> _status_mv{0};
     std::atomic<bool> _status_failsafe{true};
+    std::atomic<bool> _status_low{false};
     std::atomic<int> _status_mode{0};
     std::atomic<int> _status_trim_percent{0};
 };

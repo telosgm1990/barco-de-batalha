@@ -4,8 +4,9 @@
  *
  * A cada volta: aplica os ajustes que a página pediu (modo e ajuste fino),
  * lê o joystick, vigia o failsafe, anda a tração, manda nos motores e pisca o
- * LED. De tempos em tempos (e logo depois de um ajuste), publica o retrato do
- * barco pra API. O ajuste fino fica guardado na memória da placa.
+ * LED. De tempos em tempos (e logo depois de um ajuste), lê a bateria e
+ * publica o retrato do barco pra API — com o aviso de bateria baixa. O ajuste
+ * fino fica guardado na memória da placa.
  *
  * Recebe tudo pronto, por referência, como as abstrações das camadas de
  * baixo: os motores, a bateria e o LED de components/, o controle remoto de
@@ -17,6 +18,7 @@
 // Includes
 #include <cstdint> // uint32_t
 
+#include "app/battery_watch.hpp"        // BatteryWatch, battery_watch_st
 #include "app/failsafe.hpp"             // Failsafe
 #include "components/battery.hpp"       // Battery
 #include "components/led.hpp"           // Led
@@ -37,7 +39,8 @@ struct tuning_st {
     /// Um perfil por modo, na ordem de services::drive_mode_e
     services::drive_profile_st profiles[services::DRIVE_MODE_COUNT];
     services::drive_mode_e initial_mode; ///< modo ao ligar
-    float max_trim; ///< ajuste fino máximo, 0 a 1, pros dois lados
+    float max_trim;           ///< ajuste fino máximo, 0 a 1, pros dois lados
+    battery_watch_st battery; ///< limites do aviso de bateria baixa
 };
 
 /// As peças que o barco usa, já montadas
@@ -59,6 +62,7 @@ class Boat {
     /// Guarde as peças e os números — sem mexer em nenhuma
     constexpr Boat(const parts_st &parts, const tuning_st &tuning)
         : _parts(parts), _tuning(tuning), _failsafe(tuning.failsafe_timeout_ms),
+          _battery_watch(tuning.battery),
           _drive(
               tuning.deadzone,
               tuning.profiles[services::mode_index(tuning.initial_mode)]
@@ -88,12 +92,13 @@ class Boat {
     /// Pisque o LED conforme o estado
     void _update_led(uint32_t now_ms, bool connected, bool tripped);
 
-    /// Leia a bateria e publique o retrato do barco
-    void _publish_status(bool tripped);
+    /// Leia a bateria, vigie se está acabando e publique o retrato do barco
+    void _publish_status(uint32_t now_ms, bool tripped);
 
     parts_st _parts;
     tuning_st _tuning;
     Failsafe _failsafe;
+    BatteryWatch _battery_watch;
     services::Drive _drive;
     services::drive_mode_e _mode;
     float _trim              = 0.0f;
@@ -102,6 +107,7 @@ class Boat {
     uint32_t _last_update_ms = 0;
     uint32_t _last_status_ms = 0;
     bool _was_tripped        = true;
+    bool _was_low            = false;
 };
 
 } // namespace app

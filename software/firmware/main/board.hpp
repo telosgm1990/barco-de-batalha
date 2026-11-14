@@ -10,7 +10,8 @@
 // Includes
 #include <cstdint> // uint32_t
 
-#include "services/drive.hpp" // drive_profile_st, drive_mode_e
+#include "app/battery_watch.hpp" // battery_watch_st
+#include "services/drive.hpp"    // drive_profile_st, drive_mode_e
 
 // Defines
 namespace board {
@@ -67,6 +68,20 @@ constexpr services::drive_mode_e INITIAL_MODE = services::drive_mode_e::ECONOMY;
 /// Ajuste fino pra andar reto, até 30% de uma roda pra cada lado — chute: se
 /// precisar de mais, o problema é mecânico (roda torta, eixo pegando)
 constexpr float MAX_TRIM = 0.3f;
+
+// ---------------------------------------------------------------- Bateria
+
+/// @name Aviso de bateria baixa (18650 de íon-lítio)
+/// A tensão afunda no esforço do motor; o aviso espera ela ficar baixa um
+/// tempo seguido. Tudo chute — conferir na bancada com a fonte.
+/// @{
+constexpr app::battery_watch_st BATTERY_WATCH = {
+    3.4f, ///< abaixo disso, avisa
+    0.1f, ///< pra desligar o aviso, tem que subir isso acima
+    1.0f, ///< abaixo disso, não tem bateria: placa só no USB
+    2000, ///< quanto tempo baixa, seguido, antes de avisar
+};
+/// @}
 
 // ---------------------------------------------------------------- Memória
 

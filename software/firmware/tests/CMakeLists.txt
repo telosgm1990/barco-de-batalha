@@ -13,6 +13,7 @@ add_executable(host_tests
     ../services/src/drive.cpp
     ../services/src/protocol.cpp
     ../services/src/wifi_remote.cpp
+    ../app/src/battery_watch.cpp
     ../app/src/boat.cpp
     ../app/src/failsafe.cpp
     ../components/motor/src/h_bridge_motor.cpp

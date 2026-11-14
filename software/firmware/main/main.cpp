@@ -108,7 +108,8 @@ constinit static app::Boat _boat(
       board::PROFILE_FULL,
       board::PROFILE_WAR},
      board::INITIAL_MODE,
-     board::MAX_TRIM}
+     board::MAX_TRIM,
+     board::BATTERY_WATCH}
 );
 
 // Ponto de entrada

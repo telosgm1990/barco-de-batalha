@@ -12,14 +12,15 @@
  * `curl`:
  *
  * - `GET /api/status`: 200 com o retrato do barco,
- *   `{"bat":3.87,"fs":0,"mode":"eco","trim":-12}`
+ *   `{"bat":3.87,"fs":0,"low":0,"mode":"eco","trim":-12}`
  * - `GET /api/settings`: 200 com os ajustes em uso,
  *   `{"mode":"eco","trim":-12}`
  * - `PATCH /api/settings` com `{"mode":"war"}`, `{"trim":-12}` ou os dois:
  *   204; corpo errado dá 400 com `{"error":"..."}`
  *
- * `bat` em volts; `fs` 1 se o failsafe parou os motores; `mode` é `eco`,
- * `fine`, `full` ou `war`; `trim` é o ajuste fino em por cento (-100 a 100).
+ * `bat` em volts; `fs` 1 se o failsafe parou os motores; `low` 1 se a
+ * bateria está acabando; `mode` é `eco`, `fine`, `full` ou `war`; `trim` é o
+ * ajuste fino em por cento (-100 a 100).
  *
  * Conta pura, sem dependência: o WifiRemote usa direto, e os testes também.
  */

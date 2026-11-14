@@ -41,6 +41,7 @@ struct settings_st {
 struct status_st {
     float battery_volts; ///< tensão da bateria
     bool failsafe;       ///< motores parados por falta de joystick
+    bool low_battery;    ///< bateria acabando: hora de voltar pro pit
     drive_mode_e mode;   ///< modo em uso
     float trim;          ///< ajuste fino em uso, -1 a 1
 };

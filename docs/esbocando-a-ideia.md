@@ -278,6 +278,7 @@ todos *chute* até a bancada ou a bacia dizerem o valor:
 | Tempo do failsafe | 500 ms | Desligar o Wi-Fi do celular com o barco andando na bancada e ver se ele para rápido o bastante, sem parar à toa com o sinal bom |
 | Perfil de cada modo (velocidade máxima, rampa, curva) | eco 50% / rampa 1; fino 60% / 2, curva 0,6; tudo 100% / 4; guerra 100% / 2, curva 0,2 | Rampa: osciloscópio na alimentação da ESP, motor travado com a mão, subir até a tensão quase afundar a ponto de reiniciar. Velocidade e curva: na bacia, cada modo na prova dele (eco no tempo de bateria, fino no slalom) |
 | Ajuste fino máximo (pra andar reto) | 30% de uma roda | Na bacia, joystick reto: se 30% não endireita, procurar o problema na mecânica |
+| Aviso de bateria baixa | abaixo de 3,4 V por 2 s; desliga acima de 3,5 V | Fonte de bancada no lugar da bateria, motor girando: baixar a tensão até o aviso aparecer e conferir com o multímetro. Depois, na bacia, ver quanto tempo sobra entre o aviso e a ESP reiniciar |
 | Frequência do PWM | 5 kHz | Ouvir o motor e sentir a força em baixa velocidade; conferir o limite da ponte H |
 | Zona morta do joystick | 5% | No celular: o barco não pode andar com o dedo solto |
 | LED aceso em nível baixo | sim | Gravar e olhar: se acender ao contrário, trocar |

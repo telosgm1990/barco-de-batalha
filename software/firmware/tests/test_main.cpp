@@ -14,6 +14,7 @@
 #include <cstring> // strcmp, strlen
 #include <string>  // std::string
 
+#include "app/battery_watch.hpp"          // BatteryWatch
 #include "app/boat.hpp"                   // Boat
 #include "app/failsafe.hpp"               // Failsafe
 #include "common/math.hpp"                // approach, clamp, deadzone
@@ -46,6 +47,7 @@ static void _test_mix();
 static void _test_drive_ramp();
 static void _test_protocol();
 static void _test_failsafe();
+static void _test_battery_watch();
 static void _test_motor();
 static void _test_led();
 static void _test_battery();
@@ -59,6 +61,7 @@ int main() {
     _test_drive_ramp();
     _test_protocol();
     _test_failsafe();
+    _test_battery_watch();
     _test_motor();
     _test_led();
     _test_battery();
@@ -198,12 +201,13 @@ static void _test_protocol() {
     protocol::format_status(
         text,
         sizeof(text),
-        {3.874f, true, drive_mode_e::FULL, -0.12f}
+        {3.874f, true, true, drive_mode_e::FULL, -0.12f}
     );
     CHECK(
         strcmp(
             text,
-            "{\"bat\":3.87,\"fs\":1,\"mode\":\"full\",\"trim\":-12}"
+            "{\"bat\":3.87,\"fs\":1,\"low\":1,\"mode\":\"full\","
+            "\"trim\":-12}"
         ) == 0
     );
     protocol::format_settings(text, sizeof(text), drive_mode_e::WAR, 0.05f);
@@ -232,6 +236,34 @@ static void _test_failsafe() {
     CHECK(!failsafe.is_tripped());
     failsafe.update(last + 1000, last, true);
     CHECK(failsafe.is_tripped());
+}
+
+static void _test_battery_watch() {
+    // Avisa abaixo de 3,4 V depois de 2 s seguidos; desliga acima de 3,5 V;
+    // abaixo de 1 V é placa no USB, sem bateria
+    app::BatteryWatch watch({3.4f, 0.1f, 1.0f, 2000});
+    watch.update(0, 3.9f);
+    CHECK(!watch.is_low());
+    // Afundou numa arrancada e voltou: não avisa
+    watch.update(1000, 3.3f);
+    watch.update(1500, 3.8f);
+    watch.update(3500, 3.3f);
+    CHECK(!watch.is_low());
+    // Ficou baixa 2 s seguidos: avisa
+    watch.update(5000, 3.3f);
+    CHECK(!watch.is_low());
+    watch.update(5500, 3.35f);
+    CHECK(watch.is_low());
+    // Subiu um pouco, mas não passou da histerese: continua avisando
+    watch.update(6000, 3.45f);
+    CHECK(watch.is_low());
+    // Passou: desliga
+    watch.update(6500, 3.6f);
+    CHECK(!watch.is_low());
+    // Sem bateria (USB): nunca avisa
+    watch.update(7000, 0.0f);
+    watch.update(20000, 0.0f);
+    CHECK(!watch.is_low());
 }
 
 static void _test_motor() {
@@ -337,16 +369,16 @@ static void _test_wifi_remote() {
     CHECK(server.request(http_method_e::GET, "/api/status") == 200);
     CHECK(
         server.last_response ==
-        "{\"bat\":0.00,\"fs\":1,\"mode\":\"eco\",\"trim\":0}"
+        "{\"bat\":0.00,\"fs\":1,\"low\":0,\"mode\":\"eco\",\"trim\":0}"
     );
     // Depois de publicar, o retrato novo
     remote.publish_status(
-        {3.874f, false, services::drive_mode_e::FULL, -0.12f}
+        {3.874f, false, false, services::drive_mode_e::FULL, -0.12f}
     );
     CHECK(server.request(http_method_e::GET, "/api/status") == 200);
     CHECK(
         server.last_response ==
-        "{\"bat\":3.87,\"fs\":0,\"mode\":\"full\",\"trim\":-12}"
+        "{\"bat\":3.87,\"fs\":0,\"low\":0,\"mode\":\"full\",\"trim\":-12}"
     );
     CHECK(server.request(http_method_e::GET, "/api/settings") == 200);
     CHECK(server.last_response == "{\"mode\":\"full\",\"trim\":-12}");
@@ -415,7 +447,8 @@ static void _test_boat() {
          {1.0f, 100.0f, 0.0f},
          {1.0f, 100.0f, 0.2f}},
         drive_mode_e::ECONOMY,
-        0.3f
+        0.3f,
+        {3.4f, 0.1f, 1.0f, 2000}
     };
     app::Boat boat({left, right, battery, led, remote, logger, store}, tuning);
 
@@ -472,6 +505,7 @@ static void _test_boat() {
     boat.update(830);
     CHECK(remote.status_count == published + 1);
     CHECK(_near(remote.last_status.battery_volts, 3.9f));
+    CHECK(!remote.last_status.low_battery);
 
     // Comando parou de chegar: passou do tempo, para na hora e publica
     boat.update(1400);
@@ -479,4 +513,12 @@ static void _test_boat() {
     CHECK(led.blink_ms == 200);
     CHECK(logger.last_line == "failsafe armado: motores parados");
     CHECK(remote.last_status.failsafe);
+
+    // Bateria acabando: depois de 2 s baixa, avisa no log e no retrato
+    battery.volts = 3.2f;
+    for (uint32_t now = 1900; now <= 3900; now += 500) {
+        boat.update(now);
+    }
+    CHECK(remote.last_status.low_battery);
+    CHECK(logger.last_line == "bateria baixa: 3.20 V");
 }

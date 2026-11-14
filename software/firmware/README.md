@@ -27,6 +27,14 @@ A página manda o joystick 20 vezes por segundo, mesmo parada. Se nada chegar
 por meio segundo (*a medir*), o barco para os motores — barco sem controle
 andando sozinho é pior que barco parado.
 
+### Bateria baixa
+
+Quando a bateria fica abaixo de 3,4 V por 2 segundos seguidos (*chute*), a
+página mostra uma faixa amarela: hora de voltar pro pit. Uma arrancada que
+afunda a tensão por um instante não dispara o aviso, e ele só some quando a
+bateria sobe um pouco acima do limite. Com a placa só no USB, sem bateria,
+não tem aviso.
+
 ### Modos por prova
 
 Os quatro botões em cima do joystick trocam o jeito de andar. O barco liga no
@@ -61,7 +69,7 @@ completo, com exemplo de cada resposta, mora em
 
 | Pedido | Pra quê |
 | --- | --- |
-| `GET /api/status` | Bateria, failsafe, modo e ajuste fino |
+| `GET /api/status` | Bateria (e se está acabando), failsafe, modo e ajuste fino |
 | `GET /api/settings` | Modo e ajuste fino em uso |
 | `PATCH /api/settings` | Trocar o modo e/ou o ajuste fino |
 
@@ -80,7 +88,7 @@ Invoke-RestMethod -Method Patch -Uri http://192.168.4.1/api/settings -ContentTyp
 ```
 main/          bootstrap: cria as peças concretas com os pinos (board.hpp)
                e injeta cada uma onde precisa
-app/           Boat (o laço principal) e Failsafe
+app/           Boat (o laço principal), Failsafe e BatteryWatch
 services/      Remote -> WifiRemote (Wi-Fi + página + WebSocket + API),
                Drive (joystick -> motores), protocol (o que a página e o
                barco dizem); page/ é a página do joystick

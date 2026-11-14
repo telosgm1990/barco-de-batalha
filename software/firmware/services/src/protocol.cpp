@@ -131,9 +131,11 @@ int format_status(char *out, size_t size, const status_st &status) {
     return snprintf(
         out,
         size,
-        "{\"bat\":%.2f,\"fs\":%d,\"mode\":\"%s\",\"trim\":%ld}",
+        "{\"bat\":%.2f,\"fs\":%d,\"low\":%d,\"mode\":\"%s\","
+        "\"trim\":%ld}",
         static_cast<double>(status.battery_volts),
         status.failsafe ? 1 : 0,
+        status.low_battery ? 1 : 0,
         mode_name(status.mode),
         std::lround(status.trim * TRIM_SCALE)
     );

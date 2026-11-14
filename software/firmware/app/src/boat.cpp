@@ -64,7 +64,7 @@ void Boat::update(uint32_t now_ms) {
     // Publique de tempos em tempos, ou já, se algo mudou
     if (changed || now_ms - _last_status_ms >= _tuning.status_period_ms) {
         _last_status_ms = now_ms;
-        _publish_status(tripped);
+        _publish_status(now_ms, tripped);
     }
 }
 
@@ -128,10 +128,20 @@ void Boat::_update_led(uint32_t now_ms, bool connected, bool tripped) {
     _parts.led.update(now_ms);
 }
 
-void Boat::_publish_status(bool tripped) {
-    _parts.remote.publish_status(
-        {_parts.battery.read_volts(), tripped, _mode, _trim}
-    );
+void Boat::_publish_status(uint32_t now_ms, bool tripped) {
+    float volts = _parts.battery.read_volts();
+    _battery_watch.update(now_ms, volts);
+    bool low = _battery_watch.is_low();
+    if (low != _was_low) {
+        if (low) {
+            _parts.logger.warn(TAG, "bateria baixa: %.2f V", double(volts));
+        }
+        else {
+            _parts.logger.info(TAG, "bateria ok: %.2f V", double(volts));
+        }
+        _was_low = low;
+    }
+    _parts.remote.publish_status({volts, tripped, low, _mode, _trim});
 }
 
 } // namespace app
