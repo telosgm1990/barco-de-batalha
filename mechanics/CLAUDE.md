@@ -44,7 +44,16 @@ e do pote marcadas `// a medir` até chegarem.
 - **Identificador em inglês, comentário em português** — igual ao firmware.
   Arquivo de modelo em `snake_case.scad`.
 - **Uma peça por arquivo.** Medida compartilhada (diâmetro do eixo do motor,
-  folga de encaixe) mora num arquivo comum incluído pelos outros.
+  folga de encaixe) mora num arquivo comum incluído pelos outros:
+  `common/dimensions.scad` pro barco todo, `printed/hull_params.scad` só pro
+  caminho B. A exceção é `common/reference_parts.scad`: modelos do que não se
+  imprime (motor, bateria, placa), só pra vista do conjunto.
+- **Pastas:** `common/` (medidas e formas), `printed/` (caminho B), `pot/`
+  (caminho A), peça dos dois caminhos na raiz. Medida em `include`, módulo em
+  `use` — cada `.scad` de peça chama o próprio módulo no topo, e o `use` ignora
+  essa chamada.
+- **`renders/` é gerada a partir dos modelos**, mas fica versionada: é onde o
+  Capitão olha. Mudou o modelo, gere de novo (comandos no README).
 - **Exportação de trabalho vai pra `out/`**, que é ignorada. A versão que foi de
   fato impressa vai pra `impressos/`, versionada, com a data no nome — é o que
   prova pro juiz quanto filamento foi.
